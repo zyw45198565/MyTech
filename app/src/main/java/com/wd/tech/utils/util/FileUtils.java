@@ -16,7 +16,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 import android.os.Environment;
-import com.why.happy_movie.MApp;
+
+import com.wd.tech.WDApp;
 
 
 /**
@@ -215,7 +216,7 @@ public class FileUtils {
     public static void copyAssestToSD(String sdcardFile, String assets) throws IOException {
         InputStream myInput;
         OutputStream myOutput = new FileOutputStream(sdcardFile);
-        myInput = MApp.getContext().getAssets().open(assets);
+        myInput = WDApp.getContext().getAssets().open(assets);
         byte[] buffer = new byte[1024];
         int length = myInput.read(buffer);
         while (length > 0) {

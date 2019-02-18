@@ -2,7 +2,7 @@ package com.wd.tech.utils.util;
 
 
 import com.google.gson.Gson;
-import com.why.happy_movie.MApp;
+import com.wd.tech.WDApp;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,7 +18,7 @@ import butterknife.Unbinder;
 
 public abstract class WDFragment extends Fragment {
 	public Gson mGson = new Gson();
-	public SharedPreferences mShare = MApp.getShare();
+	public SharedPreferences mShare = WDApp.getShare();
 
 	private Unbinder unbinder;
 //	public UserInfo LOGIN_USER;

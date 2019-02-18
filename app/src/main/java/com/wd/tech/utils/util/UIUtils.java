@@ -17,21 +17,21 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.why.happy_movie.MApp;
+import com.wd.tech.WDApp;
 
 
 public class UIUtils {
 
 	public static Context getContext() {
-		return MApp.getContext();
+		return WDApp.getContext();
 	}
 
 	public static Thread getMainThread() {
-		return MApp.getMainThread();
+		return WDApp.getMainThread();
 	}
 
 	public static long getMainThreadId() {
-		return MApp.getMainThreadId();
+		return WDApp.getMainThreadId();
 	}
 
 	/** dip转换px */
@@ -48,7 +48,7 @@ public class UIUtils {
 
 	/** 获取主线程的handler */
 	public static Handler getHandler() {
-		return MApp.getMainThreadHandler();
+		return WDApp.getMainThreadHandler();
 	}
 
 	/**

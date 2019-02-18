@@ -14,15 +14,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 
-import butterknife.ButterKnife;
 
+
+import butterknife.ButterKnife;
+import me.jessyan.autosize.internal.CustomAdapt;
 
 /**
  * @author dingtao
  * @date 2018/12/29 14:00
  * qq:1940870847
  */
-public abstract class WDActivity extends AppCompatActivity {
+public abstract class WDActivity extends AppCompatActivity implements CustomAdapt {
 
     public final static int PHOTO = 0;// 相册选取
     public final static int CAMERA = 1;// 拍照
@@ -33,36 +35,40 @@ public abstract class WDActivity extends AppCompatActivity {
      */
     private static WDActivity mForegroundActivity = null;
 
-   // public LoginBean LOGIN_USER;
+    //public UserBean LOGIN_USER;
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        //透明状态栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-    /*    //查询登录用户，方便每个页面使用
-        LoginBeanDao userInfoDao = DaoMaster.newDevSession(this,LoginBeanDao.TABLENAME).getLoginBeanDao();
-        List<LoginBean> userInfos = userInfoDao.queryBuilder().where(LoginBeanDao.Properties.UserId.eq(1)).list();
-        if (userInfos!=null&&userInfos.size()>0){
-            LOGIN_USER = userInfos.get(0);//读取第一项
-        }*/
-        //打印堆栈ID
-        LogUtils.e("getTaskId = " + getTaskId());
+        //查询登录用户，方便每个页面使用
+
         initLoad();
         setContentView(getLayoutId());
-        ButterKnife.bind(this);
+        ButterKnife.bind(this);//绑定布局
         initView();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
-
-    protected abstract void initView();
-
     /**
      * 设置layoutId
-     *
      * @return
      */
     protected abstract int getLayoutId();
+
+    /**
+     * 初始化视图
+     */
+    protected abstract void initView();
 
     /**
      * 清除数据
@@ -98,7 +104,7 @@ public abstract class WDActivity extends AppCompatActivity {
             public boolean onKey(DialogInterface dialog, int keyCode,
                                  KeyEvent event) {
                 if (mLoadDialog.isShowing() && keyCode == KeyEvent.KEYCODE_BACK) {
-                    cancelLoadDialog();
+                    cancelLoadDialog();//加载消失的同时
                     mLoadDialog.cancel();
                 }
                 return false;
@@ -121,6 +127,8 @@ public abstract class WDActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         mForegroundActivity = this;
+        //沉浸式状态栏
+        StatusBarCompat.translucentStatusBar(this);
     }
 
     /**
@@ -158,14 +166,5 @@ public abstract class WDActivity extends AppCompatActivity {
         return null;
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
 }
+
