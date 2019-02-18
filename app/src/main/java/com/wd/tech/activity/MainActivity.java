@@ -9,17 +9,33 @@ import com.wd.tech.bean.Result;
 import com.wd.tech.core.Interfacea;
 import com.wd.tech.utils.NetWorkManager;
 import com.wd.tech.utils.util.RsaCoder;
+import com.wd.tech.utils.util.WDActivity;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends WDActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return 0;
+    }
+
+    @Override
+    protected void destoryData() {
 
     }
 }
