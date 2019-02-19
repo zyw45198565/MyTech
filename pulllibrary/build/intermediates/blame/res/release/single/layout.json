@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "E:\\Androidstudio\\studioprojects\\Tech\\pulllibrary\\build\\intermediates\\res\\merged\\release\\layout\\pull_to_refresh_header_vertical.xml",
+        "source": "E:\\Androidstudio\\studioprojects\\Tech\\pulllibrary\\src\\main\\res\\layout\\pull_to_refresh_header_vertical.xml"
+    },
+    {
+        "merged": "E:\\Androidstudio\\studioprojects\\Tech\\pulllibrary\\build\\intermediates\\res\\merged\\release\\layout\\pull_to_refresh_header_horizontal.xml",
+        "source": "E:\\Androidstudio\\studioprojects\\Tech\\pulllibrary\\src\\main\\res\\layout\\pull_to_refresh_header_horizontal.xml"
+    }
+]

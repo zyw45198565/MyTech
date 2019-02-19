@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "E:\\Androidstudio\\studioprojects\\Tech\\pulllibrary\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\default_ptr_rotate.png",
+        "source": "E:\\Androidstudio\\studioprojects\\Tech\\pulllibrary\\src\\main\\res\\drawable-xhdpi\\default_ptr_rotate.png"
+    },
+    {
+        "merged": "E:\\Androidstudio\\studioprojects\\Tech\\pulllibrary\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\indicator_arrow.png",
+        "source": "E:\\Androidstudio\\studioprojects\\Tech\\pulllibrary\\src\\main\\res\\drawable-xhdpi\\indicator_arrow.png"
+    },
+    {
+        "merged": "E:\\Androidstudio\\studioprojects\\Tech\\pulllibrary\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\default_ptr_flip.png",
+        "source": "E:\\Androidstudio\\studioprojects\\Tech\\pulllibrary\\src\\main\\res\\drawable-xhdpi\\default_ptr_flip.png"
+    }
+]

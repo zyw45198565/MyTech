@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MenuActivity">
+
+   <TextView
+       android:layout_marginTop="40dp"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:textColor="#666666"
+       android:textSize="20sp"
+       android:layout_marginLeft="20dp"
+       android:text="选择兴趣分类"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="让我们更懂你"
+        android:textColor="#999999"
+        android:textSize="12sp" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/menus_recycler"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+    
+</LinearLayout>

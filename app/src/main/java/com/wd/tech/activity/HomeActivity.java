@@ -2,6 +2,7 @@ package com.wd.tech.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -10,13 +11,26 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
+import com.wd.tech.WDApp;
+import com.wd.tech.bean.Result;
+import com.wd.tech.bean.UserInfoBean;
 import com.wd.tech.frag.Frag_01;
 import com.wd.tech.frag.Frag_02;
 import com.wd.tech.frag.Frag_03;
+import com.wd.tech.presenter.UserByUserIdPresenter;
+import com.wd.tech.utils.DataCall;
+import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.util.WDActivity;
 
 public class HomeActivity extends WDActivity {
@@ -29,6 +43,14 @@ public class HomeActivity extends WDActivity {
     private LinearLayout mlinearhome;
     private LinearLayout mLinear;
     private DrawerLayout mdraw;
+    private RelativeLayout rl1;
+    private LinearLayout ll1;
+    private int userid;
+    private String sessionid;
+    private ImageView head;
+    private TextView name;
+    private TextView qian;
+    private ImageView vip;
 
     @Override
     protected void initView() {
@@ -101,6 +123,47 @@ public class HomeActivity extends WDActivity {
         });
 
 
+        SimpleDraweeView log = findViewById(R.id.log);
+
+
+        LinearLayout login = findViewById(R.id.login);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(HomeActivity.this,LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        rl1 = findViewById(R.id.rl1);
+        ll1 = findViewById(R.id.ll1);
+        head = findViewById(R.id.head);
+        name = findViewById(R.id.name);
+        qian = findViewById(R.id.qian);
+        vip = findViewById(R.id.vip);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences share = WDApp.getShare();
+        boolean zai = share.getBoolean("zai", false);
+        if(zai){
+            rl1.setVisibility(View.GONE);
+            ll1.setVisibility(View.VISIBLE);
+        }else {
+            rl1.setVisibility(View.VISIBLE);
+            ll1.setVisibility(View.GONE);
+        }
+
+        userid = WDApp.getShare().getInt("userid", 1);
+        sessionid = WDApp.getShare().getString("sessionid", "");
+
+        UserByUserIdPresenter userByUserIdPresenter = new UserByUserIdPresenter(new UserByIdClass());
+        userByUserIdPresenter.reqeust(userid, sessionid);
     }
 
     @Override
@@ -111,5 +174,30 @@ public class HomeActivity extends WDActivity {
     @Override
     protected void destoryData() {
 
+    }
+
+    private class UserByIdClass implements DataCall<Result<UserInfoBean>> {
+        @Override
+        public void success(Result<UserInfoBean> data) {
+            UserInfoBean result = data.getResult();
+
+            int whetherVip = result.getWhetherVip();
+            if(whetherVip==1){
+                vip.setVisibility(View.VISIBLE);
+            }else {
+                vip.setVisibility(View.GONE);
+            }
+            qian.setText(""+result.getSignature());
+            name.setText(result.getNickName()+"");
+            Glide.with(HomeActivity.this).load(result.getHeadPic())
+                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                    .into(head);
+
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
     }
 }
