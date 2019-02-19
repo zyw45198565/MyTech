@@ -1,6 +1,10 @@
 package com.wd.tech.core;
 
+import com.wd.tech.bean.MenusBean;
+import com.wd.tech.bean.MyBanner;
 import com.wd.tech.bean.Result;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -19,6 +23,7 @@ public interface Interfacea {
 
     /**
      * 注册
+     *
      * @param phone
      * @param nickName
      * @param pwd
@@ -33,6 +38,7 @@ public interface Interfacea {
 
     /**
      * 登陆
+     *
      * @param phone
      * @param pwd
      * @return
@@ -40,12 +46,21 @@ public interface Interfacea {
     @FormUrlEncoded
     @POST("user/v1/login")
     Observable<Result> login(@Field("phone") String phone,
-                                       @Field("pwd") String pwd);
+                             @Field("pwd") String pwd);
 
     /**
      * banner展示列表
+     *
      * @return
      */
     @GET("information/v1/bannerShow")
-    Observable<Result> login();
+    Observable<Result<List<MyBanner>>> mybanner();
+
+    /**
+     * 所有板块查询
+     *
+     * @return
+     */
+    @GET("information/v1/findAllInfoPlate")
+    Observable<Result<List<MenusBean>>> mymenus();
 }
