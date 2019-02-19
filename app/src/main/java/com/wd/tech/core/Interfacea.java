@@ -2,12 +2,15 @@ package com.wd.tech.core;
 
 import com.wd.tech.bean.LoginBean;
 import com.wd.tech.bean.Result;
+import com.wd.tech.bean.UserInfoBean;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * @author Tech
@@ -49,4 +52,16 @@ public interface Interfacea {
      */
     @GET("information/v1/bannerShow")
     Observable<Result> login();
+
+
+    /**
+     *根据用户ID查询用户信息
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("user/verify/v1/getUserInfoByUserId")
+    Observable<Result<UserInfoBean>> getUserInfoByUserId(@Header("userId") int userId,
+                                                         @Header("sessionId")String sessionId);
+
 }
