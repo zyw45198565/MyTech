@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.wd.tech.R;
+import com.wd.tech.utils.util.WDFragment;
 
 /**
  * @author Tech
@@ -16,11 +17,20 @@ import com.wd.tech.R;
  * QQ:45198565
  * 佛曰：永无BUG 盘他！
  */
-public class Frag_03 extends Fragment {
-    @Nullable
+public class Frag_03 extends WDFragment {
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_03,container,false);
-        return view;
+    public String getPageName() {
+        return "Frag_社区";
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.frag_03;
+    }
+
+    @Override
+    protected void initView() {
+
     }
 }
