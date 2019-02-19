@@ -76,9 +76,11 @@
                 android:textColor="#fff"
                 android:textColorHint="#fff"
                 android:textSize="18sp"
+                android:inputType="textPassword"
                 android:layout_marginLeft="20dp"
                 android:hint="登录密码"/>
             <ImageView
+                android:id="@+id/xian"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"

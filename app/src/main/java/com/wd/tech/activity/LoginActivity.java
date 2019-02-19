@@ -2,9 +2,11 @@ package com.wd.tech.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +35,7 @@ public class LoginActivity extends WDActivity implements View.OnClickListener,Da
     private String passss;
     private String trim;
     private String trim1;
+    private ImageView xian;
 
     @Override
     protected int getLayoutId() {
@@ -49,6 +52,8 @@ public class LoginActivity extends WDActivity implements View.OnClickListener,Da
         pass =  findViewById(R.id.pass);
         login =  findViewById(R.id.login);
         login.setOnClickListener(this);
+        xian = findViewById(R.id.xian);
+        xian.setOnClickListener(this);
 
     }
 
@@ -78,12 +83,17 @@ public class LoginActivity extends WDActivity implements View.OnClickListener,Da
                         }
                         LoginPresenter loginPresenter = new LoginPresenter(this);
                         loginPresenter.reqeust(trim,passss);
+                        mLoadDialog.show();
+                        break;
+                    case R.id.xian:
+                        showOrHide(pass);
                         break;
                 }
     }
 
     @Override
     public void success(Result<LoginBean> data) {
+        mLoadDialog.dismiss();
         Toast.makeText(this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
         if(data.getStatus().equals("0000")){
             SharedPreferences share = WDApp.getShare();
@@ -100,6 +110,21 @@ public class LoginActivity extends WDActivity implements View.OnClickListener,Da
 
     @Override
     public void fail(ApiException e) {
+
+    }
+
+    /**
+     * 密码显示或隐藏 （切换）
+     */
+    private void showOrHide(EditText etPassword){
+        //记住光标开始的位置
+        int pos = etPassword.getSelectionStart();
+        if(etPassword.getInputType()!= (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)){//隐藏密码
+            etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }else{//显示密码
+            etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        }
+        etPassword.setSelection(pos);
 
     }
 }

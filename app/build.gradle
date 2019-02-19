@@ -44,4 +44,5 @@ dependencies {
         exclude group: 'com.android.support'}
     //魅族banner
     implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
+    implementation project(':pulllibrary')
 }
