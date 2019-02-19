@@ -46,5 +46,7 @@ dependencies {
     implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
     //glide
     implementation 'com.github.bumptech.glide:glide:4.6.1'
-    implementation project(':pulllibrary')
+    //SmartRefreshLayout
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-7'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-7'
 }
