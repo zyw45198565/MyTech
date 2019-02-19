@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginTop="32dp"
+    android:layout_marginBottom="20dp"
+    android:layout_marginLeft="12dp"
+    android:layout_marginRight="12dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="3"/>
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/frag03xlv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ></com.jcodecraeer.xrecyclerview.XRecyclerView>
 
-</LinearLayout>
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/frag03_write_fresco"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:background="@drawable/write_card_btn"
+        fresco:roundAsCircle="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="36dp"/>
+
+</RelativeLayout>
