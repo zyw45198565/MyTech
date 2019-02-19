@@ -15,6 +15,7 @@ import com.wd.tech.WDApp;
 import com.wd.tech.bean.LoginBean;
 import com.wd.tech.bean.Result;
 import com.wd.tech.presenter.LoginPresenter;
+import com.wd.tech.presenter.UserByUserIdPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.util.RsaCoder;
@@ -44,6 +45,7 @@ public class LoginActivity extends WDActivity implements View.OnClickListener,Da
 
     @Override
     protected void initView() {
+
 
         TextView txt_registration =  findViewById(R.id.registration);
         txt_registration.setOnClickListener(this);
@@ -100,8 +102,8 @@ public class LoginActivity extends WDActivity implements View.OnClickListener,Da
             SharedPreferences.Editor edit = share.edit();
             edit.putString("phone",trim);
             edit.putString("pass",trim1);
-            edit.putInt("userId",data.getResult().getUserId());
-            edit.putString("sessionId",data.getResult().getSessionId());
+            edit.putInt("userid",data.getResult().getUserId());
+            edit.putString("sessionid",data.getResult().getSessionId());
             edit.putBoolean("zai",true);
             edit.commit();
             finish();

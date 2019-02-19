@@ -44,5 +44,7 @@ dependencies {
         exclude group: 'com.android.support'}
     //魅族banner
     implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.6.1'
     implementation project(':pulllibrary')
 }
