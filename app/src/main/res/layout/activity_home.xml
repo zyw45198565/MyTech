@@ -56,7 +56,7 @@
             android:gravity="center"
             android:text="社区"
             android:padding="5dp"
-            android:drawableTop="@drawable/common_tab_community_s_"
+            android:drawableTop="@drawable/communitysel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

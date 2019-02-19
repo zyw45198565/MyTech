@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.wd.tech"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -42,4 +42,6 @@ dependencies {
     //xrecyclerview
     implementation ('com.jcodecraeer:xrecyclerview:1.5.9'){
         exclude group: 'com.android.support'}
+    //魅族banner
+    implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
 }
