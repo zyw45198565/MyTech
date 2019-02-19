@@ -1,5 +1,6 @@
 package com.wd.tech.core;
 
+import com.wd.tech.bean.LoginBean;
 import com.wd.tech.bean.MenusBean;
 import com.wd.tech.bean.MyBanner;
 import com.wd.tech.bean.Result;
@@ -23,7 +24,6 @@ public interface Interfacea {
 
     /**
      * 注册
-     *
      * @param phone
      * @param nickName
      * @param pwd
@@ -38,15 +38,14 @@ public interface Interfacea {
 
     /**
      * 登陆
-     *
      * @param phone
      * @param pwd
      * @return
      */
     @FormUrlEncoded
     @POST("user/v1/login")
-    Observable<Result> login(@Field("phone") String phone,
-                             @Field("pwd") String pwd);
+    Observable<Result<LoginBean>> login(@Field("phone") String phone,
+                                        @Field("pwd") String pwd);
 
     /**
      * banner展示列表
