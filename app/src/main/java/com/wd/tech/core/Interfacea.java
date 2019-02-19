@@ -5,6 +5,7 @@ import com.wd.tech.bean.Result;
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -41,4 +42,10 @@ public interface Interfacea {
     Observable<Result> login(@Field("phone") String phone,
                                        @Field("pwd") String pwd);
 
+    /**
+     * banner展示列表
+     * @return
+     */
+    @GET("information/v1/bannerShow")
+    Observable<Result> login();
 }

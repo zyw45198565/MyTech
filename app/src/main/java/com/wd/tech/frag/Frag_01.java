@@ -1,15 +1,17 @@
 package com.wd.tech.frag;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.wd.tech.R;
 import com.wd.tech.utils.util.WDFragment;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author Tech
@@ -17,8 +19,13 @@ import com.wd.tech.utils.util.WDFragment;
  * QQ:45198565
  * 佛曰：永无BUG 盘他！
  */
-public class Frag_01 extends WDFragment {
+public class Frag_01 extends WDFragment implements View.OnClickListener {
 
+
+    @BindView(R.id.one_menu)
+    ImageView oneMenu;
+    @BindView(R.id.one_search)
+    ImageView oneSearch;
 
     @Override
     public String getPageName() {
@@ -33,6 +40,19 @@ public class Frag_01 extends WDFragment {
 
     @Override
     protected void initView() {
+        oneMenu.setOnClickListener(this);
+        oneSearch.setOnClickListener(this);
 
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.one_menu:
+                break;
+
+
+        }
     }
 }
