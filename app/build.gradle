@@ -39,4 +39,7 @@ dependencies {
     implementation 'com.facebook.fresco:fresco:1.11.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'me.jessyan:autosize:1.1.2'
+    //xrecyclerview
+    implementation ('com.jcodecraeer:xrecyclerview:1.5.9'){
+        exclude group: 'com.android.support'}
 }
