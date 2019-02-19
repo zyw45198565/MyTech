@@ -1,8 +1,12 @@
 package com.wd.tech.core;
 
 import com.wd.tech.bean.LoginBean;
+import com.wd.tech.bean.MenusBean;
+import com.wd.tech.bean.MyBanner;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.UserInfoBean;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -51,6 +55,15 @@ public interface Interfacea {
      * @return
      */
     @GET("information/v1/bannerShow")
+    Observable<Result<List<MyBanner>>> mybanner();
+
+    /**
+     * 所有板块查询
+     *
+     * @return
+     */
+    @GET("information/v1/findAllInfoPlate")
+    Observable<Result<List<MenusBean>>> mymenus();
     Observable<Result> login();
 
 
