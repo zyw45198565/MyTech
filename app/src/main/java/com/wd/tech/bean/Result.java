@@ -6,16 +6,7 @@ public class Result<T> {
     String status;
     String message;
     T result;
-    String headPath;
-    String orderId;
 
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
 
     public String getStatus() {
         return status;
@@ -42,11 +33,4 @@ public class Result<T> {
         this.result = result;
     }
 
-    public String getHeadPath() {
-        return headPath;
-    }
-
-    public void setHeadPath(String headPath) {
-        this.headPath = headPath;
-    }
 }

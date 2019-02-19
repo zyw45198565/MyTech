@@ -1,5 +1,6 @@
 package com.wd.tech.core;
 
+import com.wd.tech.bean.LoginBean;
 import com.wd.tech.bean.Result;
 
 import io.reactivex.Observable;
@@ -39,8 +40,8 @@ public interface Interfacea {
      */
     @FormUrlEncoded
     @POST("user/v1/login")
-    Observable<Result> login(@Field("phone") String phone,
-                                       @Field("pwd") String pwd);
+    Observable<Result<LoginBean>> login(@Field("phone") String phone,
+                                        @Field("pwd") String pwd);
 
     /**
      * banner展示列表

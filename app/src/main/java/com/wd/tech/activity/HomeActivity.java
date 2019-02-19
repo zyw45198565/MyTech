@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.frag.Frag_01;
 import com.wd.tech.frag.Frag_02;
@@ -100,6 +102,28 @@ public class HomeActivity extends WDActivity {
             }
         });
 
+
+        SimpleDraweeView log = findViewById(R.id.log);
+
+
+        LinearLayout login = findViewById(R.id.login);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(HomeActivity.this,LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        RelativeLayout rl1 = findViewById(R.id.rl1);
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
     }
 
