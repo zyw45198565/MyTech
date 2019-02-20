@@ -165,7 +165,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
         @Override
         public void fail(ApiException e) {
-            Toast.makeText(getContext(), e.getCode(), Toast.LENGTH_SHORT).show();
+           Toast.makeText(getContext(), e.getCode(), Toast.LENGTH_SHORT).show();
         }
     }
 

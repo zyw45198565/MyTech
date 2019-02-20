@@ -3,7 +3,9 @@ package com.wd.tech.utils;
 import java.security.cert.CertificateException;
 import java.util.concurrent.TimeUnit;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -33,7 +35,7 @@ public class NetWorkManager {
     private void init(){
 
 
-        OkHttpClient okHttpClient = getUnsafeOkHttpClient();
+        OkHttpClient okHttpClient = getClient();
 
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
@@ -48,53 +50,45 @@ public class NetWorkManager {
         return retrofit.create(service);
     }
 
+    public synchronized static OkHttpClient getClient(){
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            try {
+                // 自定义一个信任所有证书的TrustManager，添加SSLSocketFactory的时候要用到
+                final X509TrustManager trustAllCert =
+                        new X509TrustManager() {
+                            @Override
+                            public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                            }
 
-    public static OkHttpClient getUnsafeOkHttpClient() {
+                            @Override
+                            public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                            }
 
-        try {
-
-            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);//打印请求参数，请求结果
-            // Create a trust manager that does not validate certificate chains
-            final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-                @Override
-                public void checkClientTrusted(
-                        java.security.cert.X509Certificate[] chain,
-                        String authType) throws CertificateException {
-                }
-
-                @Override
-                public void checkServerTrusted(
-                        java.security.cert.X509Certificate[] chain,
-                        String authType) throws CertificateException {
-                }
-
-                @Override
-                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                    return new java.security.cert.X509Certificate[0];
-                }
-            } };
-
-            // Install the all-trusting trust manager
-            final SSLContext sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(null, trustAllCerts,
-                    new java.security.SecureRandom());
-            // Create an ssl socket factory with our all-trusting manager
-            final SSLSocketFactory sslSocketFactory = sslContext
-                    .getSocketFactory();
-
-            OkHttpClient okHttpClient = new OkHttpClient();
-            okHttpClient = okHttpClient.newBuilder()
-                    .addInterceptor(interceptor)
-                    .sslSocketFactory(sslSocketFactory)
-                    .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER).build();
-
-            return okHttpClient;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+                            @Override
+                            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                                return new java.security.cert.X509Certificate[]{};
+                            }
+                        };
+                final SSLSocketFactory sslSocketFactory = new SSLSocketFactoryCompat(trustAllCert);
+                builder.sslSocketFactory(sslSocketFactory, trustAllCert).hostnameVerifier(getTrustedVerifier());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        return builder.build();
     }
 
+    private static HostnameVerifier TRUSTED_VERIFIER;
+
+    private static HostnameVerifier getTrustedVerifier() {
+        if (TRUSTED_VERIFIER == null)
+            TRUSTED_VERIFIER = new HostnameVerifier() {
+
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            };
+
+        return TRUSTED_VERIFIER;
+    }
 
 }
