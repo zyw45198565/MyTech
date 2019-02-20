@@ -19,7 +19,7 @@ import com.wd.tech.utils.util.WDActivity;
  * QQ:45198565
  * 佛曰：永无BUG 盘他！
  */
-public class RegistrActivity extends WDActivity implements View.OnClickListener,DataCall<Result> {
+public class RegistrActivity extends BaseActivity implements View.OnClickListener,DataCall<Result> {
 
     private EditText phone;
     private EditText name;
@@ -34,10 +34,10 @@ public class RegistrActivity extends WDActivity implements View.OnClickListener,
     @Override
     protected void initView() {
 
-        name = findViewById(R.id.name);
-        phone = findViewById(R.id.phone);
-        pass = findViewById(R.id.pass);
-        Button regis = findViewById(R.id.regis);
+        name = (EditText) findViewById(R.id.name);
+        phone = (EditText) findViewById(R.id.phone);
+        pass = (EditText) findViewById(R.id.pass);
+        Button regis = (Button) findViewById(R.id.regis);
         regis.setOnClickListener(this);
 
     }

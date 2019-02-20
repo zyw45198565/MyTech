@@ -27,7 +27,7 @@ import com.wd.tech.utils.util.WDActivity;
  * QQ:45198565
  * 佛曰：永无BUG 盘他！
  */
-public class LoginActivity extends WDActivity implements View.OnClickListener,DataCall<Result<LoginBean>> {
+public class LoginActivity extends BaseActivity implements View.OnClickListener,DataCall<Result<LoginBean>> {
 
 
     private EditText phone;
@@ -47,14 +47,14 @@ public class LoginActivity extends WDActivity implements View.OnClickListener,Da
     protected void initView() {
 
 
-        TextView txt_registration =  findViewById(R.id.registration);
+        TextView txt_registration = (TextView) findViewById(R.id.registration);
         txt_registration.setOnClickListener(this);
 
-        phone = findViewById(R.id.phone);
-        pass =  findViewById(R.id.pass);
-        login =  findViewById(R.id.login);
+        phone = (EditText) findViewById(R.id.phone);
+        pass = (EditText) findViewById(R.id.pass);
+        login = (Button) findViewById(R.id.login);
         login.setOnClickListener(this);
-        xian = findViewById(R.id.xian);
+        xian = (ImageView) findViewById(R.id.xian);
         xian.setOnClickListener(this);
 
     }

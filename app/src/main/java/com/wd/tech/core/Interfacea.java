@@ -1,5 +1,6 @@
 package com.wd.tech.core;
 
+import com.wd.tech.bean.FindUser;
 import com.wd.tech.bean.DetailsBean;
 import com.wd.tech.bean.HomeAll;
 import com.wd.tech.bean.LoginBean;
@@ -129,5 +130,17 @@ public interface Interfacea {
     Observable<Result<DetailsBean>> findInformationDetails(@Header("userId")int userId,
                                                            @Header("sessionId")String sessionId,
                                                            @Query("id")int id);
+
+    /**
+     * 根据手机号查询用户信息
+     * @param userId
+     * @param sessionId
+     * @param phone
+     * @return
+     */
+    @GET("user/verify/v1/findUserByPhone")
+    Observable<Result<FindUser>> findUserByPhone(@Header("userId")int userId,
+                                                 @Header("sessionId")String sessionId,
+                                                 @Query("phone")String phone);
 
 }

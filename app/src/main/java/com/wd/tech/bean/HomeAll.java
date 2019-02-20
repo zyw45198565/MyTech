@@ -138,10 +138,19 @@ public class HomeAll {
          * url : url
          */
 
+        String pic;
         private String title;
         private int id;
         private String content;
         private String url;
+
+        public String getPic() {
+            return pic;
+        }
+
+        public void setPic(String pic) {
+            this.pic = pic;
+        }
 
         public String getTitle() {
             return title;

@@ -32,9 +32,9 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        if (whetherAdvertising == 1) {
+        if (list.get(position).getWhetherAdvertising() == 1) {
             return TYPRONE;
-        } else if (whetherAdvertising == 2) {
+        } else if (list.get(position).getWhetherAdvertising() == 2) {
             return TYPETWO;
         }
         return TYPETWO;
@@ -81,7 +81,7 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 break;
             case TYPRONE:
                 ViewHolderB holderB= (ViewHolderB) viewHolder;
-                holderB.twoimg.setImageURI(homeAll.getInfoAdvertisingVo().getUrl());
+                holderB.twoimg.setImageURI(homeAll.getInfoAdvertisingVo().getPic());
                 break;
 
         }
@@ -96,6 +96,10 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (result != null) {
             list.addAll(result);
         }
+    }
+
+    public void clearAll() {
+            list.clear();
     }
 
     private class ViewHolderA extends RecyclerView.ViewHolder {
