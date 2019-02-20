@@ -1,6 +1,7 @@
 package com.wd.tech.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
+import com.wd.tech.activity.DetailsActivity;
 import com.wd.tech.bean.HomeAll;
 
 import java.util.ArrayList;
@@ -58,7 +60,7 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         whetherAdvertising = list.get(i).getWhetherAdvertising();
-        HomeAll homeAll = list.get(i);
+        final HomeAll homeAll = list.get(i);
         int itemViewType = getItemViewType(i);
         switch (itemViewType) {
             case TYPETWO:
@@ -68,6 +70,14 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holderA.title.setText(homeAll.getTitle());
                 holderA.content.setText(homeAll.getSummary());
                 holderA.writer.setText(homeAll.getSource());
+                holderA.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(context,DetailsActivity.class);
+                        intent.putExtra("zid",homeAll.getId());
+                        context.startActivity(intent);
+                    }
+                });
                 break;
             case TYPRONE:
                 ViewHolderB holderB= (ViewHolderB) viewHolder;

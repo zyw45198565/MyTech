@@ -212,7 +212,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     private class HomeCall implements DataCall<Result<List<HomeAll>>> {
         @Override
         public void success(Result<List<HomeAll>> data) {
-            Toast.makeText(getActivity(),data.getMessage(),Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(),data.getMessage(),Toast.LENGTH_SHORT).show();
             result = data.getResult();
             homeAllAdapter.addAll(result);
             homeAllAdapter.notifyDataSetChanged();
