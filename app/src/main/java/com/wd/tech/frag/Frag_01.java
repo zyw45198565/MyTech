@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,9 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
+import com.wd.tech.WDApp;
 import com.wd.tech.activity.MenuActivity;
+import com.wd.tech.adapter.HomeAllAdapter;
 import com.wd.tech.bean.HomeAll;
 import com.wd.tech.bean.MyBanner;
 import com.wd.tech.bean.Result;
@@ -53,9 +57,16 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     MZBannerView oneBanner;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.one_homeall)
+    RecyclerView oneHomeall;
     private List<String> bannerList;
     private MyBannerPresenter myBannerPresenter;
-
+    private String sessionid;
+    private int userid;
+    private HomeAllPresenter homeAllPresenter;
+    private HomeAllAdapter homeAllAdapter;
+    private List<HomeAll> result;
+    int page=1;
     @Override
     public String getPageName() {
         return "Frag_资讯" +
@@ -69,14 +80,31 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
     @Override
     protected void initView() {
+        userid = WDApp.getShare().getInt("userid", 0);
+        sessionid = WDApp.getShare().getString("sessionid", "");
+
         oneMenu.setOnClickListener(this);
         oneSearch.setOnClickListener(this);
         myBannerPresenter = new MyBannerPresenter(new MyBannerCall());
         myBannerPresenter.reqeust();
+
+        homeAllPresenter = new HomeAllPresenter(new HomeCall());
+        homeAllPresenter.reqeust(userid, sessionid, 1, page, 5);
+
         //刷新
         myrefreshLayout();
-        HomeAllPresenter homeAllPresenter=new HomeAllPresenter(new HomeCall());
 
+
+        //展示列表
+        homeallre();
+
+    }
+
+    private void homeallre() {
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity());
+        oneHomeall.setLayoutManager(linearLayoutManager);
+        homeAllAdapter = new HomeAllAdapter(getActivity());
+        oneHomeall.setAdapter(homeAllAdapter);
     }
 
     private void myrefreshLayout() {
@@ -84,8 +112,8 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                /*mData.clear();
-                mNameAdapter.notifyDataSetChanged();*/
+                result.clear();
+                homeAllAdapter.notifyDataSetChanged();
                 refreshlayout.finishRefresh();
             }
         });
@@ -93,10 +121,10 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                /*for(int i=0;i<30;i++){
-                    mData.add("小明"+i);
-                }
-                mNameAdapter.notifyDataSetChanged();*/
+                page++;
+                homeAllPresenter.reqeust(userid, sessionid, 1, page, 5);
+
+                homeAllAdapter.notifyDataSetChanged();
                 refreshlayout.finishLoadmore();
             }
         });
@@ -144,7 +172,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
         @Override
         public void success(Result<List<MyBanner>> data) {
-            Toast.makeText(getContext(), data.getStatus(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), data.getStatus(), Toast.LENGTH_SHORT).show();
             List<MyBanner> result = data.getResult();
             bannerList = new ArrayList<>();
             for (int i = 0; i < result.size(); i++) {
@@ -165,7 +193,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
         @Override
         public void fail(ApiException e) {
-           Toast.makeText(getContext(), e.getCode(), Toast.LENGTH_SHORT).show();
+//           Toast.makeText(getContext(), e.getCode(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -184,6 +212,10 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     private class HomeCall implements DataCall<Result<List<HomeAll>>> {
         @Override
         public void success(Result<List<HomeAll>> data) {
+            Toast.makeText(getActivity(),data.getMessage(),Toast.LENGTH_SHORT).show();
+            result = data.getResult();
+            homeAllAdapter.addAll(result);
+            homeAllAdapter.notifyDataSetChanged();
 
         }
 
