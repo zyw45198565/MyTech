@@ -25,7 +25,7 @@ import java.util.Date;
  * QQ:45198565
  * 佛曰：永无BUG 盘他！
  */
-public class MySettingActivity extends WDActivity implements View.OnClickListener,DataCall<Result<UserInfoBean>> {
+public class MySettingActivity extends BaseActivity implements View.OnClickListener,DataCall<Result<UserInfoBean>> {
 
 
     private ImageView back;
@@ -50,19 +50,19 @@ public class MySettingActivity extends WDActivity implements View.OnClickListene
     @Override
     protected void initView() {
 
-        back = findViewById(R.id.back);
+        back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(this);
-        tui = findViewById(R.id.tui);
+        tui = (TextView) findViewById(R.id.tui);
         tui.setOnClickListener(this);
-        head = findViewById(R.id.head);
-        name = findViewById(R.id.name);
-        sex = findViewById(R.id.sex);
-        date = findViewById(R.id.date);
-        phone = findViewById(R.id.phone);
-        emaile = findViewById(R.id.emaile);
-        jifen = findViewById(R.id.jifen);
-        vip = findViewById(R.id.vip);
-        faceid = findViewById(R.id.faceid);
+        head = (ImageView) findViewById(R.id.head);
+        name = (TextView) findViewById(R.id.name);
+        sex = (TextView) findViewById(R.id.sex);
+        date = (TextView) findViewById(R.id.date);
+        phone = (TextView) findViewById(R.id.phone);
+        emaile = (TextView) findViewById(R.id.emaile);
+        jifen = (TextView) findViewById(R.id.jifen);
+        vip = (TextView) findViewById(R.id.vip);
+        faceid = (TextView) findViewById(R.id.faceid);
     }
 
     @Override

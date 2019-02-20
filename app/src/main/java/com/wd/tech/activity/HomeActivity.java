@@ -52,6 +52,7 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
     private TextView qian;
     private ImageView vip;
     private LinearLayout setting;
+    private LinearLayout love;
 
     @Override
     protected void initView() {
@@ -145,6 +146,8 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
         vip = findViewById(R.id.vip);
         setting = findViewById(R.id.setting);
         setting.setOnClickListener(this);
+        love = findViewById(R.id.love);
+        love.setOnClickListener(this);
 
     }
 
@@ -186,6 +189,10 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
             case R.id.setting:
                 Intent intent = new Intent(HomeActivity.this,MySettingActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.love:
+                Intent intent1 = new Intent(HomeActivity.this,LoveActivity.class);
+                startActivity(intent1);
                 break;
         }
     }
