@@ -1,6 +1,8 @@
 package com.wd.tech.frag;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -9,9 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.wd.tech.R;
+import com.wd.tech.activity.AddFriendActivity;
+import com.wd.tech.activity.CreateFriendActivity;
 import com.wd.tech.adapter.FragmentViewAdapter;
 import com.wd.tech.frag.fragone.FragOneContact;
 import com.wd.tech.frag.fragone.FragOneMessage;
@@ -43,6 +49,7 @@ public class Frag_02 extends WDFragment {
     @BindView(R.id.my_message_view_pager)
     ViewPager myMessageViewPager;
     Unbinder unbinder;
+    private PopupWindow window;
 
     @Override
     public String getPageName() {
@@ -90,6 +97,38 @@ public class Frag_02 extends WDFragment {
 
             }
         });
+        getShow();
+    }
+
+    private void getShow() {
+        View inflate = View.inflate(getContext(), R.layout.popu_add_layout, null);
+        window = new PopupWindow(inflate, ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        window.setTouchable(true);
+        window.setFocusable(true);
+        window.setOutsideTouchable(true);
+        window.setBackgroundDrawable(new BitmapDrawable());
+        getWindow(inflate);
+    }
+
+    private void getWindow(View inflate) {
+      LinearLayout popu_add_like= inflate.findViewById(R.id.popu_add_like);
+      LinearLayout popu_add_create= inflate.findViewById(R.id.popu_add_create);
+      popu_add_like.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              Intent intent = new Intent(getContext(), AddFriendActivity.class);
+              startActivity(intent);
+                window.dismiss();
+          }
+      });
+        popu_add_create.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              Intent intent = new Intent(getContext(), CreateFriendActivity.class);
+              startActivity(intent);
+                window.dismiss();
+          }
+      });
     }
 
     @Override
@@ -124,7 +163,7 @@ public class Frag_02 extends WDFragment {
                 myMessageViewPager.setCurrentItem(1,false );
                 break;
             case R.id.my_message_add:
-
+                window.showAsDropDown(myMessageAdd,0,10);
                 break;
         }
     }
