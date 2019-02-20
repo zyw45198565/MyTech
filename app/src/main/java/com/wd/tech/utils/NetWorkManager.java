@@ -52,6 +52,9 @@ public class NetWorkManager {
 
     public synchronized static OkHttpClient getClient(){
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        builder.addInterceptor(loggingInterceptor);
             try {
                 // 自定义一个信任所有证书的TrustManager，添加SSLSocketFactory的时候要用到
                 final X509TrustManager trustAllCert =

@@ -31,6 +31,15 @@ public class UserInfoBean {
     private int userId;
     private int whetherVip;
     private int whetherFaceId;
+    long birthday;
+
+    public long getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(long birthday) {
+        this.birthday = birthday;
+    }
 
     public String getEmail() {
         return email;

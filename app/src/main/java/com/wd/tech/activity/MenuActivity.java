@@ -49,7 +49,7 @@ public class MenuActivity extends WDActivity {
     private class MenusCall implements DataCall<Result<List<MenusBean>>> {
         @Override
         public void success(Result<List<MenusBean>> data) {
-            Toast.makeText(getBaseContext(),data.getStatus()+data.getMessage(),Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getBaseContext(),data.getStatus()+data.getMessage(),Toast.LENGTH_SHORT).show();
 
             List<MenusBean> result = data.getResult();
             menusAdapter.addAll(result);
