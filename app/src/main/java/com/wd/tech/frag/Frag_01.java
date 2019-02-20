@@ -3,14 +3,11 @@ package com.wd.tech.frag;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -37,8 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * @author Tech
@@ -67,6 +62,9 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     private HomeAllAdapter homeAllAdapter;
     private List<HomeAll> result;
     int page=1;
+    int count =5;
+    int plateId=0;
+
     @Override
     public String getPageName() {
         return "Frag_资讯" +
@@ -87,9 +85,9 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         oneSearch.setOnClickListener(this);
         myBannerPresenter = new MyBannerPresenter(new MyBannerCall());
         myBannerPresenter.reqeust();
-
         homeAllPresenter = new HomeAllPresenter(new HomeCall());
-        homeAllPresenter.reqeust(userid, sessionid, 1, page, 5);
+
+        homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
 
         //刷新
         myrefreshLayout();
@@ -112,8 +110,9 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                result.clear();
-                homeAllAdapter.notifyDataSetChanged();
+                homeAllAdapter.clearAll();
+                page=1;
+                homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
                 refreshlayout.finishRefresh();
             }
         });
@@ -122,9 +121,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 page++;
-                homeAllPresenter.reqeust(userid, sessionid, 1, page, 5);
-
-                homeAllAdapter.notifyDataSetChanged();
+                homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
                 refreshlayout.finishLoadmore();
             }
         });
@@ -212,11 +209,11 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     private class HomeCall implements DataCall<Result<List<HomeAll>>> {
         @Override
         public void success(Result<List<HomeAll>> data) {
-            Toast.makeText(getActivity(),data.getMessage(),Toast.LENGTH_SHORT).show();
             result = data.getResult();
-            homeAllAdapter.addAll(result);
-            homeAllAdapter.notifyDataSetChanged();
-
+            if(result.size()>0){
+                homeAllAdapter.addAll(result);
+                homeAllAdapter.notifyDataSetChanged();
+            }
         }
 
         @Override
@@ -224,4 +221,5 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
         }
     }
+
 }
