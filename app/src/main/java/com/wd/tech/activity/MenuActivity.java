@@ -19,7 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MenuActivity extends WDActivity {
+public class MenuActivity extends BaseActivity {
 
     @BindView(R.id.menus_recycler)
     RecyclerView menusRecycler;
