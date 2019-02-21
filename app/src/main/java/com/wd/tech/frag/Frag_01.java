@@ -86,6 +86,8 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         myBannerPresenter = new MyBannerPresenter(new MyBannerCall());
         myBannerPresenter.reqeust();
 
+        homeAllPresenter = new HomeAllPresenter(new HomeCall());
+
         homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
 
         //刷新
@@ -208,7 +210,6 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     private class HomeCall implements DataCall<Result<List<HomeAll>>> {
         @Override
         public void success(Result<List<HomeAll>> data) {
-//            Toast.makeText(getActivity(),data.getMessage(),Toast.LENGTH_SHORT).show();
             result = data.getResult();
             if(result.size()>0){
                 homeAllAdapter.addAll(result);
@@ -221,4 +222,5 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
         }
     }
+
 }
