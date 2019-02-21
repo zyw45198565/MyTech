@@ -1,5 +1,6 @@
 package com.wd.tech.core;
 
+import com.wd.tech.bean.FindGroup;
 import com.wd.tech.bean.FindUser;
 import com.wd.tech.bean.DetailsBean;
 import com.wd.tech.bean.HomeAll;
@@ -142,5 +143,10 @@ public interface Interfacea {
     Observable<Result<FindUser>> findUserByPhone(@Header("userId")int userId,
                                                  @Header("sessionId")String sessionId,
                                                  @Query("phone")String phone);
+
+    @GET("group/verify/v1/findGroupInfo")
+    Observable<Result<FindGroup>> findGroupInfo(@Header("userId")int userId,
+                                                @Header("sessionId")String sessionId,
+                                                @Query("groupId")int groupId);
 
 }

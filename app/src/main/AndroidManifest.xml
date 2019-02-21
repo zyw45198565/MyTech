@@ -38,6 +38,7 @@
         <activity android:name=".activity.MySettingActivity"/>
         <activity android:name=".activity.DetailsActivity"/>
         <activity android:name=".activity.AddFriendActivity" />
+        <activity android:name=".activity.FindUserDetailsActivity" />
         <activity android:name=".activity.LoveActivity"></activity>
     </application>
 
