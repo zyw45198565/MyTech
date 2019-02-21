@@ -85,6 +85,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         oneSearch.setOnClickListener(this);
         myBannerPresenter = new MyBannerPresenter(new MyBannerCall());
         myBannerPresenter.reqeust();
+
         homeAllPresenter = new HomeAllPresenter(new HomeCall());
 
         homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
