@@ -37,6 +37,7 @@
         <activity android:name=".activity.RegistrActivity"/>
         <activity android:name=".activity.MySettingActivity"/>
         <activity android:name=".activity.AddFriendActivity" />
+        <activity android:name=".activity.FindUserDetailsActivity" />
     </application>
 
 </manifest>
