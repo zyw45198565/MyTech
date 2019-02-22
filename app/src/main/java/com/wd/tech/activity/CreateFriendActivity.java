@@ -1,23 +1,36 @@
 package com.wd.tech.activity;
 
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.wd.tech.R;
+import com.wd.tech.utils.util.UIUtils;
 import com.wd.tech.utils.util.WDActivity;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class CreateFriendActivity extends WDActivity {
 
-    //Model：定义的数据
-    private String[] groups = {"我的好友", "黑名单"};
-    //注意，字符数组不要写成{{"A1,A2,A3,A4"}, {"B1,B2,B3,B4，B5"}, {"C1,C2,C3,C4"}}*/
-    private String[][] childs = {{"A1", "A2", "A3", "A4"}, {"A1", "A2", "A3", "B4"}};
+
+    @BindView(R.id.add_group_back)
+    ImageView addGroupBack;
+    @BindView(R.id.create_friend_name)
+    EditText createFriendName;
+    @BindView(R.id.create_friend_details)
+    EditText createFriendDetails;
+    @BindView(R.id.create_friend_ok)
+    Button createFriendOk;
 
     @Override
     protected int getLayoutId() {
@@ -27,88 +40,46 @@ public class CreateFriendActivity extends WDActivity {
     @Override
     protected void initView() {
 
+
     }
 
     @Override
     protected void destoryData() {
 
     }
-    class MyExpandableListView extends BaseExpandableListAdapter {
 
-        //返回一级列表的个数
-        @Override
-        public int getGroupCount() {
-            return groups.length;
-        }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 
-        //返回每个二级列表的个数
-        @Override
-        public int getChildrenCount(int groupPosition) { //参数groupPosition表示第几个一级列表
-            Log.d("smyhvae", "-->" + groupPosition);
-            return childs[groupPosition].length;
-        }
+    @OnClick({R.id.add_group_back, R.id.create_friend_ok})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.add_group_back:
+                finish();
+                break;
+            case R.id.create_friend_ok:
+                String name = createFriendName.getText().toString();
+                String details = createFriendDetails.getText().toString();
+                Pattern pattern = Pattern.compile("^[\\u4e00-\\u9fa5]{2,20}$");
 
-        //返回一级列表的单个item（返回的是对象）
-        @Override
-        public Object getGroup(int groupPosition) {
-            return groups[groupPosition];
-        }
+                Matcher matcher = pattern.matcher(name);
 
-        //返回二级列表中的单个item（返回的是对象）
-        @Override
-        public Object getChild(int groupPosition, int childPosition) {
-            return childs[groupPosition][childPosition];  //不要误写成groups[groupPosition][childPosition]
-        }
+             if (!matcher.find()) {
+                 UIUtils.showToastSafe("群名2-20汉字");
+                 return;
+        //不匹配
+                }
+                if (details.length()>100){
+                    UIUtils.showToastSafe("100字以内");
+                    return;
+                }
 
-        @Override
-        public long getGroupId(int groupPosition) {
-            return groupPosition;
-        }
-
-        @Override
-        public long getChildId(int groupPosition, int childPosition) {
-            return childPosition;
-        }
-
-        //每个item的id是否是固定？一般为true
-        @Override
-        public boolean hasStableIds() {
-            return true;
-        }
-
-        //【重要】填充一级列表
-        @Override
-        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-
-            if (convertView == null) {
-                convertView = getLayoutInflater().inflate(R.layout.expandablelistview_one_item, null);
-            }
-            TextView tv_group = (TextView) convertView.findViewById(R.id.tv_group);
-            tv_group.setText(groups[groupPosition]);
-            return convertView;
-        }
-
-        //【重要】填充二级列表
-        @Override
-        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-
-            if (convertView == null) {
-                convertView = getLayoutInflater().inflate(R.layout.expandablelistview_two_item, null);
-            }
-
-            ImageView iv_child = (ImageView) convertView.findViewById(R.id.iv_child);
-            TextView tv_child = (TextView) convertView.findViewById(R.id.tv_child);
-
-            //iv_child.setImageResource(resId);
-            tv_child.setText(childs[groupPosition][childPosition]);
-
-            return convertView;
-        }
-
-        //二级列表中的item是否能够被选中？可以改为true
-        @Override
-        public boolean isChildSelectable(int groupPosition, int childPosition) {
-            return true;
+                break;
         }
     }
+
 }

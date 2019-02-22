@@ -3,6 +3,7 @@ package com.wd.tech.core;
 import com.wd.tech.bean.FindGroup;
 import com.wd.tech.bean.FindUser;
 import com.wd.tech.bean.HomeAll;
+import com.wd.tech.bean.InitFriendlist;
 import com.wd.tech.bean.LoginBean;
 import com.wd.tech.bean.MenusBean;
 import com.wd.tech.bean.MyBanner;
@@ -131,9 +132,19 @@ public interface Interfacea {
                                                  @Header("sessionId")String sessionId,
                                                  @Query("phone")String phone);
 
+    /**
+     * 通过Id查群
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @return
+     */
     @GET("group/verify/v1/findGroupInfo")
     Observable<Result<FindGroup>> findGroupInfo(@Header("userId")int userId,
                                                 @Header("sessionId")String sessionId,
                                                 @Query("groupId")int groupId);
+    @GET("chat/verify/v1/initFriendList")
+    Observable<Result<List<InitFriendlist>>> allFriendsList(@Header("userId") int userId,
+                                                            @Header("sessionId") String sessionId);
 
 }
