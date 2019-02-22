@@ -3,6 +3,7 @@ package com.wd.tech.core;
 import com.wd.tech.bean.FindGroup;
 import com.wd.tech.bean.FindUser;
 import com.wd.tech.bean.DetailsBean;
+import com.wd.tech.bean.GroupByUser;
 import com.wd.tech.bean.HomeAll;
 import com.wd.tech.bean.InitFriendlist;
 import com.wd.tech.bean.LoginBean;
@@ -156,8 +157,40 @@ public interface Interfacea {
     Observable<Result<FindGroup>> findGroupInfo(@Header("userId")int userId,
                                                 @Header("sessionId")String sessionId,
                                                 @Query("groupId")int groupId);
+
+    /**
+     * 查询分组
+     * @param userId
+     * @param sessionId
+     * @return
+     */
     @GET("chat/verify/v1/initFriendList")
     Observable<Result<List<InitFriendlist>>> allFriendsList(@Header("userId") int userId,
                                                             @Header("sessionId") String sessionId);
+
+    /**
+     * 查询我创建的群组
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("group/verify/v1/findGroupsByUserId")
+    Observable<Result<List<GroupByUser>>> findGroupsByUserId(@Header("userId") int userId,
+                                                             @Header("sessionId") String sessionId);
+
+    /**
+     * 创建群
+     * @param userId
+     * @param sessionId
+     * @param name
+     * @param description
+     * @return
+     */
+    @POST("group/verify/v1/createGroup")
+    @FormUrlEncoded
+    Observable<Result> createGroup(@Header("userId") int userId,
+                                   @Header("sessionId") String sessionId,
+                                   @Field("name") String name,
+                                   @Field("description") String description);
 
 }

@@ -5,8 +5,16 @@ package com.wd.tech.bean;
 public class Result<T> {
     String status;
     String message;
+    int groupId;
     T result;
 
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
+    }
 
     public String getStatus() {
         return status;

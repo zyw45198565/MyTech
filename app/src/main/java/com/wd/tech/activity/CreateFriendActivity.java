@@ -1,6 +1,7 @@
 package com.wd.tech.activity;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,6 +11,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.wd.tech.R;
+import com.wd.tech.WDApp;
+import com.wd.tech.bean.Result;
+import com.wd.tech.presenter.CreateGroupPresenter;
+import com.wd.tech.utils.DataCall;
+import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.util.UIUtils;
 import com.wd.tech.utils.util.WDActivity;
 
@@ -31,6 +37,9 @@ public class CreateFriendActivity extends WDActivity {
     EditText createFriendDetails;
     @BindView(R.id.create_friend_ok)
     Button createFriendOk;
+    private CreateGroupPresenter createGroupPresenter;
+    private int userid;
+    private String session1d;
 
     @Override
     protected int getLayoutId() {
@@ -39,13 +48,16 @@ public class CreateFriendActivity extends WDActivity {
 
     @Override
     protected void initView() {
-
+        createGroupPresenter = new CreateGroupPresenter(new CreateGroup());
+        SharedPreferences share = WDApp.getShare();
+        userid = share.getInt("userid", 0);
+        session1d = share.getString("sessionid", "");
 
     }
 
     @Override
     protected void destoryData() {
-
+        createGroupPresenter.unBind();
     }
 
     @Override
@@ -77,9 +89,23 @@ public class CreateFriendActivity extends WDActivity {
                     UIUtils.showToastSafe("100字以内");
                     return;
                 }
-
+            createGroupPresenter.reqeust(userid,session1d,name,details);
                 break;
         }
     }
+    class CreateGroup implements DataCall<Result> {
 
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")){
+                UIUtils.showToastSafe(data.getMessage());
+                finish();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
 }
