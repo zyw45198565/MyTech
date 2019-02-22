@@ -3,12 +3,12 @@ package com.wd.tech.frag;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -16,7 +16,11 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
+import com.wd.tech.WDApp;
+import com.wd.tech.activity.AdvertiseActivity;
+import com.wd.tech.activity.DetailsActivity;
 import com.wd.tech.activity.MenuActivity;
+import com.wd.tech.adapter.HomeAllAdapter;
 import com.wd.tech.bean.HomeAll;
 import com.wd.tech.bean.MyBanner;
 import com.wd.tech.bean.Result;
@@ -33,8 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * @author Tech
@@ -53,8 +55,18 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     MZBannerView oneBanner;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    private List<String> bannerList;
+    @BindView(R.id.one_homeall)
+    RecyclerView oneHomeall;
+    private List<MyBanner> bannerList;
     private MyBannerPresenter myBannerPresenter;
+    private String sessionid;
+    private int userid;
+    private HomeAllPresenter homeAllPresenter;
+    private HomeAllAdapter homeAllAdapter;
+    private List<HomeAll> result;
+    int page=1;
+    int count =5;
+    int plateId=0;
 
     @Override
     public String getPageName() {
@@ -69,14 +81,32 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
     @Override
     protected void initView() {
+        userid = WDApp.getShare().getInt("userid", 0);
+        sessionid = WDApp.getShare().getString("sessionid", "");
+
         oneMenu.setOnClickListener(this);
         oneSearch.setOnClickListener(this);
         myBannerPresenter = new MyBannerPresenter(new MyBannerCall());
         myBannerPresenter.reqeust();
+
+        homeAllPresenter = new HomeAllPresenter(new HomeCall());
+
+        homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
+
         //刷新
         myrefreshLayout();
-        HomeAllPresenter homeAllPresenter=new HomeAllPresenter(new HomeCall());
 
+
+        //展示列表
+        homeallre();
+
+    }
+
+    private void homeallre() {
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity());
+        oneHomeall.setLayoutManager(linearLayoutManager);
+        homeAllAdapter = new HomeAllAdapter(getActivity());
+        oneHomeall.setAdapter(homeAllAdapter);
     }
 
     private void myrefreshLayout() {
@@ -84,8 +114,9 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                /*mData.clear();
-                mNameAdapter.notifyDataSetChanged();*/
+                homeAllAdapter.clearAll();
+                page=1;
+                homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
                 refreshlayout.finishRefresh();
             }
         });
@@ -93,10 +124,8 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                /*for(int i=0;i<30;i++){
-                    mData.add("小明"+i);
-                }
-                mNameAdapter.notifyDataSetChanged();*/
+                page++;
+                homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
                 refreshlayout.finishLoadmore();
             }
         });
@@ -109,21 +138,32 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         refreshLayout.finishLoadmore();
     }
 
-    public static class BannerViewHolder implements MZViewHolder<String> {
+    public static class BannerViewHolder implements MZViewHolder<MyBanner> {
         private SimpleDraweeView mImageView;
+        private TextView title;
 
         @Override
         public View createView(Context context) {
             // 返回页面布局
             View view = LayoutInflater.from(context).inflate(R.layout.banner_item, null);
             mImageView = (SimpleDraweeView) view.findViewById(R.id.banner_image);
+            title = view.findViewById(R.id.title);
             return view;
         }
 
         @Override
-        public void onBind(Context context, int position, String data) {
+        public void onBind(final Context context, int position, final MyBanner data) {
             // 数据绑定
-            mImageView.setImageURI(Uri.parse(data));
+            mImageView.setImageURI(data.getImageUrl());
+            title.setText(data.getTitle());
+            mImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context,AdvertiseActivity.class);
+                    intent.putExtra("zurl",data.getJumpUrl());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
@@ -144,15 +184,17 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
         @Override
         public void success(Result<List<MyBanner>> data) {
-            Toast.makeText(getContext(), data.getStatus(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), data.getStatus(), Toast.LENGTH_SHORT).show();
             List<MyBanner> result = data.getResult();
             bannerList = new ArrayList<>();
-            for (int i = 0; i < result.size(); i++) {
+            bannerList.addAll(result);
+            /*for (int i = 0; i < result.size(); i++) {
+                String title = result.get(i).getTitle();
                 String imageUrl = result.get(i).getImageUrl();
                 String[] split = imageUrl.split("\\?");
 
-                bannerList.add(split[0]);
-            }
+                bannerList.add(new (split[0],title));
+            }*/
             // 设置数据
             oneBanner.setIndicatorVisible(false);
             oneBanner.setPages(bannerList, new MZHolderCreator<BannerViewHolder>() {
@@ -165,7 +207,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
         @Override
         public void fail(ApiException e) {
-            Toast.makeText(getContext(), e.getCode(), Toast.LENGTH_SHORT).show();
+//           Toast.makeText(getContext(), e.getCode(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -184,7 +226,11 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     private class HomeCall implements DataCall<Result<List<HomeAll>>> {
         @Override
         public void success(Result<List<HomeAll>> data) {
-
+            result = data.getResult();
+            if(result.size()>0){
+                homeAllAdapter.addAll(result);
+                homeAllAdapter.notifyDataSetChanged();
+            }
         }
 
         @Override
@@ -192,4 +238,5 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
         }
     }
+
 }

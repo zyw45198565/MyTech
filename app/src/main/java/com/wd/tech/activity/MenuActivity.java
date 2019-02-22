@@ -19,7 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MenuActivity extends WDActivity {
+public class MenuActivity extends BaseActivity {
 
     @BindView(R.id.menus_recycler)
     RecyclerView menusRecycler;
@@ -49,7 +49,7 @@ public class MenuActivity extends WDActivity {
     private class MenusCall implements DataCall<Result<List<MenusBean>>> {
         @Override
         public void success(Result<List<MenusBean>> data) {
-            Toast.makeText(getBaseContext(),data.getStatus()+data.getMessage(),Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getBaseContext(),data.getStatus()+data.getMessage(),Toast.LENGTH_SHORT).show();
 
             List<MenusBean> result = data.getResult();
             menusAdapter.addAll(result);

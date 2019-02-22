@@ -33,7 +33,7 @@ import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.util.WDActivity;
 
-public class HomeActivity extends WDActivity {
+public class HomeActivity extends WDActivity implements View.OnClickListener {
 
 
     private Frag_01 frag_01;
@@ -51,6 +51,8 @@ public class HomeActivity extends WDActivity {
     private TextView name;
     private TextView qian;
     private ImageView vip;
+    private LinearLayout setting;
+    private LinearLayout love;
 
     @Override
     protected void initView() {
@@ -142,6 +144,10 @@ public class HomeActivity extends WDActivity {
         name = findViewById(R.id.name);
         qian = findViewById(R.id.qian);
         vip = findViewById(R.id.vip);
+        setting = findViewById(R.id.setting);
+        setting.setOnClickListener(this);
+        love = findViewById(R.id.love);
+        love.setOnClickListener(this);
 
     }
 
@@ -176,9 +182,26 @@ public class HomeActivity extends WDActivity {
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+
+            case R.id.setting:
+                Intent intent = new Intent(HomeActivity.this,MySettingActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.love:
+                Intent intent1 = new Intent(HomeActivity.this,LoveActivity.class);
+                startActivity(intent1);
+                break;
+        }
+    }
+
     private class UserByIdClass implements DataCall<Result<UserInfoBean>> {
         @Override
         public void success(Result<UserInfoBean> data) {
+            if(data.getStatus().equals("0000")){
+
             UserInfoBean result = data.getResult();
 
             int whetherVip = result.getWhetherVip();
@@ -192,6 +215,7 @@ public class HomeActivity extends WDActivity {
             Glide.with(HomeActivity.this).load(result.getHeadPic())
                     .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                     .into(head);
+            }
 
         }
 

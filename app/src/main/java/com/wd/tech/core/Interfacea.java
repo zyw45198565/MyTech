@@ -1,5 +1,8 @@
 package com.wd.tech.core;
 
+import com.wd.tech.bean.FindGroup;
+import com.wd.tech.bean.FindUser;
+import com.wd.tech.bean.DetailsBean;
 import com.wd.tech.bean.HomeAll;
 import com.wd.tech.bean.LoginBean;
 import com.wd.tech.bean.MenusBean;
@@ -116,5 +119,34 @@ public interface Interfacea {
                                                                   @Header("sessionId")String sessionId,
                                                                   @Query("page")int page,
                                                                   @Query("count")int count);
+
+    /**
+     * 资讯详情展示
+     * @param userId
+     * @param sessionId
+     * @param id
+     * @return
+     */
+    @GET("information/v1/findInformationDetails")
+    Observable<Result<DetailsBean>> findInformationDetails(@Header("userId")int userId,
+                                                           @Header("sessionId")String sessionId,
+                                                           @Query("id")int id);
+
+    /**
+     * 根据手机号查询用户信息
+     * @param userId
+     * @param sessionId
+     * @param phone
+     * @return
+     */
+    @GET("user/verify/v1/findUserByPhone")
+    Observable<Result<FindUser>> findUserByPhone(@Header("userId")int userId,
+                                                 @Header("sessionId")String sessionId,
+                                                 @Query("phone")String phone);
+
+    @GET("group/verify/v1/findGroupInfo")
+    Observable<Result<FindGroup>> findGroupInfo(@Header("userId")int userId,
+                                                @Header("sessionId")String sessionId,
+                                                @Query("groupId")int groupId);
 
 }

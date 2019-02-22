@@ -1,12 +1,11 @@
 package com.wd.tech.bean;
 
 /**
- * @author Tech
- * @date 2019/2/19 18:56
- * QQ:45198565
- * 佛曰：永无BUG 盘他！
+ * date:2019/2/20 16:24
+ * author:陈国星(陈国星)
+ * function:
  */
-public class UserInfoBean {
+public class FindUser {
 
     /**
      * email : 999@163.com
@@ -31,15 +30,6 @@ public class UserInfoBean {
     private int userId;
     private int whetherVip;
     private int whetherFaceId;
-    long birthday;
-
-    public long getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(long birthday) {
-        this.birthday = birthday;
-    }
 
     public String getEmail() {
         return email;

@@ -1,15 +1,17 @@
 package com.wd.tech.bean;
 
 public class HomeAll {
+
+
     /**
-     * collection : 15
-     * id : 55
-     * releaseTime : 1539587804000
-     * share : 37
-     * source : 南七道
-     * summary : 这两年在大数据领域，纯粹讲概念没有技术的公司都死完了。
-     * thumbnail : https://img.huxiucdn.com/article/cover/201510/13/174903890379.png?imageView2/1/w/710/h/400/|imageMogr2/strip/interlace/1/quality/85/format/png
-     * title : 谁杀死了大数据创业者？
+     * collection : 7
+     * id : 54
+     * releaseTime : 1539586683000
+     * share : 1
+     * source : 中国企业家杂志©
+     * summary : 谁说滴滴之后再无网约车？新的搅局者又来了。
+     * thumbnail : https://img.huxiucdn.com/article/cover/201810/13/190901169923.jpg?imageView2/1/w/710/h/400/|imageMogr2/strip/interlace/1/quality/85/format/jpg
+     * title : 有摩拜的前车之鉴，为何哈啰仍要入局网约车？
      * whetherAdvertising : 2
      * whetherCollection : 2
      * whetherPay : 2
@@ -26,6 +28,19 @@ public class HomeAll {
     private int whetherAdvertising;
     private int whetherCollection;
     private int whetherPay;
+    private ResultBean infoAdvertisingVo;
+
+    public HomeAll(ResultBean infoAdvertisingVo) {
+        this.infoAdvertisingVo = infoAdvertisingVo;
+    }
+
+    public ResultBean getInfoAdvertisingVo() {
+        return infoAdvertisingVo;
+    }
+
+    public void setInfoAdvertisingVo(ResultBean infoAdvertisingVo) {
+        this.infoAdvertisingVo = infoAdvertisingVo;
+    }
 
     public int getCollection() {
         return collection;
@@ -114,4 +129,52 @@ public class HomeAll {
     public void setWhetherPay(int whetherPay) {
         this.whetherPay = whetherPay;
     }
+
+    public static class ResultBean {
+
+        /**
+         * content : 考学历,只选正规学校,985/211随便你挑
+         * id : 7
+         * pic : http://mobile.bwstudent.com/images/tech/ad/kxl.png
+         * url : http://yz.rwflc.cn/?tdsourcetag=s_pcqq_aiomsg
+         */
+
+        private String content;
+        private int id;
+        private String pic;
+        private String url;
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getPic() {
+            return pic;
+        }
+
+        public void setPic(String pic) {
+            this.pic = pic;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+    }
+
 }
