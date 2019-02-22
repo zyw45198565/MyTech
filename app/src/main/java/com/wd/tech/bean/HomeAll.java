@@ -131,33 +131,25 @@ public class HomeAll {
     }
 
     public static class ResultBean {
+
         /**
-         * title : 国庆遇见十月一
-         * id : 4
-         * content : 出游吧
-         * url : url
+         * content : 考学历,只选正规学校,985/211随便你挑
+         * id : 7
+         * pic : http://mobile.bwstudent.com/images/tech/ad/kxl.png
+         * url : http://yz.rwflc.cn/?tdsourcetag=s_pcqq_aiomsg
          */
 
-        String pic;
-        private String title;
-        private int id;
         private String content;
+        private int id;
+        private String pic;
         private String url;
 
-        public String getPic() {
-            return pic;
+        public String getContent() {
+            return content;
         }
 
-        public void setPic(String pic) {
-            this.pic = pic;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
+        public void setContent(String content) {
+            this.content = content;
         }
 
         public int getId() {
@@ -168,12 +160,12 @@ public class HomeAll {
             this.id = id;
         }
 
-        public String getContent() {
-            return content;
+        public String getPic() {
+            return pic;
         }
 
-        public void setContent(String content) {
-            this.content = content;
+        public void setPic(String pic) {
+            this.pic = pic;
         }
 
         public String getUrl() {

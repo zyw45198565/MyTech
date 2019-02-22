@@ -1,22 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-<RelativeLayout
-    android:layout_marginTop="18dp"
-    android:layout_marginBottom="10dp"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="18dp"
-        android:src="@drawable/advertising"/>
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/two_img"
-        app:roundedCornerRadius="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="220dp" />
-</RelativeLayout>
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tilte_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="@dimen/dip_10"
+        android:layout_marginBottom="18dp"
+        android:textColor="#333333"
+        android:textSize="12sp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+
+        <!--<com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/two_img"
+            app:roundedCornerRadius="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />-->
+        <ImageView
+            android:id="@+id/two_img"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@drawable/menus_shape" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/advertising" />
+    </RelativeLayout>
 </LinearLayout>

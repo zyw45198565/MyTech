@@ -7,10 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
+import com.wd.tech.activity.AdvertiseActivity;
 import com.wd.tech.activity.DetailsActivity;
 import com.wd.tech.bean.HomeAll;
 
@@ -81,7 +84,17 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 break;
             case TYPRONE:
                 ViewHolderB holderB= (ViewHolderB) viewHolder;
-                holderB.twoimg.setImageURI(homeAll.getInfoAdvertisingVo().getPic());
+                holderB.twotitle.setText(homeAll.getInfoAdvertisingVo().getContent());
+                Glide.with(context).load(homeAll.getInfoAdvertisingVo().getPic()).into(holderB.twoimg);
+//                holderB.twoimg.setImageURI(homeAll.getInfoAdvertisingVo().getPic());
+                holderB.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(context,AdvertiseActivity.class);
+                        intent.putExtra("zurl",homeAll.getInfoAdvertisingVo().getUrl());
+                        context.startActivity(intent);
+                    }
+                });
                 break;
 
         }
@@ -117,10 +130,13 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private class ViewHolderB extends RecyclerView.ViewHolder {
-        SimpleDraweeView twoimg;
+//        SimpleDraweeView twoimg;
+        ImageView twoimg;
+        TextView twotitle;
         public ViewHolderB(@NonNull View itemView) {
             super(itemView);
             twoimg=itemView.findViewById(R.id.two_img);
+            twotitle=itemView.findViewById(R.id.tilte_two);
         }
     }
 

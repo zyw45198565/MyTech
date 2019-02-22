@@ -8,7 +8,6 @@
         android:id="@+id/simple"
         android:layout_width="140dp"
         android:layout_height="92dp"
-        android:layout_marginLeft="12dp"
         android:layout_marginTop="10dp"
         app:roundedCornerRadius="8dp" />
 
@@ -92,4 +91,11 @@
             android:layout_toRightOf="@id/share"
             android:text="10" />
     </RelativeLayout>
+    <View
+        android:layout_below="@id/simple"
+        android:layout_marginTop="@dimen/dip_10"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f2f2f2"
+        />
 </RelativeLayout>
