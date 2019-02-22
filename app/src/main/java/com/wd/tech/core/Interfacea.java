@@ -8,6 +8,7 @@ import com.wd.tech.bean.LoginBean;
 import com.wd.tech.bean.MenusBean;
 import com.wd.tech.bean.MyBanner;
 import com.wd.tech.bean.FindCommunityList;
+import com.wd.tech.bean.MyLoveBean;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.UserInfoBean;
 
@@ -148,5 +149,22 @@ public interface Interfacea {
     Observable<Result<FindGroup>> findGroupInfo(@Header("userId")int userId,
                                                 @Header("sessionId")String sessionId,
                                                 @Query("groupId")int groupId);
+
+
+    /**
+     * 用户关注列表
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("user/verify/v1/findFollowUserList")
+    Observable<Result<List<MyLoveBean>>> findFollowUserList(@Header("userId")int userId,
+                                                            @Header("sessionId")String sessionId,
+                                                            @Query("page")int page,
+                                                            @Query("count")int count);
+
+
 
 }
