@@ -14,6 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.PublishMyInvitationActivity"></activity>
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,9 +31,9 @@
             android:value="1280" />
 
         <activity android:name=".activity.HomeActivity" />
-        <activity android:name=".activity.MenuActivity"></activity>
-        <activity android:name=".activity.LoginActivity"/>
-        <activity android:name=".activity.RegistrActivity"/>
+        <activity android:name=".activity.MenuActivity" />
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.RegistrActivity" />
     </application>
 
 </manifest>

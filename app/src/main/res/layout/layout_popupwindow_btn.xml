@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="170dp">
+
+    <LinearLayout
+        android:id="@+id/publish_pop_camera"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/common_btn_camera_n"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="拍摄"
+            android:textSize="20sp"
+            android:textColor="#666666"
+            android:layout_marginLeft="10dp"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f2f2f2"/>
+
+    <LinearLayout
+        android:id="@+id/publish_pop_picture"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/common_btn_picture_n"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="相册"
+            android:textSize="20sp"
+            android:textColor="#666666"
+            android:layout_marginLeft="10dp"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="14dp"
+        android:background="#f2f2f2"/>
+    <Button
+        android:id="@+id/publish_pop_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="取消"
+        android:textSize="20sp"
+        android:textColor="#666666"
+        android:background="@android:color/white" />
+
+</LinearLayout>

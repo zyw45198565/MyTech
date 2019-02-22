@@ -16,14 +16,20 @@
         android:layout_height="match_parent"
         ></com.jcodecraeer.xrecyclerview.XRecyclerView>
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/frag03_write_fresco"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
-        android:background="@drawable/write_card_btn"
-        fresco:roundAsCircle="true"
+    <LinearLayout
+        android:id="@+id/frag03_write_layout"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/communitylist_btn_write_shape"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="36dp"/>
+        android:layout_marginBottom="36dp"
+        android:gravity="center">
+        <Button
+            android:id="@+id/frag03_write_fresco"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="@drawable/write_card_btn"/>
+    </LinearLayout>
 
 </RelativeLayout>
