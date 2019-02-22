@@ -14,13 +14,20 @@ import io.reactivex.Observable;
  */
 public class FindCommunityListPresenter extends WDPresenter{
 
+    private int page = 1;
     public FindCommunityListPresenter(DataCall dataCall) {
         super(dataCall);
     }
 
     @Override
     protected Observable observable(Object... args) {
+        boolean flag = (boolean) args[2];//获取刷新加载更多状态
+        if(flag){
+            page++;
+        }else{
+            page = 1;
+        }
         Interfacea interfacea = NetWorkManager.getInstance().create(Interfacea.class);
-        return interfacea.findCommunityList((int)args[0],(String) args[1],(int)args[2],(int)args[3]);
+        return interfacea.findCommunityList((int)args[0],(String) args[1],page,(int)args[3]);
     }
 }

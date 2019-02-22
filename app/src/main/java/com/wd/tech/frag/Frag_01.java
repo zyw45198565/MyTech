@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -16,6 +17,8 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
+import com.wd.tech.activity.AdvertiseActivity;
+import com.wd.tech.activity.DetailsActivity;
 import com.wd.tech.activity.MenuActivity;
 import com.wd.tech.adapter.HomeAllAdapter;
 import com.wd.tech.bean.HomeAll;
@@ -54,7 +57,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     SmartRefreshLayout refreshLayout;
     @BindView(R.id.one_homeall)
     RecyclerView oneHomeall;
-    private List<String> bannerList;
+    private List<MyBanner> bannerList;
     private MyBannerPresenter myBannerPresenter;
     private String sessionid;
     private int userid;
@@ -135,21 +138,32 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         refreshLayout.finishLoadmore();
     }
 
-    public static class BannerViewHolder implements MZViewHolder<String> {
+    public static class BannerViewHolder implements MZViewHolder<MyBanner> {
         private SimpleDraweeView mImageView;
+        private TextView title;
 
         @Override
         public View createView(Context context) {
             // 返回页面布局
             View view = LayoutInflater.from(context).inflate(R.layout.banner_item, null);
             mImageView = (SimpleDraweeView) view.findViewById(R.id.banner_image);
+            title = view.findViewById(R.id.title);
             return view;
         }
 
         @Override
-        public void onBind(Context context, int position, String data) {
+        public void onBind(final Context context, int position, final MyBanner data) {
             // 数据绑定
-            mImageView.setImageURI(Uri.parse(data));
+            mImageView.setImageURI(data.getImageUrl());
+            title.setText(data.getTitle());
+            mImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context,AdvertiseActivity.class);
+                    intent.putExtra("zurl",data.getJumpUrl());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
@@ -173,12 +187,14 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 //            Toast.makeText(getContext(), data.getStatus(), Toast.LENGTH_SHORT).show();
             List<MyBanner> result = data.getResult();
             bannerList = new ArrayList<>();
-            for (int i = 0; i < result.size(); i++) {
+            bannerList.addAll(result);
+            /*for (int i = 0; i < result.size(); i++) {
+                String title = result.get(i).getTitle();
                 String imageUrl = result.get(i).getImageUrl();
                 String[] split = imageUrl.split("\\?");
 
-                bannerList.add(split[0]);
-            }
+                bannerList.add(new (split[0],title));
+            }*/
             // 设置数据
             oneBanner.setIndicatorVisible(false);
             oneBanner.setPages(bannerList, new MZHolderCreator<BannerViewHolder>() {

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +18,9 @@
                 android:id="@+id/communitylist_head_img"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/comminitylist_head"/>
+                android:background="@drawable/comminitylist_head"
+                fresco:roundAsCircle="true"
+                android:layout_marginLeft="2dp"/>
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,12 +62,13 @@
             android:layout_marginTop="10dp"
             android:textSize="12sp"
             android:textColor="#666666"
-            android:text="特例推移：时间简史静静地"/>
+            android:text="特例推移：时间简史静静地"
+            android:layout_marginLeft="2dp"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/communitylist_picter_rlv"
             android:layout_marginTop="18dp"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -128,10 +133,11 @@
             <TextView
                 android:id="@+id/communitylist_review_text"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="30dp"
                 android:text="快来评论呀~"
                 android:gravity="center"
-                android:textSize="20sp"/>
+                android:textSize="12sp"
+                />
         </LinearLayout>
     </LinearLayout>
 
