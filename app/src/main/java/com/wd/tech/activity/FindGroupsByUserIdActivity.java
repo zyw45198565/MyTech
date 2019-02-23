@@ -48,7 +48,7 @@ public class FindGroupsByUserIdActivity extends BaseActivity {
         findGroupsByUserIdPresenter = new FindGroupsByUserIdPresenter(new FindGroupByUserId());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        findGroupsRecycle.addItemDecoration(new SpacingItemDecoration(30));
+        findGroupsRecycle.addItemDecoration(new SpacingItemDecoration(20));
         findGroupsRecycle.setLayoutManager(linearLayoutManager);
         findGroupsByUserIdAdapter = new FindGroupsByUserIdAdapter();
         findGroupsRecycle.setAdapter(findGroupsByUserIdAdapter);
