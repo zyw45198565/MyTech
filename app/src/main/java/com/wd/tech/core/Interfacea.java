@@ -12,9 +12,11 @@ import com.wd.tech.bean.MenusBean;
 import com.wd.tech.bean.MyBanner;
 import com.wd.tech.bean.FindCommunityList;
 import com.wd.tech.bean.MyLoveBean;
+import com.wd.tech.bean.MyComment;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.UserInfoBean;
 
+import java.io.File;
 import java.util.List;
 
 import java.util.List;
@@ -149,17 +151,70 @@ public interface Interfacea {
                                                  @Header("sessionId")String sessionId,
                                                  @Query("phone")String phone);
 
-    /**
-     * 通过Id查群
-     * @param userId
-     * @param sessionId
-     * @param groupId
-     * @return
-     */
     @GET("group/verify/v1/findGroupInfo")
     Observable<Result<FindGroup>> findGroupInfo(@Header("userId")int userId,
                                                 @Header("sessionId")String sessionId,
                                                 @Query("groupId")int groupId);
+
+    /**
+     * 发布帖子
+     * @param userId
+     * @param sessionId
+     * @param content
+     * @param file
+     * @return
+     */
+    @POST("community/verify/v1/releasePost")
+    @FormUrlEncoded
+    Observable<Result> releasePost(@Header("userId")int userId,
+                                   @Header("sessionId")String sessionId,
+                                   @Field("content")String content,
+                                   @Field("file")File file);
+
+    /**
+     * 帖子点赞
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @return
+     */
+    @POST("community/verify/v1/addCommunityGreat")
+    @FormUrlEncoded
+    Observable<List> addCommunityGreat(@Header("userId")int userId,
+                                       @Header("sessionId")String sessionId,
+                                       @Field("communityId")int communityId);
+    /**
+     * 查询资讯评论列表
+     *
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("information/v1/findAllInfoCommentList")
+    Observable<Result<List<MyComment>>> myComment(@Header("userId") int userId,
+                                                  @Header("sessionId") String sessionId,
+                                                  @Query("infoId") int infoId,
+                                                  @Query("page") int page,
+                                                  @Query("count") int count);
+
+    /**
+     * 资讯用户评论
+     * @param userId
+     * @param sessionId
+     * @param content
+     * @param infoId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("information/verify/v1/addInfoComment")
+    Observable<Result<List<MyComment>>> addInfoComment(@Header("userId") int userId,
+                                                       @Header("sessionId") String sessionId,
+                                                       @Field("content") String content,
+                                                       @Field("infoId") int infoId);
+
 
     /**
      * 查询分组
