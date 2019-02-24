@@ -178,11 +178,12 @@ public interface Interfacea {
      * @param infoId
      * @return
      */
-    @GET("information/verify/v1/addInfoComment")
+    @FormUrlEncoded
+    @POST("information/verify/v1/addInfoComment")
     Observable<Result<List<MyComment>>> addInfoComment(@Header("userId") int userId,
                                                        @Header("sessionId") String sessionId,
-                                                       @Query("content") String content,
-                                                       @Query("infoId") int infoId);
+                                                       @Field("content") String content,
+                                                       @Field("infoId") int infoId);
 
 
     /**

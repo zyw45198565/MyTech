@@ -127,6 +127,8 @@ public class DetailsActivity extends WDActivity {
                     Toast.makeText(DetailsActivity.this,"请输入内容!",Toast.LENGTH_SHORT).show();
                 }else{
                     addInfoCommentPresenter.reqeust(userid,sessionid,trim,zid);
+                    myCommentPresenter.reqeust(userid, sessionid, zid, 1, 5);
+                    commentAdapter.clear();
                     commentAdapter.notifyDataSetChanged();
                     commentOne.setVisibility(View.VISIBLE);
                     commentTwo.setVisibility(View.GONE);

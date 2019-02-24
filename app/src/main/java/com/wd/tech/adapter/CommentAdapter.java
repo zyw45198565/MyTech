@@ -60,6 +60,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Myholder
         }
     }
 
+    public void clear() {
+        list.clear();
+    }
+
     public class Myholder extends RecyclerView.ViewHolder {
         TextView title,name,time;
         SimpleDraweeView head;
