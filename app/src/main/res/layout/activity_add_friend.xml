@@ -9,26 +9,24 @@
     tools:context=".activity.CreateFriendActivity">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="30dp">
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp">
         <ImageView
             android:id="@+id/add_friend_back"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_centerVertical="true"
             android:src="@drawable/common_nav_btn_back_n_xhdpi"
-            android:layout_marginLeft="12dp"/>
+            android:layout_marginLeft="20dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
             android:text="添加"/>
     </RelativeLayout>
     <LinearLayout
         android:background="#ffffff"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="50dp">
         <RelativeLayout

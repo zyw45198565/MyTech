@@ -3,11 +3,14 @@ package com.wd.tech.core;
 import com.wd.tech.bean.FindGroup;
 import com.wd.tech.bean.FindUser;
 import com.wd.tech.bean.DetailsBean;
+import com.wd.tech.bean.GroupByUser;
 import com.wd.tech.bean.HomeAll;
+import com.wd.tech.bean.InitFriendlist;
 import com.wd.tech.bean.LoginBean;
 import com.wd.tech.bean.MenusBean;
 import com.wd.tech.bean.MyBanner;
 import com.wd.tech.bean.FindCommunityList;
+import com.wd.tech.bean.MyLoveBean;
 import com.wd.tech.bean.MyComment;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.UserInfoBean;
@@ -92,7 +95,6 @@ public interface Interfacea {
 
     /**
      * 资讯推荐展示列表(包含单独板块列表展示)
-     *
      * @param userId
      * @param sessionId
      * @param plateId
@@ -110,7 +112,6 @@ public interface Interfacea {
 
     /**
      * 社区列表展示
-     *
      * @param userId
      * @param sessionId
      * @param page
@@ -118,41 +119,39 @@ public interface Interfacea {
      * @return
      */
     @GET("community/v1/findCommunityList")
-    Observable<Result<List<FindCommunityList>>> findCommunityList(@Header("userId") int userId,
-                                                                  @Header("sessionId") String sessionId,
-                                                                  @Query("page") int page,
-                                                                  @Query("count") int count);
+    Observable<Result<List<FindCommunityList>>> findCommunityList(@Header("userId")int userId,
+                                                                  @Header("sessionId")String sessionId,
+                                                                  @Query("page")int page,
+                                                                  @Query("count")int count);
 
     /**
      * 资讯详情展示
-     *
      * @param userId
      * @param sessionId
      * @param id
      * @return
      */
     @GET("information/v1/findInformationDetails")
-    Observable<Result<DetailsBean>> findInformationDetails(@Header("userId") int userId,
-                                                           @Header("sessionId") String sessionId,
-                                                           @Query("id") int id);
+    Observable<Result<DetailsBean>> findInformationDetails(@Header("userId")int userId,
+                                                           @Header("sessionId")String sessionId,
+                                                           @Query("id")int id);
 
     /**
      * 根据手机号查询用户信息
-     *
      * @param userId
      * @param sessionId
      * @param phone
      * @return
      */
     @GET("user/verify/v1/findUserByPhone")
-    Observable<Result<FindUser>> findUserByPhone(@Header("userId") int userId,
-                                                 @Header("sessionId") String sessionId,
-                                                 @Query("phone") String phone);
+    Observable<Result<FindUser>> findUserByPhone(@Header("userId")int userId,
+                                                 @Header("sessionId")String sessionId,
+                                                 @Query("phone")String phone);
 
     @GET("group/verify/v1/findGroupInfo")
-    Observable<Result<FindGroup>> findGroupInfo(@Header("userId") int userId,
-                                                @Header("sessionId") String sessionId,
-                                                @Query("groupId") int groupId);
+    Observable<Result<FindGroup>> findGroupInfo(@Header("userId")int userId,
+                                                @Header("sessionId")String sessionId,
+                                                @Query("groupId")int groupId);
 
     /**
      * 查询资讯评论列表
@@ -185,5 +184,57 @@ public interface Interfacea {
                                                        @Query("content") String content,
                                                        @Query("infoId") int infoId);
 
+
+    /**
+     * 查询分组
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("chat/verify/v1/initFriendList")
+    Observable<Result<List<InitFriendlist>>> allFriendsList(@Header("userId") int userId,
+                                                            @Header("sessionId") String sessionId);
+
+
+    /**
+     * 用户关注列表
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("user/verify/v1/findFollowUserList")
+    Observable<Result<List<MyLoveBean>>> findFollowUserList(@Header("userId")int userId,
+                                                            @Header("sessionId")String sessionId,
+                                                            @Query("page")int page,
+                                                            @Query("count")int count);
+
+
+
+    /**
+     * 查询我创建的群组
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("group/verify/v1/findGroupsByUserId")
+    Observable<Result<List<GroupByUser>>> findGroupsByUserId(@Header("userId") int userId,
+                                                             @Header("sessionId") String sessionId);
+
+    /**
+     * 创建群
+     * @param userId
+     * @param sessionId
+     * @param name
+     * @param description
+     * @return
+     */
+    @POST("group/verify/v1/createGroup")
+    @FormUrlEncoded
+    Observable<Result> createGroup(@Header("userId") int userId,
+                                   @Header("sessionId") String sessionId,
+                                   @Field("name") String name,
+                                   @Field("description") String description);
 
 }

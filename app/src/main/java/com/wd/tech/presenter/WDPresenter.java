@@ -1,10 +1,17 @@
 package com.wd.tech.presenter;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+
+import com.wd.tech.activity.LoginActivity;
 import com.wd.tech.bean.Result;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.CustomException;
 import com.wd.tech.utils.exception.ResponseTransformer;
+import com.wd.tech.utils.util.WDActivity;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -37,6 +44,22 @@ public abstract class WDPresenter {
                 .subscribe(new Consumer<Result>() {
                     @Override
                     public void accept(Result result) throws Exception {
+                        if (result.getStatus().equals("9999")){
+                            Dialog dialog = new AlertDialog.Builder(WDActivity.getForegroundActivity()).setMessage("请登录")
+                                    .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            WDActivity.getForegroundActivity().startActivity(new Intent(WDActivity.getForegroundActivity(), LoginActivity.class));
+                                        }
+                                    })
+                                    .setNegativeButton("取消",null)
+                                    .show();
+
+                        }else {
+                            if (dataCall!=null){
+                                dataCall.success(result);
+                            }
+                        }
                         dataCall.success(result);
                     }
                 }, new Consumer<Throwable>() {
@@ -44,7 +67,9 @@ public abstract class WDPresenter {
                     public void accept(Throwable throwable) throws Exception {
                         // 处理异常
 //                        UIUtils.showToastSafe("请求失败");
-                        dataCall.fail(CustomException.handleException(throwable));
+                        if (dataCall!=null) {
+                            dataCall.fail(CustomException.handleException(throwable));
+                        }
                     }
                 });
 
