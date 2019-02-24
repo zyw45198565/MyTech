@@ -11,6 +11,7 @@ import com.wd.tech.bean.FindCommunityList;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.UserInfoBean;
 
+import java.io.File;
 import java.util.List;
 
 import java.util.List;
@@ -149,4 +150,31 @@ public interface Interfacea {
                                                 @Header("sessionId")String sessionId,
                                                 @Query("groupId")int groupId);
 
+    /**
+     * 发布帖子
+     * @param userId
+     * @param sessionId
+     * @param content
+     * @param file
+     * @return
+     */
+    @POST("community/verify/v1/releasePost")
+    @FormUrlEncoded
+    Observable<Result> releasePost(@Header("userId")int userId,
+                                   @Header("sessionId")String sessionId,
+                                   @Field("content")String content,
+                                   @Field("file")File file);
+
+    /**
+     * 帖子点赞
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @return
+     */
+    @POST("community/verify/v1/addCommunityGreat")
+    @FormUrlEncoded
+    Observable<List> addCommunityGreat(@Header("userId")int userId,
+                                       @Header("sessionId")String sessionId,
+                                       @Field("communityId")int communityId);
 }
