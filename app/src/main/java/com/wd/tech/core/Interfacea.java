@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -237,5 +238,19 @@ public interface Interfacea {
                                    @Header("sessionId") String sessionId,
                                    @Field("name") String name,
                                    @Field("description") String description);
+
+
+    /**
+     * 取消关注
+     * @param userId
+     * @param sessionId
+     * @param focusId
+     * @return
+     */
+    @DELETE("user/verify/v1/cancelFollow")
+    Observable<Result> cancelFollow(@Header("userId") int userId,
+                                   @Header("sessionId") String sessionId,
+                                   @Query("focusId")int focusId);
+
 
 }
