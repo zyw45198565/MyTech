@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -16,6 +17,7 @@ import com.wd.tech.WDApp;
 import com.wd.tech.adapter.LoveAdapter;
 import com.wd.tech.bean.MyLoveBean;
 import com.wd.tech.bean.Result;
+import com.wd.tech.presenter.CanceFollowPresenter;
 import com.wd.tech.presenter.MyLovePresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
@@ -69,6 +71,8 @@ public class LoveActivity extends BaseActivity implements DataCall<Result<List<M
             @Override
             public void onshan(int i) {
                 loveBeans.remove(i);
+                CanceFollowPresenter canceFollowPresenter = new CanceFollowPresenter(new CanceCall());
+                canceFollowPresenter.reqeust(userid,sessionid,loveBeans.get(i).getFocusUid());
                 loveAdapter.notifyDataSetChanged();
             }
         });
@@ -79,7 +83,7 @@ public class LoveActivity extends BaseActivity implements DataCall<Result<List<M
             public void onRefresh(RefreshLayout refreshlayout) {
                 page=1;
                 loveBeans.clear();
-                myLovePresenter.reqeust(userid,sessionid,page,count);
+              //  myLovePresenter.reqeust(userid,sessionid,page,count);
                 refreshlayout.finishRefresh();
             }
         });
@@ -88,7 +92,7 @@ public class LoveActivity extends BaseActivity implements DataCall<Result<List<M
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 page++;
-                myLovePresenter.reqeust(userid,sessionid,page,count);
+               // myLovePresenter.reqeust(userid,sessionid,page,count);
                 refreshlayout.finishLoadmore();
             }
         });
@@ -101,17 +105,29 @@ public class LoveActivity extends BaseActivity implements DataCall<Result<List<M
 
     @Override
     public void success(Result<List<MyLoveBean>> data) {
-        if(data.getResult().size()==0){
+        List<MyLoveBean> result = data.getResult();
+        loveBeans.addAll(result);
+        if(loveBeans.size()==0){
             meiyou.setVisibility(View.VISIBLE);
             recycler.setVisibility(View.GONE);
         }
-        List<MyLoveBean> result = data.getResult();
-        loveBeans.addAll(result);
         loveAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void fail(ApiException e) {
 
+    }
+
+    private class CanceCall implements DataCall<Result> {
+        @Override
+        public void success(Result data) {
+            Toast.makeText(LoveActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
     }
 }
