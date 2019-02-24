@@ -1,5 +1,6 @@
 package com.wd.tech.core;
 
+import com.wd.tech.bean.CollectionBean;
 import com.wd.tech.bean.FindGroup;
 import com.wd.tech.bean.FindUser;
 import com.wd.tech.bean.DetailsBean;
@@ -224,6 +225,34 @@ public interface Interfacea {
     Observable<Result> cancelFollow(@Header("userId") int userId,
                                    @Header("sessionId") String sessionId,
                                    @Query("focusId")int focusId);
+
+
+    /**
+     * 用户收藏列表
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("user/verify/v1/findAllInfoCollection")
+    Observable<Result<List<CollectionBean>>> findAllInfoCollection(@Header("userId") int userId,
+                                                                   @Header("sessionId") String sessionId,
+                                                                   @Query("page")int page,
+                                                                   @Query("count")int count);
+
+
+    /**
+     * 取消收藏（支持批量操作）
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @return
+     */
+    @DELETE("user/verify/v1/cancelCollection")
+    Observable<Result> cancelCollection(@Header("userId") int userId,
+                                    @Header("sessionId") String sessionId,
+                                    @Query("infoId")String infoId);
 
 
 }

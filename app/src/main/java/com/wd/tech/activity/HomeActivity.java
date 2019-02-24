@@ -53,6 +53,7 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
     private ImageView vip;
     private LinearLayout setting;
     private LinearLayout love;
+    private LinearLayout shoucang;
 
     @Override
     protected void initView() {
@@ -148,6 +149,8 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
         setting.setOnClickListener(this);
         love = findViewById(R.id.love);
         love.setOnClickListener(this);
+        shoucang = findViewById(R.id.shoucang);
+        shoucang.setOnClickListener(this);
 
     }
 
@@ -193,6 +196,10 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
             case R.id.love:
                 Intent intent1 = new Intent(HomeActivity.this,LoveActivity.class);
                 startActivity(intent1);
+                break;
+            case R.id.shoucang:
+                Intent intent2 = new Intent(HomeActivity.this,CollectionActivity.class);
+                startActivity(intent2);
                 break;
         }
     }

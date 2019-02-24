@@ -1,5 +1,8 @@
 package com.wd.tech.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.View;
@@ -87,13 +90,25 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.tui:
-                SharedPreferences share = WDApp.getShare();
-                SharedPreferences.Editor edit = share.edit();
-                edit.putBoolean("zai",false);
-                edit.commit();
-                Intent intent = new Intent(MySettingActivity.this,LoginActivity.class);
-                startActivity(intent);
-                finish();
+
+                Dialog dialog = new AlertDialog.Builder(MySettingActivity.this).setMessage("退出登录?")
+                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                SharedPreferences share = WDApp.getShare();
+                                SharedPreferences.Editor edit = share.edit();
+                                edit.putBoolean("zai",false);
+                                edit.commit();
+                                Intent intent = new Intent(MySettingActivity.this,LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("取消",null)
+                        .show();
+
+
+
                 break;
         }
     }
