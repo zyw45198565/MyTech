@@ -29,11 +29,15 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int TYPETHREE = 3;
     List<HomeAll> list = new ArrayList<>();
     private int whetherAdvertising;
-
+    Mylove mylove;
     Context context;
 
     public HomeAllAdapter(Context context) {
         this.context = context;
+    }
+
+    public void xihuan(Mylove mylove){
+        this.mylove=mylove;
     }
 
     @Override
@@ -64,13 +68,13 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
         whetherAdvertising = list.get(i).getWhetherAdvertising();
         final HomeAll homeAll = list.get(i);
         int itemViewType = getItemViewType(i);
         switch (itemViewType) {
             case TYPETWO:
-                ViewHolderA holderA=(ViewHolderA)viewHolder;
+                ViewHolderA holderA = (ViewHolderA) viewHolder;
                 String[] split = list.get(i).getThumbnail().split("\\?");
                 holderA.simple.setImageURI(split[0]);
                 holderA.title.setText(homeAll.getTitle());
@@ -79,8 +83,8 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holderA.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent=new Intent(context,DetailsActivity.class);
-                        intent.putExtra("zid",homeAll.getId());
+                        Intent intent = new Intent(context, DetailsActivity.class);
+                        intent.putExtra("zid", homeAll.getId());
                         context.startActivity(intent);
                     }
                 });
@@ -97,20 +101,27 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holderA.like.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        CheckBox checkBox = (CheckBox) v;
+                        boolean checked = checkBox.isChecked();
+                        if (checked) {
+                            mylove.win(i);
+                        } else {
+                            mylove.abolish(i);
 
+                        }
                     }
                 });
                 break;
             case TYPRONE:
-                ViewHolderB holderB= (ViewHolderB) viewHolder;
+                ViewHolderB holderB = (ViewHolderB) viewHolder;
                 holderB.twotitle.setText(homeAll.getInfoAdvertisingVo().getContent());
                 Glide.with(context).load(homeAll.getInfoAdvertisingVo().getPic()).into(holderB.twoimg);
 //                holderB.twoimg.setImageURI(homeAll.getInfoAdvertisingVo().getPic());
                 holderB.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent=new Intent(context,AdvertiseActivity.class);
-                        intent.putExtra("zurl",homeAll.getInfoAdvertisingVo().getUrl());
+                        Intent intent = new Intent(context, AdvertiseActivity.class);
+                        intent.putExtra("zurl", homeAll.getInfoAdvertisingVo().getUrl());
                         context.startActivity(intent);
                     }
                 });
@@ -131,7 +142,7 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void clearAll() {
-            list.clear();
+        list.clear();
     }
 
     private class ViewHolderA extends RecyclerView.ViewHolder {
@@ -150,14 +161,19 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private class ViewHolderB extends RecyclerView.ViewHolder {
-//        SimpleDraweeView twoimg;
+        //        SimpleDraweeView twoimg;
         ImageView twoimg;
         TextView twotitle;
+
         public ViewHolderB(@NonNull View itemView) {
             super(itemView);
-            twoimg=itemView.findViewById(R.id.two_img);
-            twotitle=itemView.findViewById(R.id.tilte_two);
+            twoimg = itemView.findViewById(R.id.two_img);
+            twotitle = itemView.findViewById(R.id.tilte_two);
         }
     }
 
+    public interface Mylove {
+        void win(int possion);
+        void abolish(int possion);
+    }
 }

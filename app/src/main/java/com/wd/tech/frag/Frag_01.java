@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -24,6 +25,8 @@ import com.wd.tech.adapter.HomeAllAdapter;
 import com.wd.tech.bean.HomeAll;
 import com.wd.tech.bean.MyBanner;
 import com.wd.tech.bean.Result;
+import com.wd.tech.presenter.AddCollectionPresenter;
+import com.wd.tech.presenter.CancelCollectionPresenter;
 import com.wd.tech.presenter.HomeAllPresenter;
 import com.wd.tech.presenter.MyBannerPresenter;
 import com.wd.tech.utils.DataCall;
@@ -63,10 +66,10 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     private int userid;
     private HomeAllPresenter homeAllPresenter;
     private HomeAllAdapter homeAllAdapter;
-    private List<HomeAll> result;
     int page=1;
     int count =5;
     int plateId=0;
+    private List<HomeAll> result;
 
     @Override
     public String getPageName() {
@@ -100,6 +103,28 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         //展示列表
         homeallre();
 
+        //收藏喜欢
+        collectlove();
+
+    }
+
+    private void collectlove() {
+        homeAllAdapter.xihuan(new HomeAllAdapter.Mylove() {
+            @Override
+            public void win(int possion) {
+                int id = result.get(possion).getId();
+                AddCollectionPresenter addCollectionPresenter=new AddCollectionPresenter(new MyCollect());
+                addCollectionPresenter.reqeust(userid,sessionid,id);
+            }
+
+            @Override
+            public void abolish(int possion) {
+                int id = result.get(possion).getId();
+                String eid=id+"";
+                CancelCollectionPresenter cancelCollectionPresenter=new CancelCollectionPresenter(new MyCancelCollect());
+                cancelCollectionPresenter.reqeust(userid,sessionid,eid);
+            }
+        });
     }
 
     private void homeallre() {
@@ -188,13 +213,6 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
             List<MyBanner> result = data.getResult();
             bannerList = new ArrayList<>();
             bannerList.addAll(result);
-            /*for (int i = 0; i < result.size(); i++) {
-                String title = result.get(i).getTitle();
-                String imageUrl = result.get(i).getImageUrl();
-                String[] split = imageUrl.split("\\?");
-
-                bannerList.add(new (split[0],title));
-            }*/
             // 设置数据
             oneBanner.setIndicatorVisible(false);
             oneBanner.setPages(bannerList, new MZHolderCreator<BannerViewHolder>() {
@@ -239,4 +257,28 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         }
     }
 
+    private class MyCollect implements DataCall<Result> {
+        @Override
+        public void success(Result data) {
+            Toast.makeText(getActivity(),data.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+
+    private class MyCancelCollect implements DataCall<Result> {
+        @Override
+        public void success(Result data) {
+            Toast.makeText(getActivity(),data.getMessage(),Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
 }

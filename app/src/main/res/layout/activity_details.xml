@@ -152,6 +152,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:background="#fff"
         android:id="@+id/comment_two"
         android:visibility="gone"
         android:layout_width="match_parent"

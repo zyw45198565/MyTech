@@ -72,6 +72,9 @@ public class DetailsActivity extends WDActivity {
     private CommentAdapter commentAdapter;
     private MyCommentPresenter myCommentPresenter;
     private AddInfoCommentPresenter addInfoCommentPresenter;
+    private int userid;
+    private String sessionid;
+    private int zid;
 
     @Override
     protected int getLayoutId() {
@@ -81,10 +84,10 @@ public class DetailsActivity extends WDActivity {
     @Override
     protected void initView() {
 
-        final int userid = WDApp.getShare().getInt("userid", 0);
-        final String sessionid = WDApp.getShare().getString("sessionid", "");
+        userid = WDApp.getShare().getInt("userid", 0);
+        sessionid = WDApp.getShare().getString("sessionid", "");
         Intent intent = getIntent();
-        final int zid = intent.getIntExtra("zid", 0);
+        zid = intent.getIntExtra("zid", 0);
         DetailsPresenter detailsPresenter = new DetailsPresenter(new DetailsCall());
         detailsPresenter.reqeust(userid, sessionid, zid);
 
@@ -126,10 +129,8 @@ public class DetailsActivity extends WDActivity {
                 if (trim.equals("")){
                     Toast.makeText(DetailsActivity.this,"请输入内容!",Toast.LENGTH_SHORT).show();
                 }else{
-                    addInfoCommentPresenter.reqeust(userid,sessionid,trim,zid);
-                    myCommentPresenter.reqeust(userid, sessionid, zid, 1, 5);
-                    commentAdapter.clear();
-                    commentAdapter.notifyDataSetChanged();
+                    addInfoCommentPresenter.reqeust(userid, sessionid,trim, zid);
+                    mycommentTwo.setText("");
                     commentOne.setVisibility(View.VISIBLE);
                     commentTwo.setVisibility(View.GONE);
                 }
@@ -215,8 +216,10 @@ public class DetailsActivity extends WDActivity {
     private class AddInfoComment implements DataCall<Result> {
         @Override
         public void success(Result data) {
-            Toast.makeText(DetailsActivity.this,data.getMessage(),Toast.LENGTH_SHORT).show();
-
+//            Toast.makeText(DetailsActivity.this,data.getMessage(),Toast.LENGTH_SHORT).show();
+            myCommentPresenter.reqeust(userid, sessionid, zid, 1, 5);
+            commentAdapter.clear();
+            commentAdapter.notifyDataSetChanged();
         }
 
         @Override
