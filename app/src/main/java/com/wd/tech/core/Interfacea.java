@@ -8,6 +8,7 @@ import com.wd.tech.bean.LoginBean;
 import com.wd.tech.bean.MenusBean;
 import com.wd.tech.bean.MyBanner;
 import com.wd.tech.bean.FindCommunityList;
+import com.wd.tech.bean.MyComment;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.UserInfoBean;
 
@@ -91,6 +92,7 @@ public interface Interfacea {
 
     /**
      * 资讯推荐展示列表(包含单独板块列表展示)
+     *
      * @param userId
      * @param sessionId
      * @param plateId
@@ -108,6 +110,7 @@ public interface Interfacea {
 
     /**
      * 社区列表展示
+     *
      * @param userId
      * @param sessionId
      * @param page
@@ -115,38 +118,72 @@ public interface Interfacea {
      * @return
      */
     @GET("community/v1/findCommunityList")
-    Observable<Result<List<FindCommunityList>>> findCommunityList(@Header("userId")int userId,
-                                                                  @Header("sessionId")String sessionId,
-                                                                  @Query("page")int page,
-                                                                  @Query("count")int count);
+    Observable<Result<List<FindCommunityList>>> findCommunityList(@Header("userId") int userId,
+                                                                  @Header("sessionId") String sessionId,
+                                                                  @Query("page") int page,
+                                                                  @Query("count") int count);
 
     /**
      * 资讯详情展示
+     *
      * @param userId
      * @param sessionId
      * @param id
      * @return
      */
     @GET("information/v1/findInformationDetails")
-    Observable<Result<DetailsBean>> findInformationDetails(@Header("userId")int userId,
-                                                           @Header("sessionId")String sessionId,
-                                                           @Query("id")int id);
+    Observable<Result<DetailsBean>> findInformationDetails(@Header("userId") int userId,
+                                                           @Header("sessionId") String sessionId,
+                                                           @Query("id") int id);
 
     /**
      * 根据手机号查询用户信息
+     *
      * @param userId
      * @param sessionId
      * @param phone
      * @return
      */
     @GET("user/verify/v1/findUserByPhone")
-    Observable<Result<FindUser>> findUserByPhone(@Header("userId")int userId,
-                                                 @Header("sessionId")String sessionId,
-                                                 @Query("phone")String phone);
+    Observable<Result<FindUser>> findUserByPhone(@Header("userId") int userId,
+                                                 @Header("sessionId") String sessionId,
+                                                 @Query("phone") String phone);
 
     @GET("group/verify/v1/findGroupInfo")
-    Observable<Result<FindGroup>> findGroupInfo(@Header("userId")int userId,
-                                                @Header("sessionId")String sessionId,
-                                                @Query("groupId")int groupId);
+    Observable<Result<FindGroup>> findGroupInfo(@Header("userId") int userId,
+                                                @Header("sessionId") String sessionId,
+                                                @Query("groupId") int groupId);
+
+    /**
+     * 查询资讯评论列表
+     *
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("information/v1/findAllInfoCommentList")
+    Observable<Result<List<MyComment>>> myComment(@Header("userId") int userId,
+                                                  @Header("sessionId") String sessionId,
+                                                  @Query("infoId") int infoId,
+                                                  @Query("page") int page,
+                                                  @Query("count") int count);
+
+    /**
+     * 资讯用户评论
+     * @param userId
+     * @param sessionId
+     * @param content
+     * @param infoId
+     * @return
+     */
+    @GET("information/verify/v1/addInfoComment")
+    Observable<Result<List<MyComment>>> addInfoComment(@Header("userId") int userId,
+                                                       @Header("sessionId") String sessionId,
+                                                       @Query("content") String content,
+                                                       @Query("infoId") int infoId);
+
 
 }
