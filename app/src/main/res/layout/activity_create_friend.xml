@@ -1,9 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.CreateFriendActivity">
+    tools:context=".activity.CreateFriendActivity"
+    android:background="#f2f2f2">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+
+        >
+        <LinearLayout
+            android:id="@+id/linearone"
+            android:layout_marginTop="@dimen/dip_10"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <ImageView
+                android:layout_marginLeft="20dp"
+                android:id="@+id/add_group_back"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/common_nav_btn_back_n_xhdpi"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="创建群聊"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_marginRight="20dp"
+                />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_below="@+id/linearone"
+            android:layout_marginTop="30dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/com_group"/>
+        <EditText
+            android:id="@+id/create_friend_name"
+            android:layout_below="@+id/iv"
+            android:layout_marginTop="20dp"
+            android:layout_width="184dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/create_groupname"
+            android:hint="填写群名称(2-20汉字)"
+            android:gravity="center"
+            />
+        <EditText
+            android:id="@+id/create_friend_details"
+            android:layout_below="@+id/create_friend_name"
+            android:layout_marginTop="40dp"
+            android:layout_width="336dp"
+            android:layout_height="119dp"
+            android:hint="介绍您的群吧,让更多朋友加入!"
+            android:gravity="top"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:textSize="9sp"
+            android:inputType="text"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/group_info"
+            />
+
+        <TextView
+            android:layout_below="@+id/create_friend_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="7dp"
+            android:textColor="#999999"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-20dp"
+            android:layout_marginRight="45dp"
+            android:text="100字以内"
+            />
+        <Button
+            android:id="@+id/create_friend_ok"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="336dp"
+            android:layout_height="50dp"
+            android:text="创建"
+            android:textColor="#fff"
+            android:background="@drawable/create_button"
+            android:layout_centerHorizontal="true"
+            />
+    </RelativeLayout>
+
+
+</LinearLayout>
