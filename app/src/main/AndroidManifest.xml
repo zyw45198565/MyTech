@@ -44,6 +44,7 @@
         <activity android:name=".activity.AdvertiseActivity"></activity>
         <activity android:name=".activity.FindGroupsByUserIdActivity"/>
         <activity android:name=".activity.SearchActivity"></activity>
+        <activity android:name=".activity.CollectionActivity"/>
     </application>
 
 </manifest>
