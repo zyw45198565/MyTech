@@ -1,5 +1,6 @@
 package com.wd.tech.core;
 
+import com.wd.tech.bean.CollectionBean;
 import com.wd.tech.bean.FindGroup;
 import com.wd.tech.bean.FindUser;
 import com.wd.tech.bean.DetailsBean;
@@ -15,6 +16,7 @@ import com.wd.tech.bean.MyComment;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.UserInfoBean;
 
+import java.io.File;
 import java.util.List;
 
 import java.util.List;
@@ -159,6 +161,33 @@ public interface Interfacea {
                                                 @Query("groupId") int groupId);
 
     /**
+     * 发布帖子
+     * @param userId
+     * @param sessionId
+     * @param content
+     * @param file
+     * @return
+     */
+    @POST("community/verify/v1/releasePost")
+    @FormUrlEncoded
+    Observable<Result> releasePost(@Header("userId")int userId,
+                                   @Header("sessionId")String sessionId,
+                                   @Field("content")String content,
+                                   @Field("file")File file);
+
+    /**
+     * 帖子点赞
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @return
+     */
+    @POST("community/verify/v1/addCommunityGreat")
+    @FormUrlEncoded
+    Observable<List> addCommunityGreat(@Header("userId")int userId,
+                                       @Header("sessionId")String sessionId,
+                                       @Field("communityId")int communityId);
+    /**
      * 查询资讯评论列表
      *
      * @param userId
@@ -288,6 +317,34 @@ public interface Interfacea {
     Observable<Result> cancelCollection(@Header("userId") int userId,
                                         @Header("sessionId") String sessionId,
                                         @Query("infoId") String infoId);
+
+
+    /**
+     * 用户收藏列表
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("user/verify/v1/findAllInfoCollection")
+    Observable<Result<List<CollectionBean>>> findAllInfoCollection(@Header("userId") int userId,
+                                                                   @Header("sessionId") String sessionId,
+                                                                   @Query("page")int page,
+                                                                   @Query("count")int count);
+
+
+    /**
+     * 取消收藏（支持批量操作）
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @return
+     */
+    @DELETE("user/verify/v1/cancelCollection")
+    Observable<Result> cancelCollection(@Header("userId") int userId,
+                                    @Header("sessionId") String sessionId,
+                                    @Query("infoId")String infoId);
 
 
 }
