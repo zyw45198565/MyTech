@@ -7,10 +7,11 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/communitylist_img_item"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:layout_marginBottom="6dp"
         android:adjustViewBounds="true"
-        android:background="@mipmap/ic_launcher"
         app:roundedCornerRadius="8dp"/>
 
     <!--app:roundTopLeft="true"

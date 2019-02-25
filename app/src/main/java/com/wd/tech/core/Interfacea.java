@@ -280,5 +280,18 @@ public interface Interfacea {
                                    @Header("sessionId") String sessionId,
                                    @Query("focusId")int focusId);
 
-
+    /**
+     * 社区评论
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @param content
+     * @return
+     */
+    @POST("community/verify/v1/addCommunityComment")
+    @FormUrlEncoded
+    Observable<Result> addCommunityComment(@Header("userId") int userId,
+                                           @Header("sessionId") String sessionId,
+                                           @Field("communityId")int communityId,
+                                           @Field("content")String content);
 }
