@@ -162,6 +162,7 @@ public interface Interfacea {
 
     /**
      * 发布帖子
+     *
      * @param userId
      * @param sessionId
      * @param content
@@ -170,13 +171,14 @@ public interface Interfacea {
      */
     @POST("community/verify/v1/releasePost")
     @FormUrlEncoded
-    Observable<Result> releasePost(@Header("userId")int userId,
-                                   @Header("sessionId")String sessionId,
-                                   @Field("content")String content,
-                                   @Field("file")File file);
+    Observable<Result> releasePost(@Header("userId") int userId,
+                                   @Header("sessionId") String sessionId,
+                                   @Field("content") String content,
+                                   @Field("file") File file);
 
     /**
      * 帖子点赞
+     *
      * @param userId
      * @param sessionId
      * @param communityId
@@ -184,9 +186,10 @@ public interface Interfacea {
      */
     @POST("community/verify/v1/addCommunityGreat")
     @FormUrlEncoded
-    Observable<List> addCommunityGreat(@Header("userId")int userId,
-                                       @Header("sessionId")String sessionId,
-                                       @Field("communityId")int communityId);
+    Observable<List> addCommunityGreat(@Header("userId") int userId,
+                                       @Header("sessionId") String sessionId,
+                                       @Field("communityId") int communityId);
+
     /**
      * 查询资讯评论列表
      *
@@ -321,6 +324,7 @@ public interface Interfacea {
 
     /**
      * 用户收藏列表
+     *
      * @param userId
      * @param sessionId
      * @param page
@@ -330,25 +334,13 @@ public interface Interfacea {
     @GET("user/verify/v1/findAllInfoCollection")
     Observable<Result<List<CollectionBean>>> findAllInfoCollection(@Header("userId") int userId,
                                                                    @Header("sessionId") String sessionId,
-                                                                   @Query("page")int page,
-                                                                   @Query("count")int count);
-
-
-    /**
-     * 取消收藏（支持批量操作）
-     * @param userId
-     * @param sessionId
-     * @param infoId
-     * @return
-     */
-    @DELETE("user/verify/v1/cancelCollection")
-    Observable<Result> cancelCollection(@Header("userId") int userId,
-                                    @Header("sessionId") String sessionId,
-                                    @Query("infoId")String infoId);
+                                                                   @Query("page") int page,
+                                                                   @Query("count") int count);
 
 
     /**
      * 检测是否为我的好友
+     *
      * @param userId
      * @param sessionId
      * @param friendUid
@@ -358,10 +350,39 @@ public interface Interfacea {
     Observable<Result> checkMyFriend(@Header("userId") int userId,
                                      @Header("sessionId") String sessionId,
                                      @Query("friendUid") int friendUid);
+
     @POST("chat/verify/v1/addFriend")
     @FormUrlEncoded
     Observable<Result> addFriend(@Header("userId") int userId,
+                                 @Header("sessionId") String sessionId,
+                                 @Field("friendUid") int friendUid,
+                                 @Field("remark") String remark);
+
+    /**
+     * 资讯点赞
+     *
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("information/verify/v1/addGreatRecord")
+    Observable<Result> addGreatRecord(@Header("userId") int userId,
+                                      @Header("sessionId") String sessionId,
+                                      @Field("infoId") int infoId);
+
+    /**
+     * 取消点赞
+     *
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @return
+     */
+    @DELETE("information/verify/v1/cancelGreat")
+    Observable<Result> cancelGreat(@Header("userId") int userId,
                                    @Header("sessionId") String sessionId,
-                                   @Field("friendUid") int friendUid,
-                                   @Field("remark") String remark);
+                                   @Query("infoId") int infoId);
+
 }

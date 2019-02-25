@@ -80,6 +80,10 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holderA.title.setText(homeAll.getTitle());
                 holderA.content.setText(homeAll.getSummary());
                 holderA.writer.setText(homeAll.getSource());
+                holderA.likenum.setText(homeAll.getCollection()+"");
+                holderA.sharenum.setText(homeAll.getShare()+"");
+
+
                 holderA.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -88,6 +92,18 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         context.startActivity(intent);
                     }
                 });
+                //是否付费
+                int whetherPay = homeAll.getWhetherPay();
+                if (whetherPay==1){
+                    holderA.buyall.setVisibility(View.VISIBLE);
+                }
+
+                //是否收藏
+                int whetherCollection = homeAll.getWhetherCollection();
+                if (whetherCollection==1){
+                    holderA.like.setChecked(true);
+                }
+
                /* view.animate()
                         .translationZ(15f).setDuration(300)
                         .setListener(new AnimatorListenerAdapter() {
@@ -147,7 +163,8 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private class ViewHolderA extends RecyclerView.ViewHolder {
         SimpleDraweeView simple;
-        TextView title, content, writer;
+        ImageView buyall;
+        TextView title, content, writer,likenum,sharenum;
         CheckBox like;
 
         public ViewHolderA(@NonNull View itemView) {
@@ -157,6 +174,10 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             content = itemView.findViewById(R.id.content);
             writer = itemView.findViewById(R.id.writer);
             like = itemView.findViewById(R.id.like);
+            buyall=itemView.findViewById(R.id.buy_all);
+            likenum=itemView.findViewById(R.id.likenum);
+            sharenum=itemView.findViewById(R.id.sharenum);
+
         }
     }
 
