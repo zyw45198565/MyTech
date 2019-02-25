@@ -347,4 +347,21 @@ public interface Interfacea {
                                     @Query("infoId")String infoId);
 
 
+    /**
+     * 检测是否为我的好友
+     * @param userId
+     * @param sessionId
+     * @param friendUid
+     * @return
+     */
+    @GET("chat/verify/v1/checkMyFriend")
+    Observable<Result> checkMyFriend(@Header("userId") int userId,
+                                     @Header("sessionId") String sessionId,
+                                     @Query("friendUid") int friendUid);
+    @POST("chat/verify/v1/addFriend")
+    @FormUrlEncoded
+    Observable<Result> addFriend(@Header("userId") int userId,
+                                   @Header("sessionId") String sessionId,
+                                   @Field("friendUid") int friendUid,
+                                   @Field("remark") String remark);
 }
