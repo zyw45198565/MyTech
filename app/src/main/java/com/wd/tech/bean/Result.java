@@ -6,7 +6,16 @@ public class Result<T> {
     String status;
     String message;
     int groupId;
+    int flag;
     T result;
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
+    }
 
     public int getGroupId() {
         return groupId;

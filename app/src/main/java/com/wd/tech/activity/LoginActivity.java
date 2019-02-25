@@ -50,6 +50,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         TextView txt_registration = (TextView) findViewById(R.id.registration);
         txt_registration.setOnClickListener(this);
 
+
+
         phone = (EditText) findViewById(R.id.phone);
         pass = (EditText) findViewById(R.id.pass);
         login = (Button) findViewById(R.id.login);
@@ -57,6 +59,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         xian = (ImageView) findViewById(R.id.xian);
         xian.setOnClickListener(this);
 
+        String phone111 = WDApp.getShare().getString("phone", "");
+        String pass111 = WDApp.getShare().getString("pass", "");
+        phone.setText(phone111);
+        pass.setText(pass111);
     }
 
     @Override

@@ -1,11 +1,13 @@
 package com.wd.tech.bean;
 
+import java.io.Serializable;
+
 /**
  * date:2019/2/20 16:24
  * author:陈国星(陈国星)
  * function:
  */
-public class FindUser {
+public class FindUser implements Serializable {
 
     /**
      * email : 999@163.com
