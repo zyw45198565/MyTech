@@ -234,6 +234,7 @@ public class Frag_03 extends WDFragment implements XRecyclerView.LoadingListener
         public void success(Result data) {
             if (data.getStatus().equals("0000")) {
 //                UIUtils.showToastSafe("社区点赞：  " + data.getMessage());
+                mCommunityListAdapter.remove();
                 mFindCommunityListPresenter.reqeust(userid, sessionid, false, 5);
             }
         }
@@ -249,6 +250,7 @@ public class Frag_03 extends WDFragment implements XRecyclerView.LoadingListener
         public void success(Result data) {
             if(data.getStatus().equals("0000")){
                 UIUtils.showToastSafe("社区评论：   "+data.getMessage());
+                mCommunityListAdapter.remove();
                 mFindCommunityListPresenter.reqeust(userid, sessionid, false, 5);//重新请求列表
             }
         }
