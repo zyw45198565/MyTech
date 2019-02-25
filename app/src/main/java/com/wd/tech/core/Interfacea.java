@@ -1,5 +1,6 @@
 package com.wd.tech.core;
 
+import com.wd.tech.bean.CollectionBean;
 import com.wd.tech.bean.FindGroup;
 import com.wd.tech.bean.FindUser;
 import com.wd.tech.bean.DetailsBean;
@@ -11,14 +12,17 @@ import com.wd.tech.bean.MenusBean;
 import com.wd.tech.bean.MyBanner;
 import com.wd.tech.bean.FindCommunityList;
 import com.wd.tech.bean.MyLoveBean;
+import com.wd.tech.bean.MyComment;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.UserInfoBean;
 
+import java.io.File;
 import java.util.List;
 
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -147,17 +151,70 @@ public interface Interfacea {
                                                  @Header("sessionId")String sessionId,
                                                  @Query("phone")String phone);
 
-    /**
-     * 通过Id查群
-     * @param userId
-     * @param sessionId
-     * @param groupId
-     * @return
-     */
     @GET("group/verify/v1/findGroupInfo")
     Observable<Result<FindGroup>> findGroupInfo(@Header("userId")int userId,
                                                 @Header("sessionId")String sessionId,
                                                 @Query("groupId")int groupId);
+
+    /**
+     * 发布帖子
+     * @param userId
+     * @param sessionId
+     * @param content
+     * @param file
+     * @return
+     */
+    @POST("community/verify/v1/releasePost")
+    @FormUrlEncoded
+    Observable<Result> releasePost(@Header("userId")int userId,
+                                   @Header("sessionId")String sessionId,
+                                   @Field("content")String content,
+                                   @Field("file")File file);
+
+    /**
+     * 帖子点赞
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @return
+     */
+    @POST("community/verify/v1/addCommunityGreat")
+    @FormUrlEncoded
+    Observable<List> addCommunityGreat(@Header("userId")int userId,
+                                       @Header("sessionId")String sessionId,
+                                       @Field("communityId")int communityId);
+    /**
+     * 查询资讯评论列表
+     *
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("information/v1/findAllInfoCommentList")
+    Observable<Result<List<MyComment>>> myComment(@Header("userId") int userId,
+                                                  @Header("sessionId") String sessionId,
+                                                  @Query("infoId") int infoId,
+                                                  @Query("page") int page,
+                                                  @Query("count") int count);
+
+    /**
+     * 资讯用户评论
+     * @param userId
+     * @param sessionId
+     * @param content
+     * @param infoId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("information/verify/v1/addInfoComment")
+    Observable<Result<List<MyComment>>> addInfoComment(@Header("userId") int userId,
+                                                       @Header("sessionId") String sessionId,
+                                                       @Field("content") String content,
+                                                       @Field("infoId") int infoId);
+
 
     /**
      * 查询分组
@@ -210,6 +267,48 @@ public interface Interfacea {
                                    @Header("sessionId") String sessionId,
                                    @Field("name") String name,
                                    @Field("description") String description);
+
+
+    /**
+     * 取消关注
+     * @param userId
+     * @param sessionId
+     * @param focusId
+     * @return
+     */
+    @DELETE("user/verify/v1/cancelFollow")
+    Observable<Result> cancelFollow(@Header("userId") int userId,
+                                   @Header("sessionId") String sessionId,
+                                   @Query("focusId")int focusId);
+
+
+    /**
+     * 用户收藏列表
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("user/verify/v1/findAllInfoCollection")
+    Observable<Result<List<CollectionBean>>> findAllInfoCollection(@Header("userId") int userId,
+                                                                   @Header("sessionId") String sessionId,
+                                                                   @Query("page")int page,
+                                                                   @Query("count")int count);
+
+
+    /**
+     * 取消收藏（支持批量操作）
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @return
+     */
+    @DELETE("user/verify/v1/cancelCollection")
+    Observable<Result> cancelCollection(@Header("userId") int userId,
+                                    @Header("sessionId") String sessionId,
+                                    @Query("infoId")String infoId);
+
 
     /**
      * 检测是否为我的好友

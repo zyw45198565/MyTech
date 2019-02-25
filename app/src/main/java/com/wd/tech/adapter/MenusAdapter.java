@@ -1,6 +1,7 @@
 package com.wd.tech.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
+import com.wd.tech.activity.DetailsActivity;
 import com.wd.tech.bean.MenusBean;
 
 import java.util.ArrayList;
@@ -33,9 +35,17 @@ public class MenusAdapter extends RecyclerView.Adapter<MenusAdapter.MyHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
-        MenusBean menusBean = list.get(i);
+        final MenusBean menusBean = list.get(i);
         myHolder.cname.setText(menusBean.getName());
         myHolder.img.setImageURI(menusBean.getPic());
+        myHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context,DetailsActivity.class);
+                intent.putExtra("zid",menusBean.getId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

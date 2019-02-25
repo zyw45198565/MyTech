@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -53,12 +53,133 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dip_10"
+                android:background="@android:color/transparent"
                 tools:ignore="WebViewLayout"></WebView>
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/platerecycler"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"></android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:paddingBottom="20dp"
+                android:text="推荐"
+                android:textColor="#999"
+                android:textSize="10sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/inforrecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/commentrecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"></android.support.v7.widget.RecyclerView>
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/comment_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#fff"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/back" />
+
+        <EditText
+            android:focusable="false"
+            android:id="@+id/mycomment_one"
+            android:layout_width="160dp"
+            android:layout_height="24dp"
+            android:layout_margin="@dimen/dip_10"
+            android:layout_weight="1"
+            android:background="@drawable/ed_shape"
+            android:hint="既然来了,就留下点什么吧"
+            android:paddingLeft="10dp"
+            android:textSize="10sp" />
+
+        <CheckBox
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/comment_n"
+            android:button="@null"
+            android:padding="10dp" />
+
+        <CheckBox
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="12dp"
+            android:background="@drawable/prise_n"
+            android:button="@null"
+            android:padding="10dp" />
+
+        <CheckBox
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="12dp"
+            android:background="@drawable/love"
+            android:button="@null"
+            android:padding="10dp" />
+
+        <CheckBox
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/share"
+            android:button="@null"
+            android:padding="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/comment_two"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/mycomment_two"
+            android:padding="10dp"
+            android:hint="既然来了,就留下点什么吧"
+            android:textSize="10sp"
+            android:layout_weight="1"
+            android:gravity="top"
+            android:background="@drawable/ed_shape"
+            android:layout_width="wrap_content"
+            android:layout_height="95dp"
+            android:layout_margin="12dp" />
+
+        <TextView
+            android:id="@+id/publish"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:text="发表"
+            android:textColor="#666666"
+            android:textSize="12sp" />
+    </LinearLayout>
+</RelativeLayout>

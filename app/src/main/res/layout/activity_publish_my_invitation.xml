@@ -76,6 +76,7 @@
             android:layout_below="@+id/bo_text"
             android:layout_alignParentLeft="true"
             android:visibility="gone"></android.support.v7.widget.RecyclerView>
+        <!--android:visibility="gone"-->
         <LinearLayout
             android:id="@+id/publish_myinvitation_picter_add"
             android:layout_width="84dp"

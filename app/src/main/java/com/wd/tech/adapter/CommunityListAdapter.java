@@ -28,6 +28,7 @@ import java.util.Arrays;
 public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdapter.MyHolder> {
 
     Context context;
+    private ClickOkListener clickOkListener;
 
     public CommunityListAdapter(Context context) {
         this.context = context;
@@ -43,8 +44,8 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
-        FindCommunityList findCommunityList = mList.get(i);
+    public void onBindViewHolder(@NonNull final MyHolder myHolder, int i) {
+        final FindCommunityList findCommunityList = mList.get(i);
         myHolder.head.setImageURI(findCommunityList.getHeadPic());
         myHolder.nick.setText(findCommunityList.getNickName());
         try {
@@ -82,6 +83,25 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             myHolder.imageAdapter.addAll(Arrays.asList(images));
             myHolder.imageAdapter.notifyDataSetChanged();
         }
+
+        final int whetherGreat = findCommunityList.getWhetherGreat();//点赞状态
+        if(whetherGreat==1){
+            myHolder.communitylist_like.setImageResource(R.drawable.community_icon_like_true);
+        }else{
+            myHolder.communitylist_like.setImageResource(R.drawable.community_icon_like_false);
+        }
+        myHolder.communitylist_right_linear.setOnClickListener(new View.OnClickListener() {//点赞
+            @Override
+            public void onClick(View v) {
+                findCommunityList.setWhetherGreat(1);//设置点赞状态为选中
+                if(whetherGreat!=1){//如果不选中，设置点赞数量+1
+                    findCommunityList.setPraise(findCommunityList.getPraise()+1);
+                }
+                myHolder.communitylist_like.setImageResource(R.drawable.community_icon_like_true);
+                clickOkListener.ClickOk(findCommunityList.getId());//todo 帖子id/社区id
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -115,6 +135,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         private final TextView like_text;
         private final ImageAdapter imageAdapter;
         private final GridLayoutManager gridLayoutManager;
+        private final SimpleDraweeView communitylist_like;//点赞图片
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -128,6 +149,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             comment_text = itemView.findViewById(R.id.communitylist_comment_text);//评论数量
             communitylist_right_linear = itemView.findViewById(R.id.communitylist_layout_right);
             like_text = itemView.findViewById(R.id.communitylist_like_text);//点赞数量
+            communitylist_like = itemView.findViewById(R.id.communitylist_like);
             review_show = itemView.findViewById(R.id.communitylist_review_show);
             review_text = itemView.findViewById(R.id.communitylist_review_text);
 
@@ -139,5 +161,12 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             picter_rlv.setLayoutManager(gridLayoutManager);
             picter_rlv.setAdapter(imageAdapter);
         }
+    }
+    
+    public interface ClickOkListener{//点赞会掉到页面的自定义接口
+        void ClickOk(int id);
+    }
+    public void setClickOkListener(ClickOkListener clickOkListener){
+        this.clickOkListener = clickOkListener;
     }
 }

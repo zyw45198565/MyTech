@@ -1,35 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="32dp"
-    android:layout_marginBottom="20dp"
+    xmlns:app="http://schemas.android.com/tools"
     android:layout_marginLeft="12dp"
-    android:layout_marginRight="12dp">
-
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:id="@+id/frag03xlv"
+    android:layout_marginTop="32dp"
+    android:layout_marginRight="12dp"
+    android:layout_marginBottom="20dp"
+    android:orientation="vertical">
+<com.scwang.smartrefresh.layout.SmartRefreshLayout
+    android:id="@+id/refreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:srlAccentColor="#00000000"
+    app:srlPrimaryColor="#00000000"
+    app:srlEnablePreviewInEditMode="true"
+    >
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        ></com.jcodecraeer.xrecyclerview.XRecyclerView>
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/frag03_write_layout"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/communitylist_btn_write_shape"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="36dp"
-        android:gravity="center">
-        <Button
-            android:id="@+id/frag03_write_fresco"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
-            android:background="@drawable/write_card_btn"/>
-    </LinearLayout>
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
+            android:id="@+id/frag03xlv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></com.jcodecraeer.xrecyclerview.XRecyclerView>
 
+        <LinearLayout
+            android:id="@+id/frag03_write_layout"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="36dp"
+            android:background="@drawable/communitylist_btn_write_shape"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/frag03_write_fresco"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:background="@drawable/write_card_btn" />
+        </LinearLayout>
+    </RelativeLayout>
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </RelativeLayout>

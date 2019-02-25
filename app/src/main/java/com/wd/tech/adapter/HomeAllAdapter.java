@@ -1,5 +1,7 @@
 package com.wd.tech.adapter;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -7,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -81,6 +84,22 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         context.startActivity(intent);
                     }
                 });
+               /* view.animate()
+                        .translationZ(15f).setDuration(300)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                view.animate()
+                                        .translationZ(1.0f).setDuration(500);
+                            }
+                        }).start();*/
+                holderA.like.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
                 break;
             case TYPRONE:
                 ViewHolderB holderB= (ViewHolderB) viewHolder;
@@ -118,6 +137,7 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private class ViewHolderA extends RecyclerView.ViewHolder {
         SimpleDraweeView simple;
         TextView title, content, writer;
+        CheckBox like;
 
         public ViewHolderA(@NonNull View itemView) {
             super(itemView);
@@ -125,7 +145,7 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             title = itemView.findViewById(R.id.title);
             content = itemView.findViewById(R.id.content);
             writer = itemView.findViewById(R.id.writer);
-
+            like = itemView.findViewById(R.id.like);
         }
     }
 
