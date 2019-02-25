@@ -43,6 +43,7 @@
         <activity android:name=".activity.LoveActivity"></activity>
         <activity android:name=".activity.AdvertiseActivity"></activity>
         <activity android:name=".activity.FindGroupsByUserIdActivity"/>
+        <activity android:name=".activity.WantAddFriendActivity"/>
     </application>
 
 </manifest>

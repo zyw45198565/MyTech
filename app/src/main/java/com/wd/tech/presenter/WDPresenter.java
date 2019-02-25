@@ -60,7 +60,6 @@ public abstract class WDPresenter {
                                 dataCall.success(result);
                             }
                         }
-                        dataCall.success(result);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
