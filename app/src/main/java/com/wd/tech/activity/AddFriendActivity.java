@@ -165,7 +165,10 @@ public class AddFriendActivity extends WDActivity {
 
                 break;
             case R.id.find_r_next:
-                //Intent intent = new Intent(Addr)
+                Intent intent = new Intent(AddFriendActivity.this,FindUserDetailsActivity.class);
+                intent.putExtra("findUser",findUser);
+                startActivity(intent);
+
                 break;
         }
     }

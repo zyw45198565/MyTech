@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.CreateFriendActivity" />
-        <activity android:name=".activity.PublishMyInvitationActivity" />
+        <activity android:name=".activity.PublishMyInvitationActivity"></activity>
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,7 +44,9 @@
         <activity android:name=".activity.AdvertiseActivity" />
         <activity android:name=".activity.FindGroupsByUserIdActivity" />
         <activity android:name=".activity.SearchActivity" />
-        <activity android:name=".activity.CollectionActivity" />
+        <activity android:name=".activity.PlateActivity"></activity>
+        <activity android:name=".activity.CollectionActivity"/>
+        <activity android:name=".activity.WantAddFriendActivity"/>
         <activity android:name=".activity.MyintegralActivity" />
         <activity android:name=".activity.MytaskActivity" />
         <activity android:name=".activity.MyPostActivity" />
