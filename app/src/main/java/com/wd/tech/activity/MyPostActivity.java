@@ -15,32 +15,36 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.adapter.LoveAdapter;
+import com.wd.tech.adapter.MyPostAdapter;
 import com.wd.tech.bean.MyLoveBean;
+import com.wd.tech.bean.MyPostByIdBean;
 import com.wd.tech.bean.Result;
 import com.wd.tech.presenter.CanceFollowPresenter;
 import com.wd.tech.presenter.MyLovePresenter;
+import com.wd.tech.presenter.MyPostByIdPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoveActivity extends BaseActivity implements DataCall<Result<List<MyLoveBean>>> {
+public class MyPostActivity extends BaseActivity  implements DataCall<Result<List<MyPostByIdBean>>>{
 
 
     private int userid;
     private String sessionid;
     int page=1;
     int count=5;
-    List<MyLoveBean> loveBeans = new ArrayList<>();
-    private LoveAdapter loveAdapter;
-    private MyLovePresenter myLovePresenter;
+    List<MyPostByIdBean> loveBeans = new ArrayList<>();
+    private MyPostAdapter loveAdapter;
+    private MyPostByIdPresenter myLovePresenter;
     private ImageView meiyou;
     private RecyclerView recycler;
 
+
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_love;
+        return R.layout.activity_my_post;
     }
 
     @Override
@@ -56,6 +60,7 @@ public class LoveActivity extends BaseActivity implements DataCall<Result<List<M
 
         userid = WDApp.getShare().getInt("userid", 0);
         sessionid = WDApp.getShare().getString("sessionid", "");
+
         SmartRefreshLayout mRefreshLayout = (SmartRefreshLayout) findViewById(R.id.refresh);
         recycler = (RecyclerView) findViewById(R.id.recycler);
         meiyou = (ImageView) findViewById(R.id.meiyou);
@@ -63,19 +68,11 @@ public class LoveActivity extends BaseActivity implements DataCall<Result<List<M
         mRefreshLayout.setEnableRefresh(true);//启用刷新
         mRefreshLayout.setEnableLoadmore(true);//启用加载
         recycler.setLayoutManager(new LinearLayoutManager(this));
-        loveAdapter = new LoveAdapter(this,loveBeans);
+        loveAdapter = new MyPostAdapter(this,loveBeans);
         recycler.setAdapter(loveAdapter);
-        myLovePresenter = new MyLovePresenter(this);
+        myLovePresenter = new MyPostByIdPresenter(this);
         myLovePresenter.reqeust(userid,sessionid,page,count);
-        loveAdapter.getShan(new LoveAdapter.Shan() {
-            @Override
-            public void onshan(int i) {
-                loveBeans.remove(i);
-                CanceFollowPresenter canceFollowPresenter = new CanceFollowPresenter(new CanceCall());
-                canceFollowPresenter.reqeust(userid,sessionid,loveBeans.get(i).getFocusUid());
-                loveAdapter.notifyDataSetChanged();
-            }
-        });
+
 
         //刷新
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -96,6 +93,7 @@ public class LoveActivity extends BaseActivity implements DataCall<Result<List<M
                 refreshlayout.finishLoadmore();
             }
         });
+
     }
 
     @Override
@@ -103,9 +101,10 @@ public class LoveActivity extends BaseActivity implements DataCall<Result<List<M
 
     }
 
+
     @Override
-    public void success(Result<List<MyLoveBean>> data) {
-        List<MyLoveBean> result = data.getResult();
+    public void success(Result<List<MyPostByIdBean>> data) {
+        List<MyPostByIdBean> result = data.getResult();
         loveBeans.addAll(result);
         if(loveBeans.size()==0){
             meiyou.setVisibility(View.VISIBLE);
@@ -119,15 +118,4 @@ public class LoveActivity extends BaseActivity implements DataCall<Result<List<M
 
     }
 
-    private class CanceCall implements DataCall<Result> {
-        @Override
-        public void success(Result data) {
-            Toast.makeText(LoveActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void fail(ApiException e) {
-
-        }
-    }
 }
