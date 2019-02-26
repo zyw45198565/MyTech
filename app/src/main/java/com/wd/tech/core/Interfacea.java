@@ -498,9 +498,7 @@ public interface Interfacea {
                                                               @Header("sessionId") String sessionId,
                                                               @Query("page")int page,
                                                               @Query("count")int count);
-                                   @Header("sessionId") String sessionId,
-                                   @Field("friendUid") int friendUid,
-                                   @Field("remark") String remark);
+
 
     /**
      * 申请进群
@@ -549,7 +547,7 @@ public interface Interfacea {
                                          @Field("noticeId") int noticeId,
                                          @Field("flag") int flag );
     /**
-     * 审核好友申请
+     * 审核群申请
      * @param userId
      * @param sessionId
      * @param noticeId
