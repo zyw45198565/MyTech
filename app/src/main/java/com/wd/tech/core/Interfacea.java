@@ -573,8 +573,7 @@ public interface Interfacea {
                                          @Field("noticeId") int noticeId,
                                          @Field("flag") int flag );
 
-                                                              @Query("page") int page,
-                                                              @Query("count") int count);
+
 
     /**
      * 用户购买VIP
