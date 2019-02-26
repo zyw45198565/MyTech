@@ -34,10 +34,12 @@
 
         <activity android:name=".activity.HomeActivity" />
         <activity android:name=".activity.MenuActivity"></activity>
-        <activity android:name=".activity.LoginActivity"/>
-        <activity android:name=".activity.RegistrActivity"/>
-        <activity android:name=".activity.MySettingActivity"/>
-        <activity android:name=".activity.DetailsActivity"/>
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.RegistrActivity" />
+        <activity android:name=".activity.MySettingActivity" />
+        <activity
+            android:name=".activity.DetailsActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity android:name=".activity.AddFriendActivity" />
         <activity android:name=".activity.FindUserDetailsActivity" />
         <activity android:name=".activity.LoveActivity" />
@@ -45,8 +47,8 @@
         <activity android:name=".activity.FindGroupsByUserIdActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.PlateActivity"></activity>
-        <activity android:name=".activity.CollectionActivity"/>
-        <activity android:name=".activity.WantAddFriendActivity"/>
+        <activity android:name=".activity.CollectionActivity" />
+        <activity android:name=".activity.WantAddFriendActivity" />
     </application>
 
 </manifest>

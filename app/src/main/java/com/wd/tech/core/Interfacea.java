@@ -6,6 +6,7 @@ import com.wd.tech.bean.FindUser;
 import com.wd.tech.bean.DetailsBean;
 import com.wd.tech.bean.GroupByUser;
 import com.wd.tech.bean.HomeAll;
+import com.wd.tech.bean.InformationSearchByTitleBean;
 import com.wd.tech.bean.InitFriendlist;
 import com.wd.tech.bean.LoginBean;
 import com.wd.tech.bean.MenusBean;
@@ -384,5 +385,17 @@ public interface Interfacea {
     Observable<Result> cancelGreat(@Header("userId") int userId,
                                    @Header("sessionId") String sessionId,
                                    @Query("infoId") int infoId);
+
+    /**
+     * 根据标题模糊查询
+     * @param title
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("information/v1/findInformationByTitle")
+    Observable<Result<List<InformationSearchByTitleBean>>> findInformationByTitle(@Query("title") String title,
+                                                                                  @Query("page") int page,
+                                                                                  @Query("count") int count);
 
 }
