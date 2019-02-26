@@ -8,6 +8,11 @@ public class Result<T> {
     int groupId;
     int flag;
     T result;
+    /**
+     * orderId : 20181019120947890
+     */
+
+    private String orderId;
 
     public int getFlag() {
         return flag;
@@ -50,4 +55,11 @@ public class Result<T> {
         this.result = result;
     }
 
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 }

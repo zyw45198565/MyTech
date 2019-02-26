@@ -210,7 +210,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         }
     }
 
-    private class MyBannerCall implements DataCall<Result<List<MyBanner>>> {
+    public class MyBannerCall implements DataCall<Result<List<MyBanner>>> {
 
         @Override
         public void success(Result<List<MyBanner>> data) {

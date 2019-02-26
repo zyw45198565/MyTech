@@ -301,6 +301,7 @@ public interface Interfacea {
 
     /**
      * 社区评论
+     *
      * @param userId
      * @param sessionId
      * @param communityId
@@ -311,8 +312,8 @@ public interface Interfacea {
     @FormUrlEncoded
     Observable<Result> addCommunityComment(@Header("userId") int userId,
                                            @Header("sessionId") String sessionId,
-                                           @Field("communityId")int communityId,
-                                           @Field("content")String content);
+                                           @Field("communityId") int communityId,
+                                           @Field("content") String content);
 
     /**
      * 添加收藏
@@ -407,6 +408,7 @@ public interface Interfacea {
 
     /**
      * 根据标题模糊查询
+     *
      * @param title
      * @param page
      * @param count
@@ -419,28 +421,31 @@ public interface Interfacea {
 
     /**
      * 查询用户积分
+     *
      * @param userId
      * @param sessionId
      * @return
      */
     @GET("user/verify/v1/findUserIntegral")
     Observable<Result<UserintegralBean>> findUserIntegral(@Header("userId") int userId,
-                                                          @Header("sessionId")String sessionId);
+                                                          @Header("sessionId") String sessionId);
 
 
     /**
      * 查询用户当月所有签到的日期
+     *
      * @param userId
      * @param sessionId
      * @return
      */
     @GET("user/verify/v1/findContinuousSignDays")
     Observable<Result<Integer>> findContinuousSignDays(@Header("userId") int userId,
-                                                       @Header("sessionId")String sessionId);
+                                                       @Header("sessionId") String sessionId);
 
 
     /**
      * 查询用户积分明细
+     *
      * @param userId
      * @param sessionId
      * @param page
@@ -450,12 +455,13 @@ public interface Interfacea {
     @GET("user/verify/v1/findUserIntegralRecord")
     Observable<Result<List<IntegralRecordBean>>> findUserIntegralRecord(@Header("userId") int userId,
                                                                         @Header("sessionId") String sessionId,
-                                                                        @Query("page")int page,
-                                                                        @Query("count")int count);
+                                                                        @Query("page") int page,
+                                                                        @Query("count") int count);
 
 
     /**
      * 查询用户任务列表
+     *
      * @param userId
      * @param sessionId
      * @return
@@ -467,6 +473,7 @@ public interface Interfacea {
 
     /**
      * 我的帖子
+     *
      * @param userId
      * @param sessionId
      * @param page
@@ -476,12 +483,13 @@ public interface Interfacea {
     @GET("community/verify/v1/findMyPostById")
     Observable<Result<List<MyPostByIdBean>>> findMyPostById(@Header("userId") int userId,
                                                             @Header("sessionId") String sessionId,
-                                                            @Query("page")int page,
-                                                            @Query("count")int count);
+                                                            @Query("page") int page,
+                                                            @Query("count") int count);
 
 
     /**
      * 查询用户系统通知
+     *
      * @param userId
      * @param sessionId
      * @return
@@ -489,6 +497,39 @@ public interface Interfacea {
     @GET("tool/verify/v1/findSysNoticeList")
     Observable<Result<List<MyTongzhiBean>>> findSysNoticeList(@Header("userId") int userId,
                                                               @Header("sessionId") String sessionId,
-                                                              @Query("page")int page,
-                                                              @Query("count")int count);
+                                                              @Query("page") int page,
+                                                              @Query("count") int count);
+
+    /**
+     * 用户购买VIP
+     *
+     * @param userId
+     * @param sessionId
+     * @param commodityId
+     * @param sign
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("tool/verify/v1/buyVip")
+    Observable<Result> buyVip(@Header("userId") int userId,
+                              @Header("sessionId") String sessionId,
+                              @Field("commodityId") int commodityId,
+                              @Field("sign") String sign);
+
+    /**
+     * 资讯积分兑换
+     *
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @param integralCost
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("information/verify/v1/infoPayByIntegral")
+    Observable<Result> infoPayByIntegral(@Header("userId") int userId,
+                                         @Header("sessionId") String sessionId,
+                                         @Field("infoId") int infoId,
+                                         @Field("integralCost") int integralCost);
+
 }
