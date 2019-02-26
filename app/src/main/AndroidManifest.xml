@@ -47,8 +47,12 @@
         <activity android:name=".activity.FindGroupsByUserIdActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.PlateActivity"></activity>
-        <activity android:name=".activity.CollectionActivity" />
-        <activity android:name=".activity.WantAddFriendActivity" />
+        <activity android:name=".activity.CollectionActivity"/>
+        <activity android:name=".activity.WantAddFriendActivity"/>
+        <activity android:name=".activity.MyintegralActivity" />
+        <activity android:name=".activity.MytaskActivity" />
+        <activity android:name=".activity.MyPostActivity" />
+        <activity android:name=".activity.MyTongzhiActivity"></activity>
     </application>
 
 </manifest>

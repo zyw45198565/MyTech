@@ -8,14 +8,19 @@ import com.wd.tech.bean.GroupByUser;
 import com.wd.tech.bean.HomeAll;
 import com.wd.tech.bean.InformationSearchByTitleBean;
 import com.wd.tech.bean.InitFriendlist;
+import com.wd.tech.bean.IntegralRecordBean;
 import com.wd.tech.bean.LoginBean;
 import com.wd.tech.bean.MenusBean;
 import com.wd.tech.bean.MyBanner;
 import com.wd.tech.bean.FindCommunityList;
 import com.wd.tech.bean.MyLoveBean;
 import com.wd.tech.bean.MyComment;
+import com.wd.tech.bean.MyPostByIdBean;
+import com.wd.tech.bean.MyTongzhiBean;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.UserInfoBean;
+import com.wd.tech.bean.UserTaskBean;
+import com.wd.tech.bean.UserintegralBean;
 
 import java.io.File;
 import java.util.List;
@@ -294,6 +299,20 @@ public interface Interfacea {
                                     @Header("sessionId") String sessionId,
                                     @Query("focusId") int focusId);
 
+    /**
+     * 社区评论
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @param content
+     * @return
+     */
+    @POST("community/verify/v1/addCommunityComment")
+    @FormUrlEncoded
+    Observable<Result> addCommunityComment(@Header("userId") int userId,
+                                           @Header("sessionId") String sessionId,
+                                           @Field("communityId")int communityId,
+                                           @Field("content")String content);
 
     /**
      * 添加收藏
@@ -398,4 +417,78 @@ public interface Interfacea {
                                                                                   @Query("page") int page,
                                                                                   @Query("count") int count);
 
+    /**
+     * 查询用户积分
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("user/verify/v1/findUserIntegral")
+    Observable<Result<UserintegralBean>> findUserIntegral(@Header("userId") int userId,
+                                                          @Header("sessionId")String sessionId);
+
+
+    /**
+     * 查询用户当月所有签到的日期
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("user/verify/v1/findContinuousSignDays")
+    Observable<Result<Integer>> findContinuousSignDays(@Header("userId") int userId,
+                                                       @Header("sessionId")String sessionId);
+
+
+    /**
+     * 查询用户积分明细
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("user/verify/v1/findUserIntegralRecord")
+    Observable<Result<List<IntegralRecordBean>>> findUserIntegralRecord(@Header("userId") int userId,
+                                                                        @Header("sessionId") String sessionId,
+                                                                        @Query("page")int page,
+                                                                        @Query("count")int count);
+
+
+    /**
+     * 查询用户任务列表
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("user/verify/v1/findUserTaskList")
+    Observable<Result<List<UserTaskBean>>> findUserTaskList(@Header("userId") int userId,
+                                                            @Header("sessionId") String sessionId);
+
+
+    /**
+     * 我的帖子
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("community/verify/v1/findMyPostById")
+    Observable<Result<List<MyPostByIdBean>>> findMyPostById(@Header("userId") int userId,
+                                                            @Header("sessionId") String sessionId,
+                                                            @Query("page")int page,
+                                                            @Query("count")int count);
+
+
+    /**
+     * 查询用户系统通知
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("tool/verify/v1/findSysNoticeList")
+    Observable<Result<List<MyTongzhiBean>>> findSysNoticeList(@Header("userId") int userId,
+                                                              @Header("sessionId") String sessionId,
+                                                              @Query("page")int page,
+                                                              @Query("count")int count);
 }

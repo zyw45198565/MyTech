@@ -29,6 +29,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
 
     Context context;
     private ClickOkListener clickOkListener;
+    private TalkBack myTalkBack;
 
     public CommunityListAdapter(Context context) {
         this.context = context;
@@ -98,8 +99,15 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
                     findCommunityList.setPraise(findCommunityList.getPraise()+1);
                 }
                 myHolder.communitylist_like.setImageResource(R.drawable.community_icon_like_true);
-                clickOkListener.ClickOk(findCommunityList.getId());//todo 帖子id/社区id
+                clickOkListener.ClickOk(findCommunityList.getId());
                 notifyDataSetChanged();
+            }
+        });
+
+        myHolder.communitylist_left_linear.setOnClickListener(new View.OnClickListener() {//点击评论
+            @Override
+            public void onClick(View v) {
+                myTalkBack.talkBacks(findCommunityList.getId());
             }
         });
     }
@@ -163,10 +171,16 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         }
     }
     
-    public interface ClickOkListener{//点赞会掉到页面的自定义接口
+    public interface ClickOkListener{//点赞回电到页面的自定义接口/评论
         void ClickOk(int id);
     }
     public void setClickOkListener(ClickOkListener clickOkListener){
         this.clickOkListener = clickOkListener;
+    }
+     public interface TalkBack{//评论的自定义接口回调
+        void talkBacks(int id);
+    }
+    public void setMyTalkBack(TalkBack myTalkBack){
+        this.myTalkBack = myTalkBack;
     }
 }
