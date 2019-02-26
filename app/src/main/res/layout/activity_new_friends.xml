@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.NewFriendsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <LinearLayout
+            android:id="@+id/lineartop"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal"
+            android:background="#f2f2f2"
+            android:gravity="center">
+            <ImageView
+                android:layout_marginLeft="20dp"
+                android:id="@+id/new_firend_back"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/common_nav_btn_back_n_xhdpi"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="好友通知"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_marginRight="20dp"
+                />
+        </LinearLayout>
+
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
+            android:id="@+id/xrecyclerview"
+            android:layout_below="@+id/lineartop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#f2f2f2">
+
+        </com.jcodecraeer.xrecyclerview.XRecyclerView>
+
+    </RelativeLayout>
+</LinearLayout>

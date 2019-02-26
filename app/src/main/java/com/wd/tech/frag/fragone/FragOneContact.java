@@ -19,6 +19,8 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.activity.FindGroupsByUserIdActivity;
+import com.wd.tech.activity.GroupChatActivity;
+import com.wd.tech.activity.NewFriendsActivity;
 import com.wd.tech.bean.FriendInfoList;
 import com.wd.tech.bean.InitFriendlist;
 import com.wd.tech.bean.Result;
@@ -48,6 +50,10 @@ public class FragOneContact extends WDFragment {
     SmartRefreshLayout fragOneContactSmart;
     @BindView(R.id.frag_contact_find)
     LinearLayout fragContactFind;
+    @BindView(R.id.frag_contact_friend)
+    LinearLayout fragContactFriend;
+    @BindView(R.id.frag_contact_group)
+    LinearLayout fragContactGroup;
     private List<InitFriendlist> groups;
     Unbinder unbinder;
     private AllFriendsListPresenter allFriendsListPresenter;
@@ -103,11 +109,24 @@ public class FragOneContact extends WDFragment {
         allFriendsListPresenter.unBind();
     }
 
-    @OnClick(R.id.frag_contact_find)
-    public void onViewClicked() {
-        Intent intent = new Intent(getContext(), FindGroupsByUserIdActivity.class);
-        startActivity(intent);
+    @OnClick({R.id.frag_contact_friend, R.id.frag_contact_group, R.id.frag_contact_find})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.frag_contact_friend:
+                Intent intent_f = new Intent(getContext(), NewFriendsActivity.class);
+                startActivity(intent_f);
+                break;
+            case R.id.frag_contact_group:
+                Intent intent_g = new Intent(getContext(), GroupChatActivity.class);
+                startActivity(intent_g);
+                break;
+            case R.id.frag_contact_find:
+                Intent intent = new Intent(getContext(), FindGroupsByUserIdActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
+
 
     class MyExpandableListView extends BaseExpandableListAdapter {
 
@@ -187,7 +206,7 @@ public class FragOneContact extends WDFragment {
             }
             FriendInfoList friendInfoList = groups.get(groupPosition).getFriendInfoList().get(childPosition);
             holder.headric.setImageURI(friendInfoList.getHeadPic());
-            holder.qianming.setText(friendInfoList.getSignature());//单价
+            holder.qianming.setText(friendInfoList.getNickName());//单价
             return convertView;
         }
 

@@ -21,6 +21,7 @@ import com.wd.tech.WDApp;
 import com.wd.tech.activity.AdvertiseActivity;
 import com.wd.tech.activity.DetailsActivity;
 import com.wd.tech.activity.MenuActivity;
+import com.wd.tech.activity.SearchActivity;
 import com.wd.tech.adapter.HomeAllAdapter;
 import com.wd.tech.bean.HomeAll;
 import com.wd.tech.bean.MyBanner;
@@ -200,12 +201,16 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
                 Intent intent = new Intent(getActivity(), MenuActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.one_search:
+                Intent intent1=new Intent(getActivity(),SearchActivity.class);
+                startActivity(intent1);
+                break;
 
 
         }
     }
 
-    private class MyBannerCall implements DataCall<Result<List<MyBanner>>> {
+    public class MyBannerCall implements DataCall<Result<List<MyBanner>>> {
 
         @Override
         public void success(Result<List<MyBanner>> data) {

@@ -1,11 +1,18 @@
 package com.wd.tech.activity;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -46,7 +53,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailsActivity extends WDActivity {
+public class DetailsActivity extends BaseActivity {
 
 
     @BindView(R.id.title)
@@ -197,6 +204,7 @@ public class DetailsActivity extends WDActivity {
             }
         });
 
+        dialog = new Dialog(DetailsActivity.this,R.style.DialogTheme);
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,6 +220,46 @@ public class DetailsActivity extends WDActivity {
                 }
             }
         });
+        buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = View.inflate(DetailsActivity.this, R.layout.twobuy, null);
+                dialog.setContentView(view);
+                dialog.getWindow().setGravity(Gravity.BOTTOM);
+                dialog.show();
+                getshoud();
+                TextView vip = view.findViewById(R.id.vip);
+                TextView integral = view.findViewById(R.id.integral);
+                vip.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent1=new Intent(DetailsActivity.this,VipActivity.class);
+                        intent1.putExtra("zid",zid);
+                        Log.i("zid",zid+"=====================================");
+                        startActivity(intent1);
+                    }
+                });
+                integral.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent1=new Intent(DetailsActivity.this,IntegralActivity.class);
+                        intent1.putExtra("zid",zid);
+                        startActivity(intent1);
+                    }
+                });
+
+            }
+        });
+    }
+
+    private void getshoud() {
+        Window dialogWindow = dialog.getWindow();
+        WindowManager m = getWindow().getWindowManager();
+        Display d = m.getDefaultDisplay(); // 获取屏幕宽、高度
+        WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        p.width = (int) (d.getWidth()); // 宽度设置为屏幕的0.65，根据实际情况调整
+        p.height = (int) (d.getHeight()*0.65);
+        dialogWindow.setAttributes(p);
     }
 
     @Override
