@@ -16,6 +16,8 @@ import com.wd.tech.bean.MyLoveBean;
 import com.wd.tech.bean.MyTongzhiBean;
 import com.wd.tech.view.SideslipView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,23 +46,28 @@ public class SysNoticeAdapter extends RecyclerView.Adapter<SysNoticeAdapter.MyVi
     //填充onCreateViewHolder方法返回的holder中的控件
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date date1 = new Date(mDatas.get(position).getCreateTime());
+        holder.date.setText(sf.format(date1)+"");
+        holder.count.setText(""+mDatas.get(position).getContent());
     }
 
     //重写onCreateViewHolder方法，返回一个自定义的ViewHolder
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.mylove_item,parent,false);
+        View view = inflater.inflate(R.layout.syssnotice_item,parent,false);
         MyViewHolder holder=new MyViewHolder(view);
         return holder;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder { //承载Item视图的子布局
-
+        TextView date;
+        TextView  count;
 
         public MyViewHolder(View view) {
             super(view);
-
+            date = view.findViewById(R.id.date);
+            count = view.findViewById(R.id.count);
         }
     }
 

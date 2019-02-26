@@ -1,0 +1,165 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:background="#fff"
+        android:layout_height="80dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:id="@+id/back"
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/common_nav_btn_back_n_"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_centerInParent="true"
+                android:textColor="#666666"
+                android:text="签到"/>
+
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+
+    <View
+        android:background="#ddd"
+        android:layout_below="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+
+
+    <RelativeLayout
+        android:layout_marginTop="2dp"
+        android:id="@+id/rl_current_date"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_below="@id/line">
+
+        <TextView
+            android:id="@+id/tv_sign_year_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="60dp"
+            android:text="2017年11月"
+            android:textColor="#666666"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+    <com.wd.tech.view.SignCalendar
+        android:id="@+id/sc_main"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:layout_below="@id/rl_current_date"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:clickable="true" />
+
+
+    <Button
+        android:id="@+id/rl_btn_sign"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/click_btn_shapert"
+        android:text="签到"
+        android:textColor="#ffffff" />
+
+  <!--  <RelativeLayout
+        android:id="@+id/rl_get_gift_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#dd000000"
+        android:clickable="false">
+
+        <ImageView
+            android:id="@+id/iv_huode"
+            android:layout_width="229dp"
+            android:layout_height="59dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="120dp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_sun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_huode"
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:id="@+id/iv_sun_bg"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_centerInParent="true" />
+
+            <ImageView
+                android:id="@+id/iv_sun"
+                android:layout_width="98dp"
+                android:layout_height="95dp"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_text_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_sun"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/tv_text_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="每日签到可增加10个积分"
+                android:textColor="#ffffff"
+                android:textSize="13sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_queding_btn"
+            android:layout_width="218dp"
+            android:layout_height="38dp"
+            android:layout_below="@id/rl_text_info"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="19dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:text="确定"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+        </RelativeLayout>
+    </RelativeLayout>-->
+
+</RelativeLayout>

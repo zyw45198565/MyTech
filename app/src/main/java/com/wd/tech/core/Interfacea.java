@@ -464,4 +464,50 @@ public interface Interfacea {
                                                               @Header("sessionId") String sessionId,
                                                               @Query("page")int page,
                                                               @Query("count")int count);
+
+
+    /**
+     * 删除帖子(支持批量删除)
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @return
+     */
+    @DELETE("community/verify/v1/deletePost")
+    Observable<Result> deletePost(@Header("userId") int userId,
+                                   @Header("sessionId") String sessionId,
+                                   @Query("communityId")String communityId);
+
+
+    /**
+     *  查询当天签到状态
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("user/verify/v1/findUserSignStatus")
+    Observable<Result> findUserSignStatus(@Header("userId") int userId,
+                                          @Header("sessionId") String sessionId);
+
+
+    /**
+     * 查询用户当月所有签到的日期
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("user/verify/v1/findUserSignRecording")
+    Observable<Result> findUserSignRecording(@Header("userId") int userId,
+                                          @Header("sessionId") String sessionId);
+
+
+    /**
+     * 签到
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @POST("user/verify/v1/userSign")
+    Observable<Result> userSign(@Header("userId") int userId,
+                                             @Header("sessionId") String sessionId);
 }
