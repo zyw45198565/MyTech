@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.ParseException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -57,6 +58,7 @@ public class FindUserDetailsActivity extends WDActivity {
     private CheckMyFriendPresenter checkMyFriendPresenter;
     private int userid;
     private String session1d;
+    private FindUser findUser;
 
     @Override
     protected int getLayoutId() {
@@ -66,16 +68,26 @@ public class FindUserDetailsActivity extends WDActivity {
     @Override
     protected void initView() {
         Intent intent = getIntent();
-        FindUser findUser = (FindUser) intent.getSerializableExtra("findUser");
+        findUser = (FindUser) intent.getSerializableExtra("findUser");
         if (findUser.getWhetherVip()!=1){
             userDetailsWhetherVip.setVisibility(View.GONE);
         }
         userDetailsIcon.setImageURI(Uri.parse(findUser.getHeadPic()));
         userDetailsName.setText(findUser.getNickName());
-        userDetailsEmail.setText(findUser.getEmail());
+
         userDetailsPhone.setText(findUser.getPhone());
-        userDetailsIntegral.setText("("+findUser.getIntegral()+")");
-        userDetailsSignature.setText(findUser.getSignature());
+        userDetailsIntegral.setText("("+ findUser.getIntegral()+"积分)");
+
+        if (TextUtils.isEmpty(findUser.getSignature())){
+            userDetailsSignature.setText("暂无个人签名");
+        }else {
+            userDetailsSignature.setText(findUser.getSignature());
+        }
+        if (TextUtils.isEmpty(findUser.getSignature())){
+            userDetailsEmail.setText("暂无邮箱");
+        }else {
+            userDetailsEmail.setText(findUser.getEmail());
+        }
         if (findUser.getSex()==1){
             try {
                 userDetailsSex.setText("男");//+"("+ DateUtils.dateFormat(findUser.),DateUtils.MINUTE_PATTERN));
@@ -90,7 +102,7 @@ public class FindUserDetailsActivity extends WDActivity {
         userid = share.getInt("userid", 0);
         session1d = share.getString("sessionid", "");
         checkMyFriendPresenter = new CheckMyFriendPresenter(new CheckMyFriend());
-        checkMyFriendPresenter.reqeust(userid,session1d,findUser.getUserId());
+        checkMyFriendPresenter.reqeust(userid,session1d, findUser.getUserId());
 
     }
 
@@ -116,7 +128,9 @@ public class FindUserDetailsActivity extends WDActivity {
                 if (flag==1){
                     UIUtils.showToastSafe("发消息");
                 }else {
-
+                    Intent intent = new Intent(FindUserDetailsActivity.this,WantAddFriendActivity.class);
+                    intent.putExtra("findUser",findUser);
+                    startActivity(intent);
                 }
                 break;
         }

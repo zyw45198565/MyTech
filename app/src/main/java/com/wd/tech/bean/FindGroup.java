@@ -1,11 +1,13 @@
 package com.wd.tech.bean;
 
+import java.io.Serializable;
+
 /**
  * date:2019/2/20 17:23
  * author:陈国星(陈国星)
  * function:
  */
-public class FindGroup {
+public class FindGroup implements Serializable {
 
     /**
      * currentCount : 2
