@@ -1,7 +1,9 @@
 package com.wd.tech.core;
 
 import com.wd.tech.bean.CollectionBean;
+import com.wd.tech.bean.FindFriendNoticePageList;
 import com.wd.tech.bean.FindGroup;
+import com.wd.tech.bean.FindGroupNoticePageList;
 import com.wd.tech.bean.FindUser;
 import com.wd.tech.bean.DetailsBean;
 import com.wd.tech.bean.GroupByUser;
@@ -28,6 +30,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 /**
@@ -151,6 +154,13 @@ public interface Interfacea {
                                                  @Header("sessionId")String sessionId,
                                                  @Query("phone")String phone);
 
+    /**
+     * 通过群Id查群
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @return
+     */
     @GET("group/verify/v1/findGroupInfo")
     Observable<Result<FindGroup>> findGroupInfo(@Header("userId")int userId,
                                                 @Header("sessionId")String sessionId,
@@ -249,7 +259,8 @@ public interface Interfacea {
      * @param sessionId
      * @return
      */
-    @GET("group/verify/v1/findGroupsByUserId")
+    //@GET("group/verify/v1/findGroupsByUserId")
+    @GET("group/verify/v1/findUserJoinedGroup")
     Observable<Result<List<GroupByUser>>> findGroupsByUserId(@Header("userId") int userId,
                                                              @Header("sessionId") String sessionId);
 
@@ -321,10 +332,92 @@ public interface Interfacea {
     Observable<Result> checkMyFriend(@Header("userId") int userId,
                                      @Header("sessionId") String sessionId,
                                      @Query("friendUid") int friendUid);
+    /**
+     * 判断用户是否已在群内
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @return
+     */
+    @GET("group/verify/v1/whetherInGroup")
+    Observable<Result> whetherInGroup(@Header("userId") int userId,
+                                     @Header("sessionId") String sessionId,
+                                     @Query("groupId") int groupId);
+
+    /**
+     * 添加好友
+     * @param userId
+     * @param sessionId
+     * @param friendUid
+     * @param remark
+     * @return
+     */
     @POST("chat/verify/v1/addFriend")
     @FormUrlEncoded
     Observable<Result> addFriend(@Header("userId") int userId,
                                    @Header("sessionId") String sessionId,
                                    @Field("friendUid") int friendUid,
                                    @Field("remark") String remark);
+
+    /**
+     * 申请进群
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @param remark
+     * @return
+     */
+    @POST("group/verify/v1/applyAddGroup")
+    @FormUrlEncoded
+    Observable<Result> applyAddGroup(@Header("userId") int userId,
+                                   @Header("sessionId") String sessionId,
+                                   @Field("groupId") int groupId,
+                                   @Field("remark") String remark);
+    /**
+     * https://172.17.8.100/techApi/chat/verify/v1/findFriendNoticePageList
+     * 查询新朋友的界面
+     */
+    @GET("chat/verify/v1/findFriendNoticePageList")
+    Observable<Result<List<FindFriendNoticePageList>>> findFriendNoticePageList(@Header("userId") int userId,
+                                                                                @Header("sessionId")String sessionId,
+                                                                                @Query("page")int page, @Query("count")int count);
+
+    /**
+     * https://172.17.8.100/techApi/group/verify/v1/findGroupNoticePageList
+     * 查询群聊界面findgroupnoticepagelist
+     */
+    @GET("group/verify/v1/findGroupNoticePageList")
+    Observable<Result<List<FindGroupNoticePageList>>> findGroupNoticePageList(@Header("userId") int userId,
+                                                                              @Header("sessionId")String sessionId,
+                                                                              @Query("page")int page, @Query("count")int count);
+
+    /**
+     * 审核好友申请
+     * @param userId
+     * @param sessionId
+     * @param noticeId
+     * @param flag
+     * @return
+     */
+    @PUT("chat/verify/v1/reviewFriendApply")
+    @FormUrlEncoded
+    Observable<Result> reviewFriendApply(@Header("userId") int userId,
+                                         @Header("sessionId")String sessionId,
+                                         @Field("noticeId") int noticeId,
+                                         @Field("flag") int flag );
+    /**
+     * 审核好友申请
+     * @param userId
+     * @param sessionId
+     * @param noticeId
+     * @param flag
+     * @return
+     */
+    @PUT("group/verify/v1/reviewGroupApply")
+    @FormUrlEncoded
+    Observable<Result> reviewGroupApply(@Header("userId") int userId,
+                                         @Header("sessionId")String sessionId,
+                                         @Field("noticeId") int noticeId,
+                                         @Field("flag") int flag );
+
 }

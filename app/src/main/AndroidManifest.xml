@@ -46,6 +46,10 @@
         <activity android:name=".activity.SearchActivity"></activity>
         <activity android:name=".activity.CollectionActivity"/>
         <activity android:name=".activity.WantAddFriendActivity"/>
+        <activity android:name=".activity.FindGroupDetailsActivity"/>
+        <activity android:name=".activity.WantAddGroupActivity"/>
+        <activity android:name=".activity.NewFriendsActivity"/>
+        <activity android:name=".activity.GroupChatActivity"/>
     </application>
 
 </manifest>
