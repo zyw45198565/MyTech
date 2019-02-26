@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.MytaskActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="24dp"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:text="日常任务"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:text="每日签到"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_centerInParent="true"
+            android:textColor="#ff5757"
+            android:text="+10"/>
+
+        <Button
+            android:id="@+id/qian"
+            android:textSize="10sp"
+            android:background="@drawable/mytask_btn_sel"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24dp"
+            android:layout_width="50dp"
+            android:layout_height="26dp"
+            android:textColor="#20affa"
+            android:text="去签到"/>
+
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#f2f2f2"/>
+
+    </RelativeLayout>
+
+    <!--11111111111111111111111111111111111111111111111111111111111-->
+
+    <RelativeLayout
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:text="每日首评"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_centerInParent="true"
+            android:textColor="#ff5757"
+            android:text="+10"/>
+
+        <Button
+            android:id="@+id/ping"
+            android:background="@drawable/mytask_btn_sel"
+            android:textSize="10sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24dp"
+            android:layout_width="50dp"
+            android:layout_height="26dp"
+            android:textColor="#20affa"
+            android:text="去评价"/>
+
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#f2f2f2"/>
+
+    </RelativeLayout>
+
+
+
+    <!--11111111111111111111111111111111111111111111111111111-->
+
+    <RelativeLayout
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:text="每日发帖"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_centerInParent="true"
+            android:textColor="#ff5757"
+            android:text="+20"/>
+
+        <Button
+            android:id="@+id/tie"
+            android:background="@drawable/mytask_btn_sel"
+            android:textSize="10sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24dp"
+            android:layout_width="50dp"
+            android:layout_height="26dp"
+            android:textColor="#20affa"
+            android:text="去发帖"/>
+
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#f2f2f2"/>
+
+    </RelativeLayout>
+
+
+
+    <!--11111111111111111111111111111111111111111111111111111-->
+
+    <RelativeLayout
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:text="每日分享"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_centerInParent="true"
+            android:textColor="#ff5757"
+            android:text="+20"/>
+
+        <Button
+            android:id="@+id/fenxiang"
+            android:background="@drawable/mytask_btn_sel"
+            android:textSize="10sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24dp"
+            android:layout_width="50dp"
+            android:layout_height="26dp"
+            android:textColor="#20affa"
+            android:text="去分享"/>
+
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#f2f2f2"/>
+
+    </RelativeLayout>
+
+
+
+    <!--11111111111111111111111111111111111111111111111111111-->
+
+    <RelativeLayout
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:text="每日查看广告"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_centerInParent="true"
+            android:textColor="#ff5757"
+            android:text="+20"/>
+
+        <Button
+            android:id="@+id/chakan"
+            android:background="@drawable/mytask_btn_sel"
+            android:textSize="10sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24dp"
+            android:layout_width="50dp"
+            android:layout_height="26dp"
+            android:textColor="#20affa"
+            android:text="去查看"/>
+
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#f2f2f2"/>
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="24dp"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:text="一次性任务"/>
+
+    <!--11111111111111111111111111111111111111111111111111111-->
+
+    <RelativeLayout
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:text="完善用户信息"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_centerInParent="true"
+            android:textColor="#ff5757"
+            android:text="+50"/>
+
+        <Button
+            android:id="@+id/wanshan"
+            android:background="@drawable/mytask_btn_sel"
+            android:textSize="10sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24dp"
+            android:layout_width="50dp"
+            android:layout_height="26dp"
+            android:textColor="#20affa"
+            android:text="去完善"/>
+
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#f2f2f2"/>
+
+    </RelativeLayout>
+
+
+    <!--11111111111111111111111111111111111111111111111111111-->
+
+    <RelativeLayout
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:text="绑定微信"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_centerInParent="true"
+            android:textColor="#ff5757"
+            android:text="+50"/>
+
+        <Button
+            android:id="@+id/bangding"
+            android:background="@drawable/mytask_btn_sel"
+            android:textSize="10sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24dp"
+            android:layout_width="50dp"
+            android:layout_height="26dp"
+            android:textColor="#20affa"
+            android:text="去绑定"/>
+
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#f2f2f2"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -9,14 +9,19 @@ import com.wd.tech.bean.DetailsBean;
 import com.wd.tech.bean.GroupByUser;
 import com.wd.tech.bean.HomeAll;
 import com.wd.tech.bean.InitFriendlist;
+import com.wd.tech.bean.IntegralRecordBean;
 import com.wd.tech.bean.LoginBean;
 import com.wd.tech.bean.MenusBean;
 import com.wd.tech.bean.MyBanner;
 import com.wd.tech.bean.FindCommunityList;
 import com.wd.tech.bean.MyLoveBean;
 import com.wd.tech.bean.MyComment;
+import com.wd.tech.bean.MyPostByIdBean;
+import com.wd.tech.bean.MyTongzhiBean;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.UserInfoBean;
+import com.wd.tech.bean.UserTaskBean;
+import com.wd.tech.bean.UserintegralBean;
 
 import java.io.File;
 import java.util.List;
@@ -294,7 +299,51 @@ public interface Interfacea {
 
 
     /**
+     * 社区评论
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @param content
+     * @return
+     */
+    @POST("community/verify/v1/addCommunityComment")
+    @FormUrlEncoded
+    Observable<Result> addCommunityComment(@Header("userId") int userId,
+                                           @Header("sessionId") String sessionId,
+                                           @Field("communityId")int communityId,
+                                           @Field("content")String content);
+
+    /**
+     * 添加收藏
+     *
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/verify/v1/addCollection")
+    Observable<Result> addCollection(@Header("userId") int userId,
+                                     @Header("sessionId") String sessionId,
+                                     @Field("infoId") int infoId);
+
+    /**
+     * 取消收藏（支持批量操作）
+     *
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @return
+     */
+    @DELETE("user/verify/v1/cancelCollection")
+    Observable<Result> cancelCollection(@Header("userId") int userId,
+                                        @Header("sessionId") String sessionId,
+                                        @Query("infoId") String infoId);
+
+
+    /**
      * 用户收藏列表
+     *
      * @param userId
      * @param sessionId
      * @param page
@@ -304,25 +353,13 @@ public interface Interfacea {
     @GET("user/verify/v1/findAllInfoCollection")
     Observable<Result<List<CollectionBean>>> findAllInfoCollection(@Header("userId") int userId,
                                                                    @Header("sessionId") String sessionId,
-                                                                   @Query("page")int page,
-                                                                   @Query("count")int count);
-
-
-    /**
-     * 取消收藏（支持批量操作）
-     * @param userId
-     * @param sessionId
-     * @param infoId
-     * @return
-     */
-    @DELETE("user/verify/v1/cancelCollection")
-    Observable<Result> cancelCollection(@Header("userId") int userId,
-                                    @Header("sessionId") String sessionId,
-                                    @Query("infoId")String infoId);
+                                                                   @Query("page") int page,
+                                                                   @Query("count") int count);
 
 
     /**
      * 检测是否为我的好友
+     *
      * @param userId
      * @param sessionId
      * @param friendUid
@@ -352,9 +389,115 @@ public interface Interfacea {
      * @param remark
      * @return
      */
+
     @POST("chat/verify/v1/addFriend")
     @FormUrlEncoded
     Observable<Result> addFriend(@Header("userId") int userId,
+                                 @Header("sessionId") String sessionId,
+                                 @Field("friendUid") int friendUid,
+                                 @Field("remark") String remark);
+
+    /**
+     * 资讯点赞
+     *
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("information/verify/v1/addGreatRecord")
+    Observable<Result> addGreatRecord(@Header("userId") int userId,
+                                      @Header("sessionId") String sessionId,
+                                      @Field("infoId") int infoId);
+
+    /**
+     * 取消点赞
+     *
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @return
+     */
+    @DELETE("information/verify/v1/cancelGreat")
+    Observable<Result> cancelGreat(@Header("userId") int userId,
+                                   @Header("sessionId") String sessionId,
+                                   @Query("infoId") int infoId);
+
+    /**
+     * 查询用户积分
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("user/verify/v1/findUserIntegral")
+    Observable<Result<UserintegralBean>> findUserIntegral(@Header("userId") int userId,
+                                                          @Header("sessionId")String sessionId);
+
+
+    /**
+     * 查询用户当月所有签到的日期
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("user/verify/v1/findContinuousSignDays")
+    Observable<Result<Integer>> findContinuousSignDays(@Header("userId") int userId,
+                                                       @Header("sessionId")String sessionId);
+
+
+    /**
+     * 查询用户积分明细
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("user/verify/v1/findUserIntegralRecord")
+    Observable<Result<List<IntegralRecordBean>>> findUserIntegralRecord(@Header("userId") int userId,
+                                                                        @Header("sessionId") String sessionId,
+                                                                        @Query("page")int page,
+                                                                        @Query("count")int count);
+
+
+    /**
+     * 查询用户任务列表
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("user/verify/v1/findUserTaskList")
+    Observable<Result<List<UserTaskBean>>> findUserTaskList(@Header("userId") int userId,
+                                                            @Header("sessionId") String sessionId);
+
+
+    /**
+     * 我的帖子
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("community/verify/v1/findMyPostById")
+    Observable<Result<List<MyPostByIdBean>>> findMyPostById(@Header("userId") int userId,
+                                                            @Header("sessionId") String sessionId,
+                                                            @Query("page")int page,
+                                                            @Query("count")int count);
+
+
+    /**
+     * 查询用户系统通知
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("tool/verify/v1/findSysNoticeList")
+    Observable<Result<List<MyTongzhiBean>>> findSysNoticeList(@Header("userId") int userId,
+                                                              @Header("sessionId") String sessionId,
+                                                              @Query("page")int page,
+                                                              @Query("count")int count);
                                    @Header("sessionId") String sessionId,
                                    @Field("friendUid") int friendUid,
                                    @Field("remark") String remark);

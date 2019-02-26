@@ -13,6 +13,7 @@ import com.wd.tech.R;
 import com.wd.tech.bean.DetailsBean;
 import com.wd.tech.bean.MyComment;
 import com.wd.tech.utils.util.DateUtils;
+import com.wd.tech.utils.util.DateUtils1;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -42,11 +43,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Myholder
         myholder.head.setImageURI(list.get(i).getHeadPic());
         myholder.name.setText(list.get(i).getNickName());
         myholder.title.setText(list.get(i).getContent());
-        try {
-            myholder.time.setText(DateUtils.dateFormat(new Date(list.get(i).getCommentTime()),DateUtils.DATE_PATTERN));
+        /*try {
+            myholder.time.setText(DateUtils.dateFormat(new Date(list.get(i).getCommentTime()),DateUtils.MINUTE_PATTERN));
         } catch (ParseException e) {
             e.printStackTrace();
+        }*/
+        try {
+            myholder.time.setText(DateUtils1.dateTransformer(Long.parseLong(list.get(i).getCommentTime() + ""), DateUtils1.DATE_PATTERN));//显示时间
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     @Override

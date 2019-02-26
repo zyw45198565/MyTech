@@ -54,6 +54,10 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
     private LinearLayout setting;
     private LinearLayout love;
     private LinearLayout shoucang;
+    private LinearLayout myinyegral;
+    private LinearLayout myTask;
+    private LinearLayout tie;
+    private LinearLayout tongzhi;
 
     @Override
     protected void initView() {
@@ -151,7 +155,14 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
         love.setOnClickListener(this);
         shoucang = findViewById(R.id.shoucang);
         shoucang.setOnClickListener(this);
-
+        myinyegral = findViewById(R.id.myinyegral);
+        myinyegral.setOnClickListener(this);
+        myTask = findViewById(R.id.myTask);
+        myTask.setOnClickListener(this);
+        tie = findViewById(R.id.tie);
+        tie.setOnClickListener(this);
+        tongzhi = findViewById(R.id.tongzhi);
+        tongzhi.setOnClickListener(this);
     }
 
     @Override
@@ -200,6 +211,22 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
             case R.id.shoucang:
                 Intent intent2 = new Intent(HomeActivity.this,CollectionActivity.class);
                 startActivity(intent2);
+                break;
+            case R.id.myinyegral:
+                Intent intent3 = new Intent(HomeActivity.this,MyintegralActivity.class);
+                startActivity(intent3);
+                break;
+            case R.id.myTask:
+                Intent intent4 = new Intent(HomeActivity.this,MytaskActivity.class);
+                startActivity(intent4);
+                break;
+            case R.id.tie:
+                Intent intent5 = new Intent(HomeActivity.this,MyPostActivity.class);
+                startActivity(intent5);
+                break;
+            case R.id.tongzhi:
+                Intent intent6 = new Intent(HomeActivity.this,MyTongzhiActivity.class);
+                startActivity(intent6);
                 break;
         }
     }

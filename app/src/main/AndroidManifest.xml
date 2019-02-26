@@ -33,23 +33,28 @@
             android:value="1280" />
 
         <activity android:name=".activity.HomeActivity" />
-        <activity android:name=".activity.MenuActivity"></activity>
-        <activity android:name=".activity.LoginActivity"/>
-        <activity android:name=".activity.RegistrActivity"/>
-        <activity android:name=".activity.MySettingActivity"/>
-        <activity android:name=".activity.DetailsActivity"/>
+        <activity android:name=".activity.MenuActivity" />
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.RegistrActivity" />
+        <activity android:name=".activity.MySettingActivity" />
+        <activity android:name=".activity.DetailsActivity" />
         <activity android:name=".activity.AddFriendActivity" />
         <activity android:name=".activity.FindUserDetailsActivity" />
-        <activity android:name=".activity.LoveActivity"></activity>
-        <activity android:name=".activity.AdvertiseActivity"></activity>
-        <activity android:name=".activity.FindGroupsByUserIdActivity"/>
-        <activity android:name=".activity.SearchActivity"></activity>
+        <activity android:name=".activity.LoveActivity" />
+        <activity android:name=".activity.AdvertiseActivity" />
+        <activity android:name=".activity.FindGroupsByUserIdActivity" />
+        <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.PlateActivity"></activity>
         <activity android:name=".activity.CollectionActivity"/>
         <activity android:name=".activity.WantAddFriendActivity"/>
         <activity android:name=".activity.FindGroupDetailsActivity"/>
         <activity android:name=".activity.WantAddGroupActivity"/>
         <activity android:name=".activity.NewFriendsActivity"/>
         <activity android:name=".activity.GroupChatActivity"/>
+        <activity android:name=".activity.MyintegralActivity" />
+        <activity android:name=".activity.MytaskActivity" />
+        <activity android:name=".activity.MyPostActivity" />
+        <activity android:name=".activity.MyTongzhiActivity"></activity>
     </application>
 
 </manifest>

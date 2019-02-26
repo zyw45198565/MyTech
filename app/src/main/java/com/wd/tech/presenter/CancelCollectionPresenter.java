@@ -1,7 +1,6 @@
 package com.wd.tech.presenter;
 
 
-
 import com.wd.tech.core.Interfacea;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.NetWorkManager;
@@ -9,23 +8,16 @@ import com.wd.tech.utils.NetWorkManager;
 import io.reactivex.Observable;
 
 /**
- * @author dingtao
- * @date 2018/12/28 11:23
- * qq:1940870847
+ * 取消收藏（支持批量操作）
  */
-
-public class CancelCollectionPresenter extends WDPresenter {
-
+public class CancelCollectionPresenter extends WDPresenter{
     public CancelCollectionPresenter(DataCall dataCall) {
         super(dataCall);
     }
 
     @Override
     protected Observable observable(Object... args) {
-        Interfacea iRequest = NetWorkManager.getInstance().create(Interfacea.class);
-        return iRequest.cancelCollection((int)args[0],(String)args[1],(String) args[2]);
+        Interfacea interfacea = NetWorkManager.getInstance().create(Interfacea.class);
+        return interfacea.cancelCollection((int)args[0],(String)args[1],(String)args[2]);
     }
-
-
 }
-

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/frag03_write_comment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="7dp"
+        android:background="#ffffff"
+        android:layout_alignParentBottom="true">
+        <EditText
+            android:id="@+id/frag03_write_comment_edit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:hint="说点什么！见证当下~"
+            android:paddingLeft="2dp"
+            android:background="@drawable/commment_edite_shape"
+            android:textSize="16sp"
+            />
+        <TextView
+            android:id="@+id/frag03_write_comment_send"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="发送"
+            android:textSize="12sp"
+            android:textColor="#666666"/>
+    </LinearLayout>
+</LinearLayout>

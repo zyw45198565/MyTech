@@ -83,7 +83,7 @@ public class LoveActivity extends BaseActivity implements DataCall<Result<List<M
             public void onRefresh(RefreshLayout refreshlayout) {
                 page=1;
                 loveBeans.clear();
-              //  myLovePresenter.reqeust(userid,sessionid,page,count);
+                myLovePresenter.reqeust(userid,sessionid,page,count);
                 refreshlayout.finishRefresh();
             }
         });
@@ -92,7 +92,7 @@ public class LoveActivity extends BaseActivity implements DataCall<Result<List<M
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 page++;
-               // myLovePresenter.reqeust(userid,sessionid,page,count);
+                myLovePresenter.reqeust(userid,sessionid,page,count);
                 refreshlayout.finishLoadmore();
             }
         });

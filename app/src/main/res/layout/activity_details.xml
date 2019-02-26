@@ -48,6 +48,34 @@
                 android:layout_height="187dp"
                 android:layout_marginTop="@dimen/dip_10" />
 
+            <RelativeLayout
+                android:id="@+id/buy_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/weep"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="70dp"
+                    android:src="@drawable/weep" />
+
+                <Button
+                    android:id="@+id/buy"
+                    android:layout_width="250dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/weep"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="90dp"
+                    android:background="@drawable/buy_shape"
+                    android:text="尚未购买，付费再来阅读吧"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
             <WebView
                 android:id="@+id/mywebview"
                 android:layout_width="match_parent"
@@ -76,11 +104,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                android:text="评论"
+                android:textColor="#999"
+                android:textSize="10sp" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/commentrecycler"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:id="@+id/comment_all"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"></android.support.v7.widget.RecyclerView>
+                android:orientation="vertical"
+                android:layout_marginBottom="100dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:src="@drawable/nocomment" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:text="成为第一个评论的人" />
+
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 
@@ -94,6 +155,7 @@
         android:visibility="visible">
 
         <ImageView
+            android:id="@+id/back"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center"
@@ -102,13 +164,13 @@
             android:src="@drawable/back" />
 
         <EditText
-            android:focusable="false"
             android:id="@+id/mycomment_one"
             android:layout_width="160dp"
             android:layout_height="24dp"
             android:layout_margin="@dimen/dip_10"
             android:layout_weight="1"
             android:background="@drawable/ed_shape"
+            android:focusable="false"
             android:hint="既然来了,就留下点什么吧"
             android:paddingLeft="10dp"
             android:textSize="10sp" />
@@ -122,16 +184,38 @@
             android:button="@null"
             android:padding="10dp" />
 
+        <TextView
+            android:id="@+id/comment_num"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/number_shape"
+            android:gravity="center"
+            android:text="32"
+            android:textColor="#fff"
+            android:textSize="8sp" />
+
         <CheckBox
+            android:id="@+id/hand"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_gravity="center"
             android:layout_marginLeft="12dp"
-            android:background="@drawable/prise_n"
+            android:background="@drawable/praise"
             android:button="@null"
             android:padding="10dp" />
 
+        <TextView
+            android:id="@+id/hand_num"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/number_shape"
+            android:gravity="center"
+            android:text="32"
+            android:textColor="#fff"
+            android:textSize="8sp" />
+
         <CheckBox
+            android:id="@+id/like"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_gravity="center"
@@ -141,43 +225,56 @@
             android:padding="10dp" />
 
         <CheckBox
+            android:id="@+id/share"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_gravity="center"
             android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
             android:background="@drawable/share"
             android:button="@null"
             android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/share_num"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/number_shape"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="#fff"
+            android:textSize="8sp" />
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/comment_two"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:background="#fff"
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <EditText
             android:id="@+id/mycomment_two"
-            android:padding="10dp"
-            android:hint="既然来了,就留下点什么吧"
-            android:textSize="10sp"
-            android:layout_weight="1"
-            android:gravity="top"
-            android:background="@drawable/ed_shape"
             android:layout_width="wrap_content"
             android:layout_height="95dp"
-            android:layout_margin="12dp" />
+            android:layout_margin="12dp"
+            android:layout_weight="1"
+            android:background="@drawable/ed_shape"
+            android:gravity="top"
+            android:hint="既然来了,就留下点什么吧"
+            android:padding="10dp"
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/publish"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:layout_marginRight="12dp"
+            android:layout_marginBottom="12dp"
             android:text="发表"
             android:textColor="#666666"
             android:textSize="12sp" />

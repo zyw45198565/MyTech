@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.activity.DetailsActivity;
+import com.wd.tech.activity.PlateActivity;
 import com.wd.tech.bean.MenusBean;
 
 import java.util.ArrayList;
@@ -41,8 +42,9 @@ public class MenusAdapter extends RecyclerView.Adapter<MenusAdapter.MyHolder> {
         myHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context,DetailsActivity.class);
-                intent.putExtra("zid",menusBean.getId());
+                Intent intent=new Intent(context,PlateActivity.class);
+                intent.putExtra("mname",menusBean.getName());
+                intent.putExtra("mid",menusBean.getId());
                 context.startActivity(intent);
             }
         });
