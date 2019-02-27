@@ -74,6 +74,7 @@
 
             <!--111111111111111111111111111111111111111111111-->
             <LinearLayout
+                android:id="@+id/llhead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -265,6 +266,7 @@
 
         <!--1111111111111111111111111111111111111111111-->
         <LinearLayout
+            android:id="@+id/lldate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"

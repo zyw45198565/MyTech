@@ -36,11 +36,16 @@ public class MyPostAdapter extends RecyclerView.Adapter<MyPostAdapter.MyViewHold
     private List<MyPostByIdBean> mDatas;
     private Context mContext;
     private LayoutInflater inflater;
+    Shan shan;
 
     public MyPostAdapter(Context context, List<MyPostByIdBean> datas){
         this.mContext=context;
         this.mDatas=datas;
         inflater=LayoutInflater.from(mContext);
+    }
+
+    public void getShan(Shan shan){
+        this.shan=shan;
     }
 
     @Override
@@ -71,6 +76,12 @@ public class MyPostAdapter extends RecyclerView.Adapter<MyPostAdapter.MyViewHold
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        holder.shan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shan.onShan(position);
+            }
+        });
 
     }
 
@@ -88,6 +99,7 @@ public class MyPostAdapter extends RecyclerView.Adapter<MyPostAdapter.MyViewHold
         TextView pingsum;
         TextView  date;
         RecyclerView recycler;
+        TextView shan;
 
         public MyViewHolder(View view) {
             super(view);
@@ -96,7 +108,12 @@ public class MyPostAdapter extends RecyclerView.Adapter<MyPostAdapter.MyViewHold
             pingsum = view.findViewById(R.id.pingsum);
             date = view.findViewById(R.id.date);
             recycler = view.findViewById(R.id.recycler);
+            shan = view.findViewById(R.id.shan);
         }
+    }
+
+    public interface Shan{
+        void onShan(int i);
     }
 
 }
