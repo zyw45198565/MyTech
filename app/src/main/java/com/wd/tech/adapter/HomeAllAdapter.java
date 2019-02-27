@@ -2,13 +2,18 @@ package com.wd.tech.adapter;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,14 +35,19 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     List<HomeAll> list = new ArrayList<>();
     private int whetherAdvertising;
     Mylove mylove;
+    MyShare myShare;
     Context context;
 
     public HomeAllAdapter(Context context) {
         this.context = context;
     }
 
-    public void xihuan(Mylove mylove){
-        this.mylove=mylove;
+    public void xihuan(Mylove mylove) {
+        this.mylove = mylove;
+    }
+
+    public void sharecircle(MyShare myShare) {
+        this.myShare = myShare;
     }
 
     @Override
@@ -80,9 +90,8 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holderA.title.setText(homeAll.getTitle());
                 holderA.content.setText(homeAll.getSummary());
                 holderA.writer.setText(homeAll.getSource());
-                holderA.likenum.setText(homeAll.getCollection()+"");
-                holderA.sharenum.setText(homeAll.getShare()+"");
-
+                holderA.likenum.setText(homeAll.getCollection() + "");
+                holderA.sharenum.setText(homeAll.getShare() + "");
 
                 holderA.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -94,13 +103,15 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 });
                 //是否付费
                 int whetherPay = homeAll.getWhetherPay();
-                if (whetherPay==1){
+                if (whetherPay == 1) {
                     holderA.buyall.setVisibility(View.VISIBLE);
+                } else {
+                    holderA.buyall.setVisibility(View.GONE);
                 }
 
                 //是否收藏
                 int whetherCollection = homeAll.getWhetherCollection();
-                if (whetherCollection==1){
+                if (whetherCollection == 1) {
                     holderA.like.setChecked(true);
                 }
 
@@ -125,6 +136,13 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             mylove.abolish(i);
 
                         }
+                    }
+                });
+
+                holderA.share.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        myShare.share();
                     }
                 });
                 break;
@@ -164,8 +182,8 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private class ViewHolderA extends RecyclerView.ViewHolder {
         SimpleDraweeView simple;
         ImageView buyall;
-        TextView title, content, writer,likenum,sharenum;
-        CheckBox like;
+        TextView title, content, writer, likenum, sharenum;
+        CheckBox like, share;
 
         public ViewHolderA(@NonNull View itemView) {
             super(itemView);
@@ -174,9 +192,10 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             content = itemView.findViewById(R.id.content);
             writer = itemView.findViewById(R.id.writer);
             like = itemView.findViewById(R.id.like);
-            buyall=itemView.findViewById(R.id.buy_all);
-            likenum=itemView.findViewById(R.id.likenum);
-            sharenum=itemView.findViewById(R.id.sharenum);
+            share = itemView.findViewById(R.id.share);
+            buyall = itemView.findViewById(R.id.buy_all);
+            likenum = itemView.findViewById(R.id.likenum);
+            sharenum = itemView.findViewById(R.id.sharenum);
 
         }
     }
@@ -195,6 +214,12 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public interface Mylove {
         void win(int possion);
+
         void abolish(int possion);
+    }
+
+    public interface MyShare {
+        void share();
+
     }
 }

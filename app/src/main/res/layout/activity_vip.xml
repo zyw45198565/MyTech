@@ -27,18 +27,81 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="积分兑换"
+            android:text="开通会员"
             android:textColor="#000"
             android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
-        android:id="@+id/one_recycle"
-        android:padding="12dp"></android.support.v7.widget.RecyclerView>
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp">
+
+        <CheckBox
+            android:id="@+id/year"
+            android:layout_width="129dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/vip_border"
+            android:button="@null"
+            android:drawableLeft="@drawable/year"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="年VIP" />
+
+        <CheckBox
+            android:id="@+id/quarter"
+            android:layout_width="129dp"
+            android:layout_height="53dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/vip_border"
+            android:button="@null"
+            android:drawableLeft="@drawable/quarter"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="季VIP" />
+
+        <CheckBox
+            android:id="@+id/month"
+            android:layout_width="129dp"
+            android:layout_height="53dp"
+            android:layout_below="@id/year"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/vip_border"
+            android:button="@null"
+            android:drawableLeft="@drawable/month"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="月VIP" />
+
+        <CheckBox
+            android:id="@+id/week"
+            android:layout_width="129dp"
+            android:layout_height="53dp"
+            android:layout_below="@id/year"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/vip_border"
+            android:button="@null"
+            android:drawableLeft="@drawable/week"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="周VIP">
+
+        </CheckBox>
+
+        <View
+            android:layout_width="match_parent"
+
+            android:layout_height="1dp"
+            android:layout_below="@id/month"
+            android:layout_marginTop="20dp"
+            android:background="#f2f2f2" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -55,10 +118,10 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/t_integral"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10分"
-            android:id="@+id/t_integral"
             android:textColor="#ff5757"
             android:textSize="14sp" />
     </LinearLayout>

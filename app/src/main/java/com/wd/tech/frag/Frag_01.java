@@ -1,12 +1,17 @@
 package com.wd.tech.frag;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,6 +76,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     int count =5;
     int plateId=0;
     private List<HomeAll> result;
+    private Dialog dialog;
 
     @Override
     public String getPageName() {
@@ -83,19 +89,16 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         return R.layout.frag_01;
     }
 
+
     @Override
     protected void initView() {
-        userid = WDApp.getShare().getInt("userid", 0);
-        sessionid = WDApp.getShare().getString("sessionid", "");
 
         oneMenu.setOnClickListener(this);
         oneSearch.setOnClickListener(this);
         myBannerPresenter = new MyBannerPresenter(new MyBannerCall());
         myBannerPresenter.reqeust();
 
-        homeAllPresenter = new HomeAllPresenter(new HomeCall());
 
-        homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
 
         //刷新
         myrefreshLayout();
@@ -106,6 +109,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
         //收藏喜欢
         collectlove();
+
 
     }
 
@@ -133,6 +137,34 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         oneHomeall.setLayoutManager(linearLayoutManager);
         homeAllAdapter = new HomeAllAdapter(getActivity());
         oneHomeall.setAdapter(homeAllAdapter);
+        homeAllAdapter.sharecircle(new HomeAllAdapter.MyShare() {
+            @Override
+            public void share() {
+                dialog = new Dialog(getActivity(),R.style.DialogTheme);
+
+                View view = View.inflate(getActivity(), R.layout.twoshare, null);
+                dialog.setContentView(view);
+                dialog.getWindow().setGravity(Gravity.BOTTOM);
+                dialog.show();
+                getshoud();
+                TextView cancle = view.findViewById(R.id.cancel);
+                cancle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+    }
+    private void getshoud() {
+        Window dialogWindow = dialog.getWindow();
+        WindowManager m = getActivity().getWindow().getWindowManager();
+        Display d = m.getDefaultDisplay(); // 获取屏幕宽、高度
+        WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        p.width = (int) (d.getWidth()); // 宽度设置为屏幕的0.65，根据实际情况调整
+        p.height = (int) (d.getHeight()*0.2);
+        dialogWindow.setAttributes(p);
     }
 
     private void myrefreshLayout() {
@@ -244,6 +276,11 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         oneBanner.start();//开始轮播
+        userid = WDApp.getShare().getInt("userid", 0);
+        sessionid = WDApp.getShare().getString("sessionid", "");
+        homeAllPresenter = new HomeAllPresenter(new HomeCall());
+
+        homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
     }
 
     private class HomeCall implements DataCall<Result<List<HomeAll>>> {
@@ -286,4 +323,5 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
         }
     }
+
 }

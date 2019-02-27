@@ -71,7 +71,7 @@
             android:layout_marginLeft="40dp"
             android:background="@drawable/love"
             android:button="@null"
-            android:padding="10dp" />
+            android:padding="20dp" />
 
         <TextView
             android:id="@+id/likenum"
@@ -89,7 +89,7 @@
             android:layout_toRightOf="@id/likenum"
             android:background="@drawable/share"
             android:button="@null"
-            android:padding="10dp" />
+            android:padding="20dp" />
 
         <TextView
             android:id="@+id/sharenum"

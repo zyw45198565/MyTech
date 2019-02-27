@@ -250,6 +250,7 @@ public class DetailsActivity extends BaseActivity {
 
             }
         });
+
     }
 
     private void getshoud() {
