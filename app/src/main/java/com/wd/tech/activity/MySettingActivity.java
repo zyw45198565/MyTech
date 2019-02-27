@@ -5,20 +5,40 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bigkoo.pickerview.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.UserInfoBean;
+import com.wd.tech.presenter.ModifyHeadPicPresenter;
 import com.wd.tech.presenter.UserByUserIdPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.util.WDActivity;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -38,12 +58,14 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
     private ImageView head;
     private TextView name;
     private TextView sex;
-    private TextView date;
+    private TextView date1;
     private TextView phone;
     private TextView emaile;
     private TextView jifen;
     private TextView vip;
     private TextView faceid;
+    private ModifyHeadPicPresenter modifyHeadPicPresenter;
+    private UserByUserIdPresenter userByUserIdPresenter;
 
     @Override
     protected int getLayoutId() {
@@ -60,12 +82,18 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
         head = (ImageView) findViewById(R.id.head);
         name = (TextView) findViewById(R.id.name);
         sex = (TextView) findViewById(R.id.sex);
-        date = (TextView) findViewById(R.id.date);
+        date1 = (TextView) findViewById(R.id.date);
         phone = (TextView) findViewById(R.id.phone);
         emaile = (TextView) findViewById(R.id.emaile);
         jifen = (TextView) findViewById(R.id.jifen);
         vip = (TextView) findViewById(R.id.vip);
         faceid = (TextView) findViewById(R.id.faceid);
+        LinearLayout head = (LinearLayout) findViewById(R.id.llhead);
+        head.setOnClickListener(this);
+        LinearLayout lldate = (LinearLayout) findViewById(R.id.lldate);
+        lldate.setOnClickListener(this);
+
+        modifyHeadPicPresenter = new ModifyHeadPicPresenter(new UpHead());
     }
 
     @Override
@@ -78,7 +106,7 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
         super.onResume();
         userid = WDApp.getShare().getInt("userid", 1);
         sessionid = WDApp.getShare().getString("sessionid", "");
-        UserByUserIdPresenter userByUserIdPresenter = new UserByUserIdPresenter(this);
+        userByUserIdPresenter = new UserByUserIdPresenter(this);
         userByUserIdPresenter.reqeust(userid,sessionid);
 
     }
@@ -90,7 +118,6 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.tui:
-
                 Dialog dialog = new AlertDialog.Builder(MySettingActivity.this).setMessage("退出登录?")
                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                             @Override
@@ -106,9 +133,62 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
                         })
                         .setNegativeButton("取消",null)
                         .show();
+                break;
+            case R.id.llhead:
+                final Dialog dialog1 = new Dialog(MySettingActivity.this,R.style.DialogTheme);
+                View inflate = View.inflate(MySettingActivity.this, R.layout.myhead_dialog, null);
+                dialog1.setContentView(inflate);
+                Window dialogWindow = dialog1.getWindow();
+                dialogWindow.setGravity(Gravity.BOTTOM);
+                WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+                WindowManager m = getWindowManager();
+                Display d = m.getDefaultDisplay(); // 获取屏幕宽、高
+                lp.width=d.getWidth();
+                dialogWindow.setAttributes(lp);
+                dialog1.show();
+                LinearLayout xiangji = inflate.findViewById(R.id.xiangji);
+                xiangji.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(intent, 2);// 采用ForResult打开
 
+                        dialog1.dismiss();
+                    }
+                });
+                LinearLayout xiangce = inflate.findViewById(R.id.xiangce);
+                xiangce.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setType("image/*");// 开启Pictures画面Type设定为image
+                        intent.setAction(Intent.ACTION_PICK);
+                        startActivityForResult(intent, 1);
 
+                        dialog1.dismiss();
+                    }
+                });
+                LinearLayout quxiao = inflate.findViewById(R.id.quxiao);
+                quxiao.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog1.dismiss();
+                    }
+                });
+                break;
+            case R.id.lldate:
+                TimePickerView pvTime = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
+                    @Override
+                    public void onTimeSelect(Date date, View v) {
+                        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+                        date1.setText(sf.format(date)+"");
+                    }
+                })
+                        .setType(new boolean[]{true, true, true, false, false, false})// 默认全部显示.setCancelText("取消")
+                        .setSubmitText("确定").build();
+                pvTime.show();
                 break;
         }
     }
@@ -121,8 +201,8 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
             name.setText(result.getNickName()+"");
             sex.setText(result.getSex()==1?"男":"女");
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-            Date date1 = new Date(result.getBirthday());
-            date.setText(sf.format(date1)+"");
+            Date date2 = new Date(result.getBirthday());
+            date1.setText(sf.format(date2)+"");
             phone.setText(result.getPhone());
             emaile.setText(result.getEmail()+"");
             jifen.setText(result.getIntegral()+"");
@@ -136,4 +216,83 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
     public void fail(ApiException e) {
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data==null){
+            return;
+        }
+        if(requestCode==1){
+            String icon = getFilePath("icon", 0, data);
+            modifyHeadPicPresenter.reqeust(userid,sessionid,icon,1);
+        }
+        if(requestCode==2){
+            Bundle extras = data.getExtras();
+            Bitmap data1 = (Bitmap) extras.get("data");
+            File file = compressImage(data1);
+            modifyHeadPicPresenter.reqeust(userid,sessionid,file,2);
+        }
+    }
+
+    private class UpHead implements DataCall<Result> {
+        @Override
+        public void success(Result data) {
+            Toast.makeText(MySettingActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+            userByUserIdPresenter.reqeust(userid,sessionid);
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+
+    /**
+     * 压缩图片（质量压缩）
+     * @param bitmap
+     */
+    public static File compressImage(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        int options = 100;
+        while (baos.toByteArray().length / 1024 > 500) {  //循环判断如果压缩后图片是否大于500kb,大于继续压缩
+            baos.reset();//重置baos即清空baos
+            options -= 10;//每次都减少10
+            bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+            long length = baos.toByteArray().length;
+        }
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date(System.currentTimeMillis());
+        String filename = format.format(date);
+        File file = new File(Environment.getExternalStorageDirectory(),filename+".png");
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            try {
+                fos.write(baos.toByteArray());
+                fos.flush();
+                fos.close();
+            } catch (IOException e) {
+                Log.e("---",e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("----",e.getMessage());
+            e.printStackTrace();
+        }
+        recycleBitmap(bitmap);
+        return file;
+    }
+    public static void recycleBitmap(Bitmap... bitmaps) {
+        if (bitmaps==null) {
+            return;
+        }
+        for (Bitmap bm : bitmaps) {
+            if (null != bm && !bm.isRecycled()) {
+                bm.recycle();
+            }
+        }
+    }
+
+
 }

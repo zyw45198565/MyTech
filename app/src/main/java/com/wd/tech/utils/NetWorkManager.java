@@ -39,6 +39,7 @@ public class NetWorkManager {
 
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
+
                 .baseUrl("https://mobile.bwstudent.com/techApi/")//base_url:http+域名
                // .baseUrl("https://172.17.8.100/techApi/")
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())//使用Rxjava对回调数据进行处理

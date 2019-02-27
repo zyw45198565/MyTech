@@ -30,11 +30,14 @@ import java.util.List;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
@@ -657,5 +660,17 @@ public interface Interfacea {
                                          @Header("sessionId") String sessionId,
                                          @Field("infoId") int infoId,
                                          @Field("integralCost") int integralCost);
+
+    /**
+     * 上传头像
+     * @param userId
+     * @param sessionId
+     * @param image
+     * @return
+     */
+    @POST("user/verify/v1/modifyHeadPic")
+    Observable<Result> modifyHeadPic(@Header("userId") int userId,
+                                     @Header("sessionId") String sessionId,
+                                     @Body MultipartBody image);
 
 }
