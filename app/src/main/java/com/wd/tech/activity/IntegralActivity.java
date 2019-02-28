@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
+import com.wd.tech.adapter.BuyAdapter;
 import com.wd.tech.adapter.HomeAllAdapter;
 import com.wd.tech.bean.HomeAll;
 import com.wd.tech.bean.Result;
@@ -17,6 +18,7 @@ import com.wd.tech.presenter.HomeAllPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -34,11 +36,13 @@ public class IntegralActivity extends BaseActivity {
     @BindView(R.id.convert)
     TextView convert;
     private HomeAllPresenter homeAllPresenter;
-    private HomeAllAdapter homeAllAdapter;
     private int userid;
     private String sessionid;
     int page=1;
     int count =1;
+    int plateId=1;
+    private BuyAdapter buyAdapter;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_integral;
@@ -54,10 +58,11 @@ public class IntegralActivity extends BaseActivity {
 
         homeAllPresenter = new HomeAllPresenter(new HomeCall());
 
-        homeAllPresenter.reqeust(userid, sessionid, zid, page, count);
+        homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
+        buyAdapter = new BuyAdapter(this);
 
         oneRecycle.setLayoutManager(new LinearLayoutManager(this));
-        oneRecycle.setAdapter(homeAllAdapter);
+        oneRecycle.setAdapter(buyAdapter);
 
     }
 
@@ -70,8 +75,8 @@ public class IntegralActivity extends BaseActivity {
         public void success(Result<List<HomeAll>> data) {
             List<HomeAll> result = data.getResult();
             if(result.size()>0){
-                homeAllAdapter.addAll(result);
-                homeAllAdapter.notifyDataSetChanged();
+                buyAdapter.addAll(result);
+                buyAdapter.notifyDataSetChanged();
             }
         }
 
