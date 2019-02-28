@@ -669,8 +669,34 @@ public interface Interfacea {
      * @return
      */
     @POST("user/verify/v1/modifyHeadPic")
-    Observable<Result> modifyHeadPic(@Header("userId") int userId,
+    Observable<Result> modifyHeadPic(@Header("userId")int userId,
                                      @Header("sessionId") String sessionId,
                                      @Body MultipartBody image);
 
+
+    /**
+     * 修改邮箱
+     * @param userId
+     * @param sessionId
+     * @param email
+     * @return
+     */
+    @FormUrlEncoded
+    @PUT("user/verify/v1/modifyEmail")
+    Observable<Result> modifyEmail(@Header("userId") int userId,
+                                     @Header("sessionId") String sessionId,
+                                     @Field("email") String email);
+
+    /**
+     * 修改用户密码
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @FormUrlEncoded
+    @PUT("user/verify/v1/modifyUserPwd")
+    Observable<Result> modifyUserPwd(@Header("userId") int userId,
+                                   @Header("sessionId") String sessionId,
+                                   @Field("oldPwd") String oldPwd,
+                                     @Field("newPwd") String newPwd);
 }

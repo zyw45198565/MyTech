@@ -49,15 +49,16 @@
         <activity android:name=".activity.PlateActivity" />
         <activity android:name=".activity.CollectionActivity" />
         <activity android:name=".activity.WantAddFriendActivity" />
-        <activity android:name=".activity.NewFriendsActivity"/>
-        <activity android:name=".activity.GroupChatActivity"/>
+        <activity android:name=".activity.NewFriendsActivity" />
+        <activity android:name=".activity.GroupChatActivity" />
         <activity android:name=".activity.MyintegralActivity" />
         <activity android:name=".activity.MytaskActivity" />
         <activity android:name=".activity.MyPostActivity" />
         <activity android:name=".activity.MyTongzhiActivity" />
-        <activity android:name=".activity.SignCalendarActivity"></activity>
+        <activity android:name=".activity.SignCalendarActivity" />
         <activity android:name=".activity.VipActivity" />
-        <activity android:name=".activity.IntegralActivity"></activity>
+        <activity android:name=".activity.IntegralActivity" />
+        <activity android:name=".activity.UserPwdActivity"></activity>
     </application>
 
 </manifest>

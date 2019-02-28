@@ -11,12 +11,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,10 +30,12 @@ import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.UserInfoBean;
+import com.wd.tech.presenter.ModifyEmailPresenter;
 import com.wd.tech.presenter.ModifyHeadPicPresenter;
 import com.wd.tech.presenter.UserByUserIdPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
+import com.wd.tech.utils.util.UIUtils;
 import com.wd.tech.utils.util.WDActivity;
 
 import java.io.ByteArrayOutputStream;
@@ -66,6 +70,9 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
     private TextView faceid;
     private ModifyHeadPicPresenter modifyHeadPicPresenter;
     private UserByUserIdPresenter userByUserIdPresenter;
+    private LinearLayout you;
+    private UserInfoBean result;
+    String emaile123="";
 
     @Override
     protected int getLayoutId() {
@@ -92,7 +99,10 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
         head.setOnClickListener(this);
         LinearLayout lldate = (LinearLayout) findViewById(R.id.lldate);
         lldate.setOnClickListener(this);
-
+        you = (LinearLayout) findViewById(R.id.you);
+        you.setOnClickListener(this);
+        TextView xiupwd = (TextView) findViewById(R.id.xiupwd);
+        xiupwd.setOnClickListener(this);
         modifyHeadPicPresenter = new ModifyHeadPicPresenter(new UpHead());
     }
 
@@ -190,13 +200,40 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
                         .setSubmitText("确定").build();
                 pvTime.show();
                 break;
+            case R.id.you:
+                final EditText editemail = new EditText(this);
+                editemail.setText(emaile123);
+                AlertDialog builder3 = new AlertDialog.Builder(this)
+                        .setTitle("修改邮箱")
+                        .setView(editemail)//设置输入框
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String trim = editemail.getText().toString().trim();
+                                boolean email1 = isEmail(trim + "");
+                                if (email1) {
+                                    emaile.setText(trim);
+                                    emaile123 = trim;
+                                    ModifyEmailPresenter modifyEmailPresenter = new ModifyEmailPresenter(new ModifyEmaileCall());
+                                    modifyEmailPresenter.reqeust(userid,sessionid,trim);
+                                } else {
+                                    UIUtils.showToastSafe("请输入正确的邮箱");
+                                    return;
+                                }
+                            }
+                        }).setNegativeButton("取消", null).create();
+                builder3.show();
+                break;
+            case R.id.xiupwd:
+            startActivity(new Intent(MySettingActivity.this,UserPwdActivity.class));
+                break;
         }
     }
 
     @Override
     public void success(Result<UserInfoBean> data) {
         if(data.getStatus().equals("0000")){
-            UserInfoBean result = data.getResult();
+            result = data.getResult();
             Glide.with(this).load(result.getHeadPic()).into(head);
             name.setText(result.getNickName()+"");
             sex.setText(result.getSex()==1?"男":"女");
@@ -204,6 +241,7 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
             Date date2 = new Date(result.getBirthday());
             date1.setText(sf.format(date2)+"");
             phone.setText(result.getPhone());
+            emaile123 = result.getEmail()+"";
             emaile.setText(result.getEmail()+"");
             jifen.setText(result.getIntegral()+"");
             vip.setText(result.getWhetherVip()==1?"是":"否");
@@ -294,5 +332,26 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    //正则邮箱
+    public static boolean isEmail(String strEmail) {
+        String strPattern = "^[a-zA-Z0-9][\\w\\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\\w\\.-]*[a-zA-Z0-9]\\.[a-zA-Z][a-zA-Z\\.]*[a-zA-Z]$";
+        if (TextUtils.isEmpty(strPattern)) {
+            return false;
+        } else {
+            return strEmail.matches(strPattern);
+        }
+    }
 
+
+    private class ModifyEmaileCall implements DataCall<Result> {
+        @Override
+        public void success(Result data) {
+            Toast.makeText(MySettingActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
 }
