@@ -118,12 +118,11 @@ public class FragOneContact extends WDFragment {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
                 //UIUtils.showToastSafe(groups.get(i).getFriendInfoList().get(i1).getFriendUid()+"");
+                FriendInfoList friendInfoList = groups.get(i).getFriendInfoList().get(i1);
                 Intent intent = new Intent(getContext(), ChatActivity.class);
-                intent.putExtra(EaseConstant.EXTRA_USER_ID,groups.get(i).getFriendInfoList().get(i1).getUserName());
+                intent.putExtra(EaseConstant.EXTRA_USER_ID,friendInfoList.getUserName());
                 intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
-                intent.putExtra("name",groups.get(i).getFriendInfoList().get(i1).getNickName());
-                intent.putExtra("friendUid",groups.get(i).getFriendInfoList().get(i1).getFriendUid());
-
+                intent.putExtra("friendInfoList",friendInfoList);
                 startActivity(intent);
                 return true;
             }

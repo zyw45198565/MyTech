@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.wd.tech.R;
+import com.wd.tech.bean.FriendInfoList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +19,7 @@ public class ChatActivity extends BaseActivity {
 
     @BindView(R.id.chat_name)
     TextView chatName;
+    private FriendInfoList friendInfoList;
 
     @Override
     protected int getLayoutId() {
@@ -27,9 +29,8 @@ public class ChatActivity extends BaseActivity {
     @Override
     protected void initView() {
         Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
-        int friendUid = intent.getIntExtra("friendUid",0);
-        chatName.setText(name);
+        friendInfoList = (FriendInfoList) intent.getSerializableExtra("friendInfoList");
+        chatName.setText(friendInfoList.getNickName());
         EaseChatFragment chatFragment = new EaseChatFragment();
         chatFragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager().beginTransaction().add(R.id.hx_ok, chatFragment).commit();
@@ -54,7 +55,9 @@ public class ChatActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.chat_setting:
-
+                Intent intent = new Intent(ChatActivity.this, ChatSettingsActivity.class);
+                intent.putExtra("friendInfoList",friendInfoList);
+                startActivity(intent);
                 break;
         }
     }

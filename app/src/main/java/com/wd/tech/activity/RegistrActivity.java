@@ -84,7 +84,7 @@ public class RegistrActivity extends BaseActivity implements View.OnClickListene
     public void success(Result data) {
         Toast.makeText(this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
         if(data.getStatus().equals("0000")){
-            new Thread(new Runnable() {
+           /* new Thread(new Runnable() {
                 public void run() {
                     try {
                         // call method in SDK
@@ -118,8 +118,8 @@ public class RegistrActivity extends BaseActivity implements View.OnClickListene
                         });
                     }
                 }
-            }).start();
-            //finish();
+            }).start();*/
+            finish();
         }
     }
 

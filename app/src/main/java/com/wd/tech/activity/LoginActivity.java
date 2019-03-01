@@ -117,7 +117,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             edit.putString("pwd",data.getResult().getPwd());
             edit.putBoolean("zai",true);
             edit.commit();
-            EMClient.getInstance().login(/*data.getResult().getUserName()*/"b2RKkG17600042580",/*data.getResult().getPwd()*/"V3qmuOQnrFuLHZ7z0pz8+p/y0gg+LMVJCMvrFj+C2G1A+KlCOLB/jB0U+n+tubWpQ70XG9KUq+dks1/fyCkF23bHs+rNnMMiIfaQ7cHDTjFHxcw8WIWp9CWSZrSmbJplpLe/sHnu0Nuuz04DIobH9yIGqV2hOLSyraa2/93phns=",new EMCallBack() {//回调
+            EMClient.getInstance().login(data.getResult().getUserName(),data.getResult().getPwd(),new EMCallBack() {//回调
                 @Override
                 public void onSuccess() {
                     EMClient.getInstance().groupManager().loadAllGroups();
