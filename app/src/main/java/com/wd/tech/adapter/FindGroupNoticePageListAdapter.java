@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
@@ -48,13 +47,13 @@ public class FindGroupNoticePageListAdapter extends RecyclerView.Adapter<Recycle
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         switch (i) {
             case 1:
-                View inflate1 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_findgroupnoticepagelist, viewGroup, false);
+                View inflate1 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_find_group_notice_page, viewGroup, false);
                 return new Daichuli(inflate1);
             case 2:
-                View inflate2 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_findgroupnoticepagelisttwo, viewGroup, false);
+                View inflate2 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_find_group_notice_page_yes, viewGroup, false);
                 return new Agree(inflate2);
             case 3:
-                View inflate3 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_findgroupnoticepagelistthree, viewGroup, false);
+                View inflate3 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_find_group_notice_page_no, viewGroup, false);
                 return new Jujue(inflate3);
         }
         return null;

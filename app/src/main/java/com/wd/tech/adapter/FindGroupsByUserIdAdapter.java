@@ -37,7 +37,7 @@ public class FindGroupsByUserIdAdapter extends RecyclerView.Adapter<FindGroupsBy
         vh.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickListener.click(list.get(i).getGroupId(),list.get(i).getGroupName());
+                clickListener.click(list.get(i).getGroupId(),list.get(i).getGroupName(),list.get(i).getHxGroupId());
             }
         });
     }
@@ -57,7 +57,7 @@ public class FindGroupsByUserIdAdapter extends RecyclerView.Adapter<FindGroupsBy
         }
     }
     public interface ClickListener{
-        void click(int id,String name);
+        void click(int id,String name,String hx);
     }
     public void setOnItemClickListener(ClickListener clickListener){
       this.clickListener=clickListener;
