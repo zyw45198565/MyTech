@@ -1,5 +1,6 @@
 package com.wd.tech.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +16,7 @@ import com.wd.tech.utils.exception.ApiException;
 
 import java.util.List;
 
-public class MytaskActivity extends BaseActivity {
+public class MytaskActivity extends BaseActivity implements View.OnClickListener {
 
 
     private int userid;
@@ -27,6 +28,7 @@ public class MytaskActivity extends BaseActivity {
     private Button chakan;
     private Button wanshan;
     private Button bangding;
+    private UserTaskPresenter userTaskPresenter;
 
     @Override
     protected int getLayoutId() {
@@ -39,6 +41,7 @@ public class MytaskActivity extends BaseActivity {
         sessionid = WDApp.getShare().getString("sessionid", "");
 
         qian = (Button) findViewById(R.id.qian);
+        qian.setOnClickListener(this);
         ping = (Button) findViewById(R.id.ping);
         tie = (Button) findViewById(R.id.tie);
         fenxiang = (Button) findViewById(R.id.fenxiang);
@@ -46,13 +49,29 @@ public class MytaskActivity extends BaseActivity {
         wanshan = (Button) findViewById(R.id.wanshan);
         bangding = (Button) findViewById(R.id.bangding);
 
-        UserTaskPresenter userTaskPresenter = new UserTaskPresenter(new  UserTaskCall());
-        userTaskPresenter.reqeust(userid,sessionid);
+        userTaskPresenter = new UserTaskPresenter(new UserTaskCall());
+
     }
 
     @Override
     protected void destoryData() {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        userTaskPresenter.reqeust(userid,sessionid);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.qian:
+                Intent intent7 = new Intent(MytaskActivity.this,SignCalendarActivity.class);
+                startActivity(intent7);
+                break;
+        }
     }
 
     private class UserTaskCall implements DataCall<Result<List<UserTaskBean>>> {

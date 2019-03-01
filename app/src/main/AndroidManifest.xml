@@ -58,7 +58,10 @@
         <activity android:name=".activity.SignCalendarActivity" />
         <activity android:name=".activity.VipActivity" />
         <activity android:name=".activity.IntegralActivity" />
-        <activity android:name=".activity.UserPwdActivity"></activity>
+        <activity android:name=".activity.UserPwdActivity" />
+        <activity android:name=".activity.MyUserActivity" />
+        <activity android:name=".activity.MyWanshanActivity" />
+        <activity android:name=".activity.QianActivity"></activity>
     </application>
 
 </manifest>

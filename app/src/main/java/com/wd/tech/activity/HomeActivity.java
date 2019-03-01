@@ -147,6 +147,7 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
         rl1 = findViewById(R.id.rl1);
         ll1 = findViewById(R.id.ll1);
         head = findViewById(R.id.head);
+        head.setOnClickListener(this);
         name = findViewById(R.id.name);
         qian = findViewById(R.id.qian);
         vip = findViewById(R.id.vip);
@@ -234,6 +235,10 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
             case R.id.qiandao:
                 Intent intent7 = new Intent(HomeActivity.this,SignCalendarActivity.class);
                 startActivity(intent7);
+                break;
+            case R.id.head:
+                Intent intent8 = new Intent(HomeActivity.this,MyUserActivity.class);
+                startActivity(intent8);
                 break;
         }
     }

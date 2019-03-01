@@ -699,4 +699,39 @@ public interface Interfacea {
                                    @Header("sessionId") String sessionId,
                                    @Field("oldPwd") String oldPwd,
                                      @Field("newPwd") String newPwd);
+
+
+    /**
+     * 做任务
+     * @param userId
+     * @param sessionId
+     * @param taskId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/verify/v1/doTheTask")
+    Observable<Result> doTheTask(@Header("userId") int userId,
+                                         @Header("sessionId") String sessionId,
+                                         @Field("taskId") int taskId);
+
+    /**
+     * 完善用户信息
+     * @param userId
+     * @param sessionId
+     * @param nickName
+     * @param sex
+     * @param signature
+     * @param birthday
+     * @param email
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/verify/v1/perfectUserInfo")
+    Observable<Result> perfectUserInfo(@Header("userId") int userId,
+                                 @Header("sessionId") String sessionId,
+                                 @Field("nickName")String nickName,
+                                       @Field("sex")int sex,
+                                       @Field("signature")String signature,
+                                       @Field("birthday")String birthday,
+                                       @Field("email")String email);
 }
