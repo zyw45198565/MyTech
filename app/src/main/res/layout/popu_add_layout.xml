@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="130dp"
+    android:layout_width="wrap_content"
     android:layout_height="68dp"
     android:orientation="vertical"
     android:background="@drawable/linear_add_shape">
@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="34dp"
         android:layout_marginLeft="@dimen/dip_10"
+        android:layout_marginRight="@dimen/dip_10"
         android:gravity="center_vertical">
         <ImageView
             android:layout_width="24dp"
@@ -27,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="34dp"
         android:layout_marginLeft="@dimen/dip_10"
+        android:layout_marginRight="10dp"
         android:gravity="center_vertical">
         <ImageView
             android:layout_width="24dp"

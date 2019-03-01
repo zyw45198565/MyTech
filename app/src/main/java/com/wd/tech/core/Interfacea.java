@@ -167,6 +167,13 @@ public interface Interfacea {
                                                  @Header("sessionId") String sessionId,
                                                  @Query("phone") String phone);
 
+    /**
+     * 通过群Id查群
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @return
+     */
     @GET("group/verify/v1/findGroupInfo")
     Observable<Result<FindGroup>> findGroupInfo(@Header("userId") int userId,
                                                 @Header("sessionId") String sessionId,
@@ -734,4 +741,31 @@ public interface Interfacea {
                                        @Field("signature")String signature,
                                        @Field("birthday")String birthday,
                                        @Field("email")String email);
+    /**
+     * 删除好友
+     * @param userId
+     * @param sessionId
+     * @param friendUid
+     * @return
+     */
+    @DELETE("chat/verify/v1/deleteFriendRelation")
+    Observable<Result> deleteFriendRelation(@Header("userId") int userId,
+                                            @Header("sessionId")String sessionId,
+                                            @Query("friendUid") int friendUid);
+
+    /**
+     * 转移好友到其他分组
+     * @param userId
+     * @param sessionId
+     * @param newGroupId
+     * @param friendUid
+     * @return
+     */
+    @PUT("chat/verify/v1/transferFriendGroup")
+    @FormUrlEncoded
+    Observable<Result> transferFriendGroup(@Header("userId") int userId,
+                                        @Header("sessionId")String sessionId,
+                                        @Field("newGroupId") int newGroupId,
+                                        @Field("friendUid") int friendUid );
+
 }

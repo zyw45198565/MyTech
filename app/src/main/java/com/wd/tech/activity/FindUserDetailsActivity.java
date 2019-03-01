@@ -103,7 +103,9 @@ public class FindUserDetailsActivity extends WDActivity {
         session1d = share.getString("sessionid", "");
         checkMyFriendPresenter = new CheckMyFriendPresenter(new CheckMyFriend());
         checkMyFriendPresenter.reqeust(userid,session1d, findUser.getUserId());
-
+        if (findUser.getUserId()==userid){
+            userDetailsYes.setVisibility(View.GONE);
+        }
     }
 
     @Override
