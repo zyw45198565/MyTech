@@ -19,12 +19,10 @@ import com.wd.tech.bean.MyLoveBean;
 import com.wd.tech.bean.MyComment;
 import com.wd.tech.bean.MyPostByIdBean;
 import com.wd.tech.bean.MyTongzhiBean;
-import com.wd.tech.bean.PayBean;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.UserInfoBean;
 import com.wd.tech.bean.UserTaskBean;
 import com.wd.tech.bean.UserintegralBean;
-import com.wd.tech.bean.VIPList;
 
 import java.io.File;
 import java.util.List;
@@ -273,6 +271,7 @@ public interface Interfacea {
                                                             @Query("count") int count);
 
 
+
     /**
      * 查询我创建的群组
      *
@@ -280,7 +279,8 @@ public interface Interfacea {
      * @param sessionId
      * @return
      */
-    @GET("group/verify/v1/findGroupsByUserId")
+    //@GET("group/verify/v1/findGroupsByUserId")
+    @GET("group/verify/v1/findUserJoinedGroup")
     Observable<Result<List<GroupByUser>>> findGroupsByUserId(@Header("userId") int userId,
                                                              @Header("sessionId") String sessionId);
 
@@ -317,7 +317,6 @@ public interface Interfacea {
 
     /**
      * 社区评论
-     *
      * @param userId
      * @param sessionId
      * @param communityId
@@ -710,6 +709,41 @@ public interface Interfacea {
                                    @Header("sessionId") String sessionId,
                                    @Field("oldPwd") String oldPwd,
                                      @Field("newPwd") String newPwd);
+
+
+    /**
+     * 做任务
+     * @param userId
+     * @param sessionId
+     * @param taskId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/verify/v1/doTheTask")
+    Observable<Result> doTheTask(@Header("userId") int userId,
+                                         @Header("sessionId") String sessionId,
+                                         @Field("taskId") int taskId);
+
+    /**
+     * 完善用户信息
+     * @param userId
+     * @param sessionId
+     * @param nickName
+     * @param sex
+     * @param signature
+     * @param birthday
+     * @param email
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/verify/v1/perfectUserInfo")
+    Observable<Result> perfectUserInfo(@Header("userId") int userId,
+                                 @Header("sessionId") String sessionId,
+                                 @Field("nickName")String nickName,
+                                       @Field("sex")int sex,
+                                       @Field("signature")String signature,
+                                       @Field("birthday")String birthday,
+                                       @Field("email")String email);
 
     /**
      * 支付

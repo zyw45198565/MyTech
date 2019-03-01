@@ -14,6 +14,7 @@ import com.wd.tech.WDApp;
 import com.wd.tech.bean.Result;
 import com.wd.tech.presenter.FinUserSignPresenter;
 import com.wd.tech.presenter.FinUserSignRecordingPresenter;
+import com.wd.tech.presenter.TheTaskPresenter;
 import com.wd.tech.presenter.UserSignPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
@@ -134,6 +135,8 @@ public class SignCalendarActivity extends BaseActivity {
                 calendar.textColor();
                 rlBtnSign.setText("已签到");
                 rlBtnSign.setClickable(false);
+                TheTaskPresenter theTaskPresenter = new TheTaskPresenter(new TheTaskCall());
+                theTaskPresenter.reqeust(userid,sessionid,1001);
             }
         }
 
@@ -188,4 +191,15 @@ public class SignCalendarActivity extends BaseActivity {
     }
 
 
+    private class TheTaskCall implements DataCall<Result> {
+        @Override
+        public void success(Result data) {
+
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
 }
