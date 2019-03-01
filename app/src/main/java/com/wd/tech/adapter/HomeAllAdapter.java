@@ -98,6 +98,8 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View v) {
                         Intent intent = new Intent(context, DetailsActivity.class);
                         intent.putExtra("zid", homeAll.getId());
+                        intent.putExtra("classify",2);
+
                         context.startActivity(intent);
                     }
                 });

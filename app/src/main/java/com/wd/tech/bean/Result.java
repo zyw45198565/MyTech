@@ -7,12 +7,13 @@ public class Result<T> {
     String message;
     int groupId;
     int flag;
+    String orderId;
     T result;
     /**
      * orderId : 20181019120947890
      */
 
-    private String orderId;
+
 
     public int getFlag() {
         return flag;

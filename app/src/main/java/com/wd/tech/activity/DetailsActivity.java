@@ -1,9 +1,11 @@
 package com.wd.tech.activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -41,6 +43,7 @@ import com.wd.tech.presenter.CancelCollectionPresenter;
 import com.wd.tech.presenter.CancelGreatPresenter;
 import com.wd.tech.presenter.DetailsPresenter;
 import com.wd.tech.presenter.MyCommentPresenter;
+import com.wd.tech.presenter.WDPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.util.DateUtils;
@@ -111,9 +114,12 @@ public class DetailsActivity extends BaseActivity {
     private int userid;
     private String sessionid;
     private int zid;
+    private int bid;
     handlike handlike;
     private DetailsPresenter detailsPresenter;
     private Dialog dialog;
+    private Intent intent;
+    private int classify;
 
     public void handlike(handlike handlike) {
         this.handlike = handlike;
@@ -125,14 +131,26 @@ public class DetailsActivity extends BaseActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data==null){
+            return;
+        }
+        if(resultCode==1){
+            buyAll.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
     protected void initView() {
 
         userid = WDApp.getShare().getInt("userid", 0);
         sessionid = WDApp.getShare().getString("sessionid", "");
-        Intent intent = getIntent();
+        intent = getIntent();
         zid = intent.getIntExtra("zid", 0);
-        detailsPresenter = new DetailsPresenter(new DetailsCall());
-        detailsPresenter.reqeust(userid, sessionid, zid);
+        bid = intent.getIntExtra("zurl", 1);
+        classify = intent.getIntExtra("classify", 0);
+
 
         //板块
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -150,7 +168,7 @@ public class DetailsActivity extends BaseActivity {
 
         //评论
         myCommentPresenter = new MyCommentPresenter(new CommentCall());
-        myCommentPresenter.reqeust(userid, sessionid, zid, 1, 5);
+        myCommentPresenter.reqeust(userid, sessionid, this.zid, 1, 5);
         LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(this);
         commentrecycler.setLayoutManager(linearLayoutManager3);
         commentAdapter = new CommentAdapter(this);
@@ -179,7 +197,7 @@ public class DetailsActivity extends BaseActivity {
                 if (trim.equals("")) {
                     Toast.makeText(DetailsActivity.this, "请输入内容!", Toast.LENGTH_SHORT).show();
                 } else {
-                    addInfoCommentPresenter.reqeust(userid, sessionid, trim, zid);
+                    addInfoCommentPresenter.reqeust(userid, sessionid, trim, DetailsActivity.this.zid);
                     mycommentTwo.setText("");
                     commentOne.setVisibility(View.VISIBLE);
                     commentTwo.setVisibility(View.GONE);
@@ -195,16 +213,16 @@ public class DetailsActivity extends BaseActivity {
                 boolean checked = checkBox.isChecked();
                 if (checked) {
                     AddGreatRecordPresenter addGreatRecordPresenter = new AddGreatRecordPresenter(new HandCall());
-                    addGreatRecordPresenter.reqeust(userid, sessionid, zid);
+                    addGreatRecordPresenter.reqeust(userid, sessionid, DetailsActivity.this.zid);
                 } else {
                     CancelGreatPresenter cancelGreatPresenter = new CancelGreatPresenter(new CancelHandCall());
-                    cancelGreatPresenter.reqeust(userid, sessionid, zid);
+                    cancelGreatPresenter.reqeust(userid, sessionid, DetailsActivity.this.zid);
 
                 }
             }
         });
 
-        dialog = new Dialog(DetailsActivity.this,R.style.DialogTheme);
+        dialog = new Dialog(DetailsActivity.this, R.style.DialogTheme);
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,9 +230,9 @@ public class DetailsActivity extends BaseActivity {
                 boolean checked = checkBox.isChecked();
                 if (checked) {
                     AddCollectionPresenter addCollectionPresenter = new AddCollectionPresenter(new MyCollect());
-                    addCollectionPresenter.reqeust(userid, sessionid, zid);
+                    addCollectionPresenter.reqeust(userid, sessionid, DetailsActivity.this.zid);
                 } else {
-                    String eid = zid + "";
+                    String eid = DetailsActivity.this.zid + "";
                     CancelCollectionPresenter cancelCollectionPresenter = new CancelCollectionPresenter(new MyCancelCollect());
                     cancelCollectionPresenter.reqeust(userid, sessionid, eid);
                 }
@@ -233,18 +251,38 @@ public class DetailsActivity extends BaseActivity {
                 vip.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent1=new Intent(DetailsActivity.this,VipActivity.class);
-                        intent1.putExtra("zid",zid);
-                        Log.i("zid",zid+"=====================================");
-                        startActivity(intent1);
+                        boolean zai = WDApp.getShare().getBoolean("zai", false);
+
+                        if (!zai) {
+                            Toast.makeText(DetailsActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent intent1 = new Intent(DetailsActivity.this, VipActivity.class);
+                            intent1.putExtra("did", detailsBean.getId());
+                            startActivity(intent1);
+                        }
+
                     }
                 });
                 integral.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent1=new Intent(DetailsActivity.this,IntegralActivity.class);
-                        intent1.putExtra("zid",zid);
-                        startActivity(intent1);
+                        boolean zai = WDApp.getShare().getBoolean("zai", false);
+                        Log.i("hahah", !zai + "66666666");
+
+                        if (!zai) {
+                            Toast.makeText(DetailsActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent intent1 = new Intent(DetailsActivity.this, IntegralActivity.class);
+                            intent1.putExtra("did", detailsBean.getId());
+                            intent1.putExtra("integralCost", detailsBean.getIntegralCost());
+                            intent1.putExtra("summary", detailsBean.getSummary());
+                            intent1.putExtra("thumbnail", detailsBean.getThumbnail());
+                            intent1.putExtra("title", detailsBean.getTitle());
+                            intent1.putExtra("source", detailsBean.getSource());
+                            intent1.putExtra("share", detailsBean.getShare());
+                            intent1.putExtra("whetherCollection", detailsBean.getWhetherCollection());
+                            startActivityForResult(intent1,1);
+                        }
                     }
                 });
 
@@ -259,7 +297,7 @@ public class DetailsActivity extends BaseActivity {
         Display d = m.getDefaultDisplay(); // 获取屏幕宽、高度
         WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
         p.width = (int) (d.getWidth()); // 宽度设置为屏幕的0.65，根据实际情况调整
-        p.height = (int) (d.getHeight()*0.65);
+        p.height = (int) (d.getHeight() * 0.65);
         dialogWindow.setAttributes(p);
     }
 
@@ -267,6 +305,7 @@ public class DetailsActivity extends BaseActivity {
     protected void destoryData() {
 
     }
+
     private class DetailsCall implements DataCall<Result<DetailsBean>> {
         @Override
         public void success(Result<DetailsBean> data) {
@@ -279,6 +318,7 @@ public class DetailsActivity extends BaseActivity {
             }
             source.setText(detailsBean.getSource());
             thumbnail.setImageURI(detailsBean.getThumbnail());
+
 
             //数量
             commentNum.setText(detailsBean.getComment() + "");
@@ -300,6 +340,7 @@ public class DetailsActivity extends BaseActivity {
             }
 
             //付费
+
             int readPower = detailsBean.getReadPower();
             if (readPower == 2) {
                 buyAll.setVisibility(View.VISIBLE);
@@ -437,5 +478,20 @@ public class DetailsActivity extends BaseActivity {
         public void fail(ApiException e) {
 
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        detailsPresenter = new DetailsPresenter(new DetailsCall());
+        if (classify ==1){
+            detailsPresenter.reqeust(userid, sessionid, bid);
+
+        }else{
+            detailsPresenter.reqeust(userid, sessionid, zid);
+
+        }
+
     }
 }

@@ -214,12 +214,24 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
             // 数据绑定
             mImageView.setImageURI(data.getImageUrl());
             title.setText(data.getTitle());
+
             mImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(context,AdvertiseActivity.class);
-                    intent.putExtra("zurl",data.getJumpUrl());
-                    context.startActivity(intent);
+                    String jumpUrl = data.getJumpUrl();
+                    String[] split = jumpUrl.split(":");
+                    if (split[0].equals("wd")){
+                        Intent intent=new Intent(context,DetailsActivity.class);
+                        intent.putExtra("zurl",1);
+                        intent.putExtra("classify",1);
+                        context.startActivity(intent);
+
+                    }else {
+                        Intent intent=new Intent(context,AdvertiseActivity.class);
+                        intent.putExtra("zurl",data.getJumpUrl());
+                        context.startActivity(intent);
+                    }
+
                 }
             });
         }

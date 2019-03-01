@@ -19,10 +19,12 @@ import com.wd.tech.bean.MyLoveBean;
 import com.wd.tech.bean.MyComment;
 import com.wd.tech.bean.MyPostByIdBean;
 import com.wd.tech.bean.MyTongzhiBean;
+import com.wd.tech.bean.PayBean;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.UserInfoBean;
 import com.wd.tech.bean.UserTaskBean;
 import com.wd.tech.bean.UserintegralBean;
+import com.wd.tech.bean.VIPList;
 
 import java.io.File;
 import java.util.List;
@@ -307,6 +309,7 @@ public interface Interfacea {
 
     /**
      * 社区评论
+     *
      * @param userId
      * @param sessionId
      * @param communityId
@@ -317,8 +320,8 @@ public interface Interfacea {
     @FormUrlEncoded
     Observable<Result> addCommunityComment(@Header("userId") int userId,
                                            @Header("sessionId") String sessionId,
-                                           @Field("communityId")int communityId,
-                                           @Field("content")String content);
+                                           @Field("communityId") int communityId,
+                                           @Field("content") String content);
 
     /**
      * 添加收藏
@@ -376,8 +379,10 @@ public interface Interfacea {
     Observable<Result> checkMyFriend(@Header("userId") int userId,
                                      @Header("sessionId") String sessionId,
                                      @Query("friendUid") int friendUid);
+
     /**
      * 判断用户是否已在群内
+     *
      * @param userId
      * @param sessionId
      * @param groupId
@@ -385,11 +390,12 @@ public interface Interfacea {
      */
     @GET("group/verify/v1/whetherInGroup")
     Observable<Result> whetherInGroup(@Header("userId") int userId,
-                                     @Header("sessionId") String sessionId,
-                                     @Query("groupId") int groupId);
+                                      @Header("sessionId") String sessionId,
+                                      @Query("groupId") int groupId);
 
     /**
      * 添加好友
+     *
      * @param userId
      * @param sessionId
      * @param friendUid
@@ -446,28 +452,31 @@ public interface Interfacea {
 
     /**
      * 查询用户积分
+     *
      * @param userId
      * @param sessionId
      * @return
      */
     @GET("user/verify/v1/findUserIntegral")
     Observable<Result<UserintegralBean>> findUserIntegral(@Header("userId") int userId,
-                                                          @Header("sessionId")String sessionId);
+                                                          @Header("sessionId") String sessionId);
 
 
     /**
      * 查询用户当月所有签到的日期
+     *
      * @param userId
      * @param sessionId
      * @return
      */
     @GET("user/verify/v1/findContinuousSignDays")
     Observable<Result<Integer>> findContinuousSignDays(@Header("userId") int userId,
-                                                       @Header("sessionId")String sessionId);
+                                                       @Header("sessionId") String sessionId);
 
 
     /**
      * 查询用户积分明细
+     *
      * @param userId
      * @param sessionId
      * @param page
@@ -477,12 +486,13 @@ public interface Interfacea {
     @GET("user/verify/v1/findUserIntegralRecord")
     Observable<Result<List<IntegralRecordBean>>> findUserIntegralRecord(@Header("userId") int userId,
                                                                         @Header("sessionId") String sessionId,
-                                                                        @Query("page")int page,
-                                                                        @Query("count")int count);
+                                                                        @Query("page") int page,
+                                                                        @Query("count") int count);
 
 
     /**
      * 查询用户任务列表
+     *
      * @param userId
      * @param sessionId
      * @return
@@ -494,6 +504,7 @@ public interface Interfacea {
 
     /**
      * 我的帖子
+     *
      * @param userId
      * @param sessionId
      * @param page
@@ -503,12 +514,13 @@ public interface Interfacea {
     @GET("community/verify/v1/findMyPostById")
     Observable<Result<List<MyPostByIdBean>>> findMyPostById(@Header("userId") int userId,
                                                             @Header("sessionId") String sessionId,
-                                                            @Query("page")int page,
-                                                            @Query("count")int count);
+                                                            @Query("page") int page,
+                                                            @Query("count") int count);
 
 
     /**
      * 查询用户系统通知
+     *
      * @param userId
      * @param sessionId
      * @return
@@ -516,12 +528,13 @@ public interface Interfacea {
     @GET("tool/verify/v1/findSysNoticeList")
     Observable<Result<List<MyTongzhiBean>>> findSysNoticeList(@Header("userId") int userId,
                                                               @Header("sessionId") String sessionId,
-                                                              @Query("page")int page,
-                                                              @Query("count")int count);
+                                                              @Query("page") int page,
+                                                              @Query("count") int count);
 
 
     /**
      * 删除帖子(支持批量删除)
+     *
      * @param userId
      * @param sessionId
      * @param communityId
@@ -529,12 +542,13 @@ public interface Interfacea {
      */
     @DELETE("community/verify/v1/deletePost")
     Observable<Result> deletePost(@Header("userId") int userId,
-                                   @Header("sessionId") String sessionId,
-                                   @Query("communityId")String communityId);
+                                  @Header("sessionId") String sessionId,
+                                  @Query("communityId") String communityId);
 
 
     /**
-     *  查询当天签到状态
+     * 查询当天签到状态
+     *
      * @param userId
      * @param sessionId
      * @return
@@ -546,28 +560,31 @@ public interface Interfacea {
 
     /**
      * 查询用户当月所有签到的日期
+     *
      * @param userId
      * @param sessionId
      * @return
      */
     @GET("user/verify/v1/findUserSignRecording")
     Observable<Result> findUserSignRecording(@Header("userId") int userId,
-                                          @Header("sessionId") String sessionId);
+                                             @Header("sessionId") String sessionId);
 
 
     /**
      * 签到
+     *
      * @param userId
      * @param sessionId
      * @return
      */
     @POST("user/verify/v1/userSign")
     Observable<Result> userSign(@Header("userId") int userId,
-                                             @Header("sessionId") String sessionId);
+                                @Header("sessionId") String sessionId);
 
 
     /**
      * 申请进群
+     *
      * @param userId
      * @param sessionId
      * @param groupId
@@ -577,17 +594,18 @@ public interface Interfacea {
     @POST("group/verify/v1/applyAddGroup")
     @FormUrlEncoded
     Observable<Result> applyAddGroup(@Header("userId") int userId,
-                                   @Header("sessionId") String sessionId,
-                                   @Field("groupId") int groupId,
-                                   @Field("remark") String remark);
+                                     @Header("sessionId") String sessionId,
+                                     @Field("groupId") int groupId,
+                                     @Field("remark") String remark);
+
     /**
      * https://172.17.8.100/techApi/chat/verify/v1/findFriendNoticePageList
      * 查询新朋友的界面
      */
     @GET("chat/verify/v1/findFriendNoticePageList")
     Observable<Result<List<FindFriendNoticePageList>>> findFriendNoticePageList(@Header("userId") int userId,
-                                                                                @Header("sessionId")String sessionId,
-                                                                                @Query("page")int page, @Query("count")int count);
+                                                                                @Header("sessionId") String sessionId,
+                                                                                @Query("page") int page, @Query("count") int count);
 
     /**
      * https://172.17.8.100/techApi/group/verify/v1/findGroupNoticePageList
@@ -595,11 +613,12 @@ public interface Interfacea {
      */
     @GET("group/verify/v1/findGroupNoticePageList")
     Observable<Result<List<FindGroupNoticePageList>>> findGroupNoticePageList(@Header("userId") int userId,
-                                                                              @Header("sessionId")String sessionId,
-                                                                              @Query("page")int page, @Query("count")int count);
+                                                                              @Header("sessionId") String sessionId,
+                                                                              @Query("page") int page, @Query("count") int count);
 
     /**
      * 审核好友申请
+     *
      * @param userId
      * @param sessionId
      * @param noticeId
@@ -609,11 +628,13 @@ public interface Interfacea {
     @PUT("chat/verify/v1/reviewFriendApply")
     @FormUrlEncoded
     Observable<Result> reviewFriendApply(@Header("userId") int userId,
-                                         @Header("sessionId")String sessionId,
+                                         @Header("sessionId") String sessionId,
                                          @Field("noticeId") int noticeId,
-                                         @Field("flag") int flag );
+                                         @Field("flag") int flag);
+
     /**
      * 审核群申请
+     *
      * @param userId
      * @param sessionId
      * @param noticeId
@@ -623,10 +644,9 @@ public interface Interfacea {
     @PUT("group/verify/v1/reviewGroupApply")
     @FormUrlEncoded
     Observable<Result> reviewGroupApply(@Header("userId") int userId,
-                                         @Header("sessionId")String sessionId,
-                                         @Field("noticeId") int noticeId,
-                                         @Field("flag") int flag );
-
+                                        @Header("sessionId") String sessionId,
+                                        @Field("noticeId") int noticeId,
+                                        @Field("flag") int flag);
 
 
     /**
@@ -663,19 +683,21 @@ public interface Interfacea {
 
     /**
      * 上传头像
+     *
      * @param userId
      * @param sessionId
      * @param image
      * @return
      */
     @POST("user/verify/v1/modifyHeadPic")
-    Observable<Result> modifyHeadPic(@Header("userId")int userId,
+    Observable<Result> modifyHeadPic(@Header("userId") int userId,
                                      @Header("sessionId") String sessionId,
                                      @Body MultipartBody image);
 
 
     /**
      * 修改邮箱
+     *
      * @param userId
      * @param sessionId
      * @param email
@@ -684,11 +706,12 @@ public interface Interfacea {
     @FormUrlEncoded
     @PUT("user/verify/v1/modifyEmail")
     Observable<Result> modifyEmail(@Header("userId") int userId,
-                                     @Header("sessionId") String sessionId,
-                                     @Field("email") String email);
+                                   @Header("sessionId") String sessionId,
+                                   @Field("email") String email);
 
     /**
      * 修改用户密码
+     *
      * @param userId
      * @param sessionId
      * @return
@@ -696,7 +719,39 @@ public interface Interfacea {
     @FormUrlEncoded
     @PUT("user/verify/v1/modifyUserPwd")
     Observable<Result> modifyUserPwd(@Header("userId") int userId,
-                                   @Header("sessionId") String sessionId,
-                                   @Field("oldPwd") String oldPwd,
+                                     @Header("sessionId") String sessionId,
+                                     @Field("oldPwd") String oldPwd,
                                      @Field("newPwd") String newPwd);
+
+    /**
+     * 支付
+     *
+     * @param userId
+     * @param sessionId
+     * @param orderId
+     * @param payType
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("tool/verify/v1/pay")
+    Observable<PayBean> pay(@Header("userId") int userId,
+                            @Header("sessionId") String sessionId,
+                            @Field("orderId") String orderId,
+                            @Field("payType") int payType);
+
+    /**
+     * 微信分享前置接口，获取分享所需参数
+     * @param time
+     * @param sign
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("tool/v1/wxShare")
+    Observable<PayBean> wxShare(@Field("time") String time,
+                                @Field("String") int sign);
+
+    @GET("tool/v1/findVipCommodityList")
+    Observable<Result<List<VIPList>>> findVipCommodityList();
+
+
 }
