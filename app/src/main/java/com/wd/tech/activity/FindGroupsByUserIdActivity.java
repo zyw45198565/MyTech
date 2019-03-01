@@ -1,11 +1,14 @@
 package com.wd.tech.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.EaseConstant;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -64,8 +67,14 @@ public class FindGroupsByUserIdActivity extends BaseActivity {
         });
         findGroupsByUserIdAdapter.setOnItemClickListener(new FindGroupsByUserIdAdapter.ClickListener() {
             @Override
-            public void click(int id, String name) {
+            public void click(int id, String name,String xh) {
+                Intent intent = new Intent(FindGroupsByUserIdActivity.this, WantGroupChatActivity.class);
+                intent.putExtra(EaseConstant.EXTRA_USER_ID,xh);
+                intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
+                intent.putExtra("name",name);
+                intent.putExtra("friendUid",id);
 
+                startActivity(intent);
             }
         });
     }

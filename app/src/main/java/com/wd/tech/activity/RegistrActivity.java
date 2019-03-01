@@ -1,10 +1,14 @@
 package com.wd.tech.activity;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.hyphenate.EMError;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 import com.wd.tech.R;
 import com.wd.tech.bean.Result;
 import com.wd.tech.presenter.RegistrPresenter;
@@ -25,6 +29,7 @@ public class RegistrActivity extends BaseActivity implements View.OnClickListene
     private EditText name;
     private EditText pass;
     private String passss;
+    private String trim2;
 
     @Override
     protected int getLayoutId() {
@@ -57,13 +62,14 @@ public class RegistrActivity extends BaseActivity implements View.OnClickListene
                     return;
                 }
                 String trim1 = pass.getText().toString().trim();
-                String trim2 = phone.getText().toString().trim();
-                if(trim1.equals("")||trim2.equals("")){
+                trim2 = phone.getText().toString().trim();
+                if(trim1.equals("")|| trim2.equals("")){
                     Toast.makeText(this, "请输入手机号或密码……", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 try {
                     passss = RsaCoder.encryptByPublicKey(trim1);
+                    Log.i("abc", "onClick: "+passss);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -78,7 +84,42 @@ public class RegistrActivity extends BaseActivity implements View.OnClickListene
     public void success(Result data) {
         Toast.makeText(this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
         if(data.getStatus().equals("0000")){
-            finish();
+            new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        // call method in SDK
+                        EMClient.getInstance().createAccount(trim2, passss);
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registered_successfully), Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        });
+                    } catch (final HyphenateException e) {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+
+                                int errorCode = e.getErrorCode();
+                                if(errorCode== EMError.NETWORK_ERROR){
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_anomalies), Toast.LENGTH_SHORT).show();
+                                }else if(errorCode == EMError.USER_ALREADY_EXIST){
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.User_already_exists), Toast.LENGTH_SHORT).show();
+                                }else if(errorCode == EMError.USER_AUTHENTICATION_FAILED){
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.registration_failed_without_permission), Toast.LENGTH_SHORT).show();
+                                }else if(errorCode == EMError.USER_ILLEGAL_ARGUMENT){
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.illegal_user_name),Toast.LENGTH_SHORT).show();
+                                }else if(errorCode == EMError.EXCEED_SERVICE_LIMIT){
+                                    Toast.makeText(RegistrActivity.this, getResources().getString(R.string.register_exceed_service_limit), Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registration_failed), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                }
+            }).start();
+            //finish();
         }
     }
 

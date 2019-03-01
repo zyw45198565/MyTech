@@ -94,10 +94,11 @@ public class WantAddFriendActivity extends BaseActivity {
 
         @Override
         public void success(Result data) {
-            if (data.getStatus().equals("0000")){
-                UIUtils.showToastSafe(data.getMessage());
+            UIUtils.showToastSafe(data.getMessage());
+            /*if (data.getStatus().equals("0000")){
                 finish();
-            }
+            }*/
+            finish();
         }
 
         @Override

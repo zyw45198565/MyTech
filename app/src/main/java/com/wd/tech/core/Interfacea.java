@@ -561,4 +561,31 @@ public interface Interfacea {
                                          @Field("noticeId") int noticeId,
                                          @Field("flag") int flag );
 
+    /**
+     * 删除好友
+     * @param userId
+     * @param sessionId
+     * @param friendUid
+     * @return
+     */
+    @DELETE("chat/verify/v1/deleteFriendRelation")
+    Observable<Result> deleteFriendRelation(@Header("userId") int userId,
+                                            @Header("sessionId")String sessionId,
+                                            @Query("friendUid") int friendUid);
+
+    /**
+     * 转移好友到其他分组
+     * @param userId
+     * @param sessionId
+     * @param newGroupId
+     * @param friendUid
+     * @return
+     */
+    @PUT("chat/verify/v1/transferFriendGroup")
+    @FormUrlEncoded
+    Observable<Result> transferFriendGroup(@Header("userId") int userId,
+                                        @Header("sessionId")String sessionId,
+                                        @Field("newGroupId") int newGroupId,
+                                        @Field("friendUid") int friendUid );
+
 }

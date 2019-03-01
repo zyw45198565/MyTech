@@ -111,9 +111,9 @@ public class Frag_02 extends WDFragment {
     }
 
     private void getWindow(View inflate) {
-      LinearLayout popu_add_like= inflate.findViewById(R.id.popu_add_like);
-      LinearLayout popu_add_create= inflate.findViewById(R.id.popu_add_create);
-      popu_add_like.setOnClickListener(new View.OnClickListener() {
+      LinearLayout popuAddLike= inflate.findViewById(R.id.popu_add_like);
+      LinearLayout popuAddCreate= inflate.findViewById(R.id.popu_add_create);
+        popuAddLike.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
               Intent intent = new Intent(getContext(), AddFriendActivity.class);
@@ -121,7 +121,7 @@ public class Frag_02 extends WDFragment {
                 window.dismiss();
           }
       });
-        popu_add_create.setOnClickListener(new View.OnClickListener() {
+        popuAddCreate.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
               Intent intent = new Intent(getContext(), CreateFriendActivity.class);

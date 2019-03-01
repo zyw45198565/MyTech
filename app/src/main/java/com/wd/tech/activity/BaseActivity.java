@@ -1,15 +1,20 @@
 package com.wd.tech.activity;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 
@@ -30,6 +35,13 @@ import me.jessyan.autosize.internal.CustomAdapt;
 
 public abstract class BaseActivity extends SwipeBackActivity  implements CustomAdapt {
 
+    //读写权限
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ,Manifest.permission.RECORD_AUDIO};
+    //请求状态码
+    private static int REQUEST_PERMISSION_CODE = 1;
 
     public final static int PHOTO = 0;// 相册选取
     public final static int CAMERA = 1;// 拍照
@@ -68,6 +80,19 @@ public abstract class BaseActivity extends SwipeBackActivity  implements CustomA
         initView();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_PERMISSION_CODE);
+            }
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_PERMISSION_CODE);
+            }
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_PERMISSION_CODE);
+            }
+        }
+
     }
     /**
      * 设置layoutId
@@ -197,6 +222,16 @@ public abstract class BaseActivity extends SwipeBackActivity  implements CustomA
      */
     protected void closeSwipeBack() {
         setSwipeBackEnable(false);
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PERMISSION_CODE) {
+            for (int i = 0; i < permissions.length; i++) {
+                Log.i("MainActivity", "申请的权限为：" + permissions[i] + ",申请结果：" +
+                        grantResults[i]);
+            }
+        }
     }
 
 }

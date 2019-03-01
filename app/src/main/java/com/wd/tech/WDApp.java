@@ -1,25 +1,34 @@
 package com.wd.tech;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.facebook.cache.disk.DiskCacheConfig;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMOptions;
+import com.hyphenate.easeui.EaseUI;
 
 import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 
 
 /**
  * @name: MyApplication
  * @remark:
  */
-public class WDApp extends Application {
+public class WDApp extends MultiDexApplication {
     /** 主线程ID */
     private static int mMainThreadId = -1;
     /** 主线程ID */
@@ -35,6 +44,7 @@ public class WDApp extends Application {
     private static Context context;
 
     private static SharedPreferences sharedPreferences;
+    private static SharedPreferences em_sp_at_message;
 
     @Override
     public void onCreate() {
@@ -45,6 +55,8 @@ public class WDApp extends Application {
         mMainThreadHandler = new Handler();
         mMainLooper = getMainLooper();
         sharedPreferences = getSharedPreferences("share.xml",MODE_PRIVATE);
+        em_sp_at_message = getSharedPreferences("EM_SP_AT_MESSAGE", Context.MODE_PRIVATE);
+
         Fresco.initialize(this,getConfig());//图片加载框架初始化
 
         /*CrashReport.initCrashReport(getApplicationContext(), "16d12f5b5e", false);
@@ -67,7 +79,12 @@ public class WDApp extends Application {
                 Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
             }
         });*/
+
+        EaseUI.getInstance().init(this,null);
+        EMClient.getInstance().setDebugMode(true);
+//        MultiDex.install(this);
     }
+
 
     private ImagePipelineConfig getConfig() {
         File file = new File(Environment.getExternalStorageDirectory()+File.separator+"image");
@@ -83,6 +100,9 @@ public class WDApp extends Application {
 
     public static SharedPreferences getShare(){
         return sharedPreferences;
+    }
+    public static SharedPreferences getEShare(){
+        return em_sp_at_message;
     }
 
     /**
