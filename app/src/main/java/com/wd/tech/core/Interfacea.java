@@ -19,10 +19,12 @@ import com.wd.tech.bean.MyLoveBean;
 import com.wd.tech.bean.MyComment;
 import com.wd.tech.bean.MyPostByIdBean;
 import com.wd.tech.bean.MyTongzhiBean;
+import com.wd.tech.bean.PayBean;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.UserInfoBean;
 import com.wd.tech.bean.UserTaskBean;
 import com.wd.tech.bean.UserintegralBean;
+import com.wd.tech.bean.VIPList;
 
 import java.io.File;
 import java.util.List;
@@ -769,8 +771,8 @@ public interface Interfacea {
      */
     @FormUrlEncoded
     @POST("tool/v1/wxShare")
-    Observable<PayBean> wxShare(@Field("time") String time,
-                                @Field("String") int sign);
+    Observable<Result> wxShare(@Field("time") String time,
+                                @Field("String") String sign);
 
     @GET("tool/v1/findVipCommodityList")
     Observable<Result<List<VIPList>>> findVipCommodityList();

@@ -93,7 +93,7 @@ public class IntegralActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 byIntegralPresenter = new ByIntegralPresenter(new ByIntegral());
-                byIntegralPresenter.reqeust(userid,sessionid,did,integralCost);
+                byIntegralPresenter.reqeust(userid, sessionid, did, integralCost);
             }
         });
 
@@ -126,30 +126,69 @@ public class IntegralActivity extends BaseActivity {
 
     @Override
     protected void destoryData() {
-        byIntegralPresenter=null;
-        userIntegralPresenter=null;
+        byIntegralPresenter = null;
+        userIntegralPresenter = null;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         userIntegralPresenter = new UserIntegralPresenter(new UserIntegral());
-        userIntegralPresenter.reqeust(userid,sessionid);
+        userIntegralPresenter.reqeust(userid, sessionid);
     }
 
     private class ByIntegral implements DataCall<Result> {
         @Override
         public void success(Result data) {
-            Toast.makeText(IntegralActivity.this,data.getMessage(),Toast.LENGTH_SHORT).show();
-            if(data.getStatus().equals("0000")){
-                setResult(1,new Intent());
+//            Toast.makeText(IntegralActivity.this, data.getMessage(), Toast.LENGTH_SHORT).show();
+            if (data.getStatus().equals("0000")) {
                 View view = View.inflate(IntegralActivity.this, R.layout.buy_success, null);
                 dialog.setContentView(view);
-                dialog.getWindow().setGravity(Gravity.BOTTOM);
+                dialog.getWindow().setGravity(Gravity.CENTER);
                 dialog.show();
-                getshoud();
+                ImageView close = view.findViewById(R.id.close);
+                TextView read = view.findViewById(R.id.read);
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                read.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setResult(1, new Intent());
+                        finish();
 
-//                finish();
+                    }
+                });
+
+            } else {
+                View view = View.inflate(IntegralActivity.this, R.layout.buy_fail, null);
+                dialog.setContentView(view);
+                dialog.getWindow().setGravity(Gravity.CENTER);
+                dialog.show();
+                TextView cancel = view.findViewById(R.id.cancel);
+                TextView success = view.findViewById(R.id.success);
+                ImageView close = view.findViewById(R.id.close);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
+                success.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //todo 跳转任务页面
+                    }
+                });
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
             }
 
 
@@ -160,22 +199,13 @@ public class IntegralActivity extends BaseActivity {
 
         }
     }
-    private void getshoud() {
-        Window dialogWindow = dialog.getWindow();
-        WindowManager m = getWindow().getWindowManager();
-        Display d = m.getDefaultDisplay(); // 获取屏幕宽、高度
-        WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        p.width = (int) (d.getWidth()); // 宽度设置为屏幕的0.65，根据实际情况调整
-        p.height = (int) (d.getHeight() * 0.65);
-        dialogWindow.setAttributes(p);
-    }
 
     private class UserIntegral implements DataCall<Result<UserintegralBean>> {
         @Override
         public void success(Result<UserintegralBean> data) {
             int amount = data.getResult().getAmount();
             //我的积分
-            myIntegral.setText(amount+"分");
+            myIntegral.setText(amount + "分");
         }
 
         @Override

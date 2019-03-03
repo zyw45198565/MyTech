@@ -1,5 +1,6 @@
 package com.wd.tech.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import com.wd.tech.utils.NetWorkManager;
 import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.exception.ResponseTransformer;
 import com.wd.tech.utils.util.MD5Utils;
+import com.wd.tech.wxapi.WXPayEntryActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -184,6 +186,7 @@ public class VipActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private class BuyVip implements DataCall<Result> {
+        @SuppressLint("CheckResult")
         @Override
         public void success(Result data) {
             Toast.makeText(VipActivity.this, data.getMessage(), Toast.LENGTH_SHORT).show();
@@ -196,8 +199,6 @@ public class VipActivity extends BaseActivity implements View.OnClickListener {
                         .subscribe(new Consumer<PayBean>() {
                             @Override
                             public void accept(PayBean payBean){
-                                Toast.makeText(VipActivity.this,"成功",Toast.LENGTH_SHORT).show();
-
                                 //应用ID 即微信开放平台审核通过的应用APPID
                                 wxapi = WXAPIFactory.createWXAPI(VipActivity.this,"wx4c96b6b8da494224");
                                 wxapi.registerApp("wx4c96b6b8da494224");    //应用ID
@@ -210,6 +211,9 @@ public class VipActivity extends BaseActivity implements View.OnClickListener {
                                 payReq.timeStamp = "" + payBean.getTimeStamp(); //时间戳
                                 payReq.sign = payBean.getSign();             //签名
                                 wxapi.sendReq(payReq);
+//                                Intent intent = getIntent();
+//                                String state = intent.getStringExtra("state");
+
 
                             }
                         }, new Consumer<Throwable>() {
@@ -217,8 +221,13 @@ public class VipActivity extends BaseActivity implements View.OnClickListener {
                                     public void accept(Throwable throwable) throws Exception {
                                         throwable.printStackTrace();
                                         Toast.makeText(VipActivity.this,"失败了",Toast.LENGTH_SHORT).show();
+
                                     }
                                 });
+            /*if (data.getStatus().equals("0000")){
+
+
+            }*/
 
         }
 
@@ -232,13 +241,8 @@ public class VipActivity extends BaseActivity implements View.OnClickListener {
         @Override
         public void success(Result<List<VIPList>> data) {
             result = data.getResult();
-            if (data.getStatus().equals("0000")){
-                View view = View.inflate(VipActivity.this, R.layout.buy_success, null);
-                dialog.setContentView(view);
-                dialog.getWindow().setGravity(Gravity.VERTICAL_GRAVITY_MASK);
-                dialog.show();
-                getshoud();
-            }
+
+
             for (int i = 0; i < result.size(); i++) {
                 int commodityId = result.get(i).getCommodityId();
                 if (commodityId==1004){
@@ -252,14 +256,5 @@ public class VipActivity extends BaseActivity implements View.OnClickListener {
         public void fail(ApiException e) {
 
         }
-    }
-    private void getshoud() {
-        Window dialogWindow = dialog.getWindow();
-        WindowManager m = getWindow().getWindowManager();
-        Display d = m.getDefaultDisplay(); // 获取屏幕宽、高度
-        WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        p.width = (int) (d.getWidth()); // 宽度设置为屏幕的0.65，根据实际情况调整
-        p.height = (int) (d.getHeight() * 0.65);
-        dialogWindow.setAttributes(p);
     }
 }

@@ -28,6 +28,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.adapter.CommentAdapter;
@@ -120,6 +125,7 @@ public class DetailsActivity extends BaseActivity {
     private Dialog dialog;
     private Intent intent;
     private int classify;
+    private IWXAPI wxapi;
 
     public void handlike(handlike handlike) {
         this.handlike = handlike;
@@ -138,12 +144,17 @@ public class DetailsActivity extends BaseActivity {
         }
         if(resultCode==1){
             buyAll.setVisibility(View.GONE);
+            dialog.dismiss();
         }
     }
 
     @Override
     protected void initView() {
+        // 通过WXAPIFactory工厂，获取IWXAPI的实例  APP_ID为微信的AppID
+        wxapi = WXAPIFactory.createWXAPI(DetailsActivity.this, "wx4c96b6b8da494224", true);
 
+        // 将应用的appId注册到微信
+        wxapi.registerApp("wx4c96b6b8da494224");
         userid = WDApp.getShare().getInt("userid", 0);
         sessionid = WDApp.getShare().getString("sessionid", "");
         intent = getIntent();
@@ -245,7 +256,7 @@ public class DetailsActivity extends BaseActivity {
                 dialog.setContentView(view);
                 dialog.getWindow().setGravity(Gravity.BOTTOM);
                 dialog.show();
-                getshoud();
+                getshoud(2);
                 TextView vip = view.findViewById(R.id.vip);
                 TextView integral = view.findViewById(R.id.integral);
                 vip.setOnClickListener(new View.OnClickListener() {
@@ -288,16 +299,58 @@ public class DetailsActivity extends BaseActivity {
 
             }
         });
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog = new Dialog(DetailsActivity.this, R.style.DialogTheme);
+
+                View view = View.inflate(DetailsActivity.this, R.layout.twoshare, null);
+                dialog.setContentView(view);
+                dialog.getWindow().setGravity(Gravity.BOTTOM);
+                dialog.show();
+                getshoud(1);
+                TextView cancle = view.findViewById(R.id.cancel);
+                ImageView wxfriend = view.findViewById(R.id.wxfriend);
+                ImageView weixinf = view.findViewById(R.id.weixinf);
+                cancle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                wxfriend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //微信朋友圈
+                        WeChatShare(1);
+                    }
+                });
+                weixinf.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //微信朋友圈
+                        WeChatShare( 2);
+                    }
+                });
+            }
+        });
+
 
     }
 
-    private void getshoud() {
+    private void getshoud(int bottom) {
         Window dialogWindow = dialog.getWindow();
         WindowManager m = getWindow().getWindowManager();
         Display d = m.getDefaultDisplay(); // 获取屏幕宽、高度
         WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
         p.width = (int) (d.getWidth()); // 宽度设置为屏幕的0.65，根据实际情况调整
-        p.height = (int) (d.getHeight() * 0.65);
+        if (bottom==1){
+            p.height = (int) (d.getHeight() * 0.2);
+
+        }else{
+            p.height = (int) (d.getHeight() * 0.65);
+
+        }
         dialogWindow.setAttributes(p);
     }
 
@@ -493,5 +546,33 @@ public class DetailsActivity extends BaseActivity {
 
         }
 
+    }
+    //分享链接
+    public void WeChatShare(int classify) {
+        WXWebpageObject webpage = new WXWebpageObject();
+        webpage.webpageUrl = "http://www.huxiao.com";
+
+        initSend(webpage, classify);
+    }
+
+    private void initSend(WXMediaMessage.IMediaObject webpage, int classify) {
+        WXMediaMessage msg = new WXMediaMessage();
+        msg.title = detailsBean.getTitle();
+        msg.description = "测试说明...";
+        msg.mediaObject = webpage;
+
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = buildTransaction("webpage");
+        req.message = msg;
+        if (classify == 1) {
+            req.scene = SendMessageToWX.Req.WXSceneTimeline;    //设置发送到朋友圈
+        } else if (classify == 2) {
+            req.scene = SendMessageToWX.Req.WXSceneSession;    //设置发送到朋友
+        }
+        wxapi.sendReq(req);
+    }
+
+    private String buildTransaction(final String type) {
+        return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
     }
 }
