@@ -135,9 +135,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 @Override
                 public void onError(int code, String message) {
                     Log.d("main", "登录聊天服务器失败！");
+                    finish();
                 }
             });
-            //finish();
+           // finish();
         }
     }
 

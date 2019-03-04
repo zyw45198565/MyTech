@@ -99,6 +99,20 @@
         <activity android:name=".activity.CheckGroupActivity"/>
         <activity android:name=".activity.GroupMemberActivity"/>
         <activity android:name=".activity.GroupDetailsSettingsActivity"/>
+        <!-- 微信支付 -->
+        <activity
+            android:name="com.wd.tech.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
+
+        <activity android:name=".activity.MyUserActivity" />
+        <activity android:name=".activity.MyWanshanActivity" />
+        <activity android:name=".activity.QianActivity"></activity>
+        <!--微信分享-->
+        <activity android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            />
     </application>
 
 </manifest>

@@ -1,9 +1,11 @@
 package com.wd.tech.activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,6 +28,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.adapter.CommentAdapter;
@@ -41,6 +48,7 @@ import com.wd.tech.presenter.CancelCollectionPresenter;
 import com.wd.tech.presenter.CancelGreatPresenter;
 import com.wd.tech.presenter.DetailsPresenter;
 import com.wd.tech.presenter.MyCommentPresenter;
+import com.wd.tech.presenter.WDPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.util.DateUtils;
@@ -111,9 +119,13 @@ public class DetailsActivity extends BaseActivity {
     private int userid;
     private String sessionid;
     private int zid;
+    private int bid;
     handlike handlike;
     private DetailsPresenter detailsPresenter;
     private Dialog dialog;
+    private Intent intent;
+    private int classify;
+    private IWXAPI wxapi;
 
     public void handlike(handlike handlike) {
         this.handlike = handlike;
@@ -125,14 +137,31 @@ public class DetailsActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            return;
+        }
+        if (resultCode == 1) {
+            buyAll.setVisibility(View.GONE);
+            dialog.dismiss();
+        }
+    }
 
+    @Override
+    protected void initView() {
+        // 通过WXAPIFactory工厂，获取IWXAPI的实例  APP_ID为微信的AppID
+        wxapi = WXAPIFactory.createWXAPI(DetailsActivity.this, "wx4c96b6b8da494224", true);
+
+        // 将应用的appId注册到微信
+        wxapi.registerApp("wx4c96b6b8da494224");
         userid = WDApp.getShare().getInt("userid", 0);
         sessionid = WDApp.getShare().getString("sessionid", "");
-        Intent intent = getIntent();
+        intent = getIntent();
         zid = intent.getIntExtra("zid", 0);
-        detailsPresenter = new DetailsPresenter(new DetailsCall());
-        detailsPresenter.reqeust(userid, sessionid, zid);
+        bid = intent.getIntExtra("zurl", 1);
+        classify = intent.getIntExtra("classify", 0);
+
 
         //板块
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -150,7 +179,7 @@ public class DetailsActivity extends BaseActivity {
 
         //评论
         myCommentPresenter = new MyCommentPresenter(new CommentCall());
-        myCommentPresenter.reqeust(userid, sessionid, zid, 1, 5);
+        myCommentPresenter.reqeust(userid, sessionid, this.zid, 1, 5);
         LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(this);
         commentrecycler.setLayoutManager(linearLayoutManager3);
         commentAdapter = new CommentAdapter(this);
@@ -179,7 +208,7 @@ public class DetailsActivity extends BaseActivity {
                 if (trim.equals("")) {
                     Toast.makeText(DetailsActivity.this, "请输入内容!", Toast.LENGTH_SHORT).show();
                 } else {
-                    addInfoCommentPresenter.reqeust(userid, sessionid, trim, zid);
+                    addInfoCommentPresenter.reqeust(userid, sessionid, trim, DetailsActivity.this.zid);
                     mycommentTwo.setText("");
                     commentOne.setVisibility(View.VISIBLE);
                     commentTwo.setVisibility(View.GONE);
@@ -195,16 +224,16 @@ public class DetailsActivity extends BaseActivity {
                 boolean checked = checkBox.isChecked();
                 if (checked) {
                     AddGreatRecordPresenter addGreatRecordPresenter = new AddGreatRecordPresenter(new HandCall());
-                    addGreatRecordPresenter.reqeust(userid, sessionid, zid);
+                    addGreatRecordPresenter.reqeust(userid, sessionid, DetailsActivity.this.zid);
                 } else {
                     CancelGreatPresenter cancelGreatPresenter = new CancelGreatPresenter(new CancelHandCall());
-                    cancelGreatPresenter.reqeust(userid, sessionid, zid);
+                    cancelGreatPresenter.reqeust(userid, sessionid, DetailsActivity.this.zid);
 
                 }
             }
         });
 
-        dialog = new Dialog(DetailsActivity.this,R.style.DialogTheme);
+        dialog = new Dialog(DetailsActivity.this, R.style.DialogTheme);
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,9 +241,9 @@ public class DetailsActivity extends BaseActivity {
                 boolean checked = checkBox.isChecked();
                 if (checked) {
                     AddCollectionPresenter addCollectionPresenter = new AddCollectionPresenter(new MyCollect());
-                    addCollectionPresenter.reqeust(userid, sessionid, zid);
+                    addCollectionPresenter.reqeust(userid, sessionid, DetailsActivity.this.zid);
                 } else {
-                    String eid = zid + "";
+                    String eid = DetailsActivity.this.zid + "";
                     CancelCollectionPresenter cancelCollectionPresenter = new CancelCollectionPresenter(new MyCancelCollect());
                     cancelCollectionPresenter.reqeust(userid, sessionid, eid);
                 }
@@ -227,39 +256,101 @@ public class DetailsActivity extends BaseActivity {
                 dialog.setContentView(view);
                 dialog.getWindow().setGravity(Gravity.BOTTOM);
                 dialog.show();
-                getshoud();
+                getshoud(2);
                 TextView vip = view.findViewById(R.id.vip);
                 TextView integral = view.findViewById(R.id.integral);
                 vip.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent1=new Intent(DetailsActivity.this,VipActivity.class);
-                        intent1.putExtra("zid",zid);
-                        Log.i("zid",zid+"=====================================");
-                        startActivity(intent1);
+                        boolean zai = WDApp.getShare().getBoolean("zai", false);
+
+                        if (!zai) {
+                            Toast.makeText(DetailsActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent intent1 = new Intent(DetailsActivity.this, VipActivity.class);
+                            intent1.putExtra("did", detailsBean.getId());
+                            startActivity(intent1);
+                        }
+
                     }
                 });
                 integral.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent1=new Intent(DetailsActivity.this,IntegralActivity.class);
-                        intent1.putExtra("zid",zid);
-                        startActivity(intent1);
+                        boolean zai = WDApp.getShare().getBoolean("zai", false);
+                        Log.i("hahah", !zai + "66666666");
+
+                        if (!zai) {
+                            Toast.makeText(DetailsActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent intent1 = new Intent(DetailsActivity.this, IntegralActivity.class);
+                            intent1.putExtra("did", detailsBean.getId());
+                            intent1.putExtra("integralCost", detailsBean.getIntegralCost());
+                            intent1.putExtra("summary", detailsBean.getSummary());
+                            intent1.putExtra("thumbnail", detailsBean.getThumbnail());
+                            intent1.putExtra("title", detailsBean.getTitle());
+                            intent1.putExtra("source", detailsBean.getSource());
+                            intent1.putExtra("share", detailsBean.getShare());
+                            intent1.putExtra("whetherCollection", detailsBean.getWhetherCollection());
+                            startActivityForResult(intent1, 1);
+                        }
                     }
                 });
 
             }
         });
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog = new Dialog(DetailsActivity.this, R.style.DialogTheme);
+
+                View view = View.inflate(DetailsActivity.this, R.layout.twoshare, null);
+                dialog.setContentView(view);
+                dialog.getWindow().setGravity(Gravity.BOTTOM);
+                dialog.show();
+                getshoud(1);
+                TextView cancle = view.findViewById(R.id.cancel);
+                ImageView wxfriend = view.findViewById(R.id.wxfriend);
+                ImageView weixinf = view.findViewById(R.id.weixinf);
+                cancle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                wxfriend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //微信朋友圈
+                        WeChatShare(1);
+                    }
+                });
+                weixinf.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //微信朋友圈
+                        WeChatShare(2);
+                    }
+                });
+            }
+        });
+
 
     }
 
-    private void getshoud() {
+    private void getshoud(int bottom) {
         Window dialogWindow = dialog.getWindow();
         WindowManager m = getWindow().getWindowManager();
         Display d = m.getDefaultDisplay(); // 获取屏幕宽、高度
         WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
         p.width = (int) (d.getWidth()); // 宽度设置为屏幕的0.65，根据实际情况调整
-        p.height = (int) (d.getHeight()*0.65);
+        if (bottom == 1) {
+            p.height = (int) (d.getHeight() * 0.2);
+
+        } else {
+            p.height = (int) (d.getHeight() * 0.65);
+
+        }
         dialogWindow.setAttributes(p);
     }
 
@@ -267,6 +358,7 @@ public class DetailsActivity extends BaseActivity {
     protected void destoryData() {
 
     }
+
     private class DetailsCall implements DataCall<Result<DetailsBean>> {
         @Override
         public void success(Result<DetailsBean> data) {
@@ -279,6 +371,7 @@ public class DetailsActivity extends BaseActivity {
             }
             source.setText(detailsBean.getSource());
             thumbnail.setImageURI(detailsBean.getThumbnail());
+
 
             //数量
             commentNum.setText(detailsBean.getComment() + "");
@@ -300,6 +393,7 @@ public class DetailsActivity extends BaseActivity {
             }
 
             //付费
+
             int readPower = detailsBean.getReadPower();
             if (readPower == 2) {
                 buyAll.setVisibility(View.VISIBLE);
@@ -346,12 +440,16 @@ public class DetailsActivity extends BaseActivity {
         }
     }
 
+    //评论
     private class CommentCall implements DataCall<Result<List<MyComment>>> {
         @Override
         public void success(Result<List<MyComment>> data) {
             List<MyComment> result = data.getResult();
             commentAdapter.addAll(result);
             commentAdapter.notifyDataSetChanged();
+            commentAll.setVisibility(View.GONE);
+
+
         }
 
         @Override
@@ -383,6 +481,7 @@ public class DetailsActivity extends BaseActivity {
 
     }
 
+    //点赞
     private class HandCall implements DataCall<Result> {
         @Override
         public void success(Result data) {
@@ -397,6 +496,7 @@ public class DetailsActivity extends BaseActivity {
         }
     }
 
+    //取消点赞
     private class CancelHandCall implements DataCall<Result> {
         @Override
         public void success(Result data) {
@@ -437,5 +537,51 @@ public class DetailsActivity extends BaseActivity {
         public void fail(ApiException e) {
 
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        detailsPresenter = new DetailsPresenter(new DetailsCall());
+        if (classify == 1) {
+            //banner
+            detailsPresenter.reqeust(userid, sessionid, bid);
+
+        } else {
+            //列表
+            detailsPresenter.reqeust(userid, sessionid, zid);
+
+        }
+
+    }
+
+    //分享链接
+    public void WeChatShare(int classify) {
+        WXWebpageObject webpage = new WXWebpageObject();
+        webpage.webpageUrl = "http://www.hooxiao.com";
+
+        initSend(webpage, classify);
+    }
+
+    private void initSend(WXMediaMessage.IMediaObject webpage, int classify) {
+        WXMediaMessage msg = new WXMediaMessage();
+        msg.title = detailsBean.getTitle();
+        msg.description = detailsBean.getSummary();
+        msg.mediaObject = webpage;
+
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = buildTransaction("webpage");
+        req.message = msg;
+        if (classify == 1) {
+            req.scene = SendMessageToWX.Req.WXSceneTimeline;    //设置发送到朋友圈
+        } else if (classify == 2) {
+            req.scene = SendMessageToWX.Req.WXSceneSession;    //设置发送到朋友
+        }
+        wxapi.sendReq(req);
+    }
+
+    private String buildTransaction(final String type) {
+        return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
     }
 }
