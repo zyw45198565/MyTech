@@ -96,6 +96,9 @@
         <activity android:name=".activity.VipActivity" />
         <activity android:name=".activity.IntegralActivity" />
         <activity android:name=".activity.UserPwdActivity"></activity>
+        <activity android:name=".activity.CheckGroupActivity"/>
+        <activity android:name=".activity.GroupMemberActivity"/>
+        <activity android:name=".activity.GroupDetailsSettingsActivity"/>
     </application>
 
 </manifest>

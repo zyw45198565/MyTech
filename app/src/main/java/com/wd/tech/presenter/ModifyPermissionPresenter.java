@@ -7,18 +7,15 @@ import com.wd.tech.utils.NetWorkManager;
 
 import io.reactivex.Observable;
 
-/**
- * Created by ${LinJiangtao}
- * on 2019/2/21
- */
-public class FindGroupsByUserIdPresenter extends WDPresenter {
-    public FindGroupsByUserIdPresenter(DataCall dataCall) {
+
+public class ModifyPermissionPresenter extends WDPresenter {
+    public ModifyPermissionPresenter(DataCall dataCall) {
         super(dataCall);
     }
 
     @Override
     public Observable observable(Object... args) {
         Interfacea iRequest = NetWorkManager.getInstance().create(Interfacea.class);
-        return iRequest.findUserJoinedGroup((int)args[0],(String)args[1]);
+        return iRequest.modifyPermission((int)args[0],(String)args[1],(int)args[2],(int)args[3],(int)args[4]);
     }
 }

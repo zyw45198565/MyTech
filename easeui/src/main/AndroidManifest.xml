@@ -4,11 +4,18 @@
         <activity android:name=".ui.EaseBaiduMapActivity"/>
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="KbRr2jllvLmVMqhGH2ldwIRO1Kxrwmjc" />
+            android:value="3ecea51f560650b1ed8a4b99808f52e8" />
 
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
+        <activity android:name=".ui.EaseShowBigImageActivity"/>
+        <activity android:name=".ui.EaseBaseActivity"/>
+        <activity android:name=".ui.EaseDingAckUserListActivity"/>
+        <activity android:name=".ui.EaseShowNormalFileActivity"/>
+        <activity android:name=".ui.EaseDingMsgSendActivity"/>
+        <activity android:name=".ui.EaseShowVideoActivity"/>
+
     </application>
 </manifest>

@@ -6,7 +6,9 @@ import com.wd.tech.bean.FindGroup;
 import com.wd.tech.bean.FindGroupNoticePageList;
 import com.wd.tech.bean.FindUser;
 import com.wd.tech.bean.DetailsBean;
+import com.wd.tech.bean.FriendGroup;
 import com.wd.tech.bean.GroupByUser;
+import com.wd.tech.bean.GroupMember;
 import com.wd.tech.bean.HomeAll;
 import com.wd.tech.bean.InformationSearchByTitleBean;
 import com.wd.tech.bean.InitFriendlist;
@@ -281,7 +283,7 @@ public interface Interfacea {
      */
     //@GET("group/verify/v1/findGroupsByUserId")
     @GET("group/verify/v1/findUserJoinedGroup")
-    Observable<Result<List<GroupByUser>>> findGroupsByUserId(@Header("userId") int userId,
+    Observable<Result<List<GroupByUser>>> findUserJoinedGroup(@Header("userId") int userId,
                                                              @Header("sessionId") String sessionId);
 
     /**
@@ -736,4 +738,81 @@ public interface Interfacea {
                                         @Field("newGroupId") int newGroupId,
                                         @Field("friendUid") int friendUid );
 
+    /**
+     * 查询个人群
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("chat/verify/v1/findFriendGroupList")
+    Observable<Result<List<FriendGroup>>> findFriendGroupList(@Header("userId") int userId,
+                                                              @Header("sessionId") String sessionId);
+
+    /**
+     * 创建自定义好友分组
+     * @param userId
+     * @param sessionId
+     * @param groupName
+     * @return
+     */
+    @POST("chat/verify/v1/addFriendGroup")
+    @FormUrlEncoded
+    Observable<Result> addFriendGroup(@Header("userId") int userId,
+                                     @Header("sessionId") String sessionId,
+                                     @Field("groupName") String groupName);
+
+    /**
+     * 删除好友聊天记录
+     * @param userId
+     * @param sessionId
+     * @param friendUid
+     * @return
+     */
+    @DELETE("chat/verify/v1/deleteChatRecord")
+    Observable<Result> deleteChatRecord(@Header("userId") int userId,
+                                            @Header("sessionId")String sessionId,
+                                            @Query("friendUid") int friendUid);
+
+    /**
+     * 查询群组内所有用户信息
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @return
+     */
+    @GET("group/verify/v1/findGroupMemberList")
+    Observable<Result<List<GroupMember>>> findGroupMemberList(@Header("userId") int userId,
+                                                              @Header("sessionId") String sessionId,
+                                                              @Query("groupId") int groupId);
+
+    /**
+     * 移出群成员(管理员与群主才有的权限)
+     * @param userId
+     * @param sessionId
+     * @param friendUid
+     * @param groupUserId
+     * @return
+     */
+    @DELETE("group/verify/v1/removeGroupMember")
+    Observable<Result> removeGroupMember(@Header("userId") int userId,
+                                         @Header("sessionId")String sessionId,
+                                         @Query("groupId") int friendUid,
+                                         @Query("groupUserId") int groupUserId);
+
+    /**
+     * 调整群成员角色(群主才有的权限)
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @param groupUserId
+     * @param role
+     * @return
+     */
+    @PUT("group/verify/v1/modifyPermission")
+    @FormUrlEncoded
+    Observable<Result> modifyPermission (@Header("userId") int userId,
+                                           @Header("sessionId")String sessionId,
+                                           @Field("groupId") int groupId,
+                                           @Field("groupUserId") int groupUserId,
+                                            @Field("role") int role );
 }
