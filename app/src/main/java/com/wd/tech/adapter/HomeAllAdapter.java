@@ -98,6 +98,8 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View v) {
                         Intent intent = new Intent(context, DetailsActivity.class);
                         intent.putExtra("zid", homeAll.getId());
+                        intent.putExtra("classify",2);
+
                         context.startActivity(intent);
                     }
                 });
@@ -142,7 +144,7 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holderA.share.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        myShare.share();
+                        myShare.share(i);
                     }
                 });
                 break;
@@ -219,7 +221,7 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public interface MyShare {
-        void share();
+        void share(int possion);
 
     }
 }
