@@ -4,7 +4,7 @@
         <activity android:name=".ui.EaseBaiduMapActivity"/>
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="KbRr2jllvLmVMqhGH2ldwIRO1Kxrwmjc" />
+            android:value="3ecea51f560650b1ed8a4b99808f52e8" />
 
         <service
             android:name="com.baidu.location.f"
