@@ -180,7 +180,9 @@ public class IntegralActivity extends BaseActivity {
                 success.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //todo 跳转任务页面
+                        //跳转任务页面
+                        Intent intent=new Intent(IntegralActivity.this,MytaskActivity.class);
+                        startActivity(intent);
                     }
                 });
                 close.setOnClickListener(new View.OnClickListener() {

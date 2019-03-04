@@ -386,7 +386,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     //分享链接
     public void WeChatShare(int possion, int classify) {
         WXWebpageObject webpage = new WXWebpageObject();
-        webpage.webpageUrl = "http://www.huxiao.com";
+        webpage.webpageUrl = "http://www.hooxiao.com";
 
         initSend(webpage, possion, classify);
     }
@@ -394,7 +394,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     private void initSend(WXMediaMessage.IMediaObject webpage, int possion, int classify) {
         WXMediaMessage msg = new WXMediaMessage();
         msg.title = result.get(possion).getTitle();
-        msg.description = "测试说明...";
+        msg.description = result.get(possion).getSummary();
         msg.mediaObject = webpage;
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();

@@ -139,10 +139,10 @@ public class DetailsActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data==null){
+        if (data == null) {
             return;
         }
-        if(resultCode==1){
+        if (resultCode == 1) {
             buyAll.setVisibility(View.GONE);
             dialog.dismiss();
         }
@@ -292,7 +292,7 @@ public class DetailsActivity extends BaseActivity {
                             intent1.putExtra("source", detailsBean.getSource());
                             intent1.putExtra("share", detailsBean.getShare());
                             intent1.putExtra("whetherCollection", detailsBean.getWhetherCollection());
-                            startActivityForResult(intent1,1);
+                            startActivityForResult(intent1, 1);
                         }
                     }
                 });
@@ -329,7 +329,7 @@ public class DetailsActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         //微信朋友圈
-                        WeChatShare( 2);
+                        WeChatShare(2);
                     }
                 });
             }
@@ -344,10 +344,10 @@ public class DetailsActivity extends BaseActivity {
         Display d = m.getDefaultDisplay(); // 获取屏幕宽、高度
         WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
         p.width = (int) (d.getWidth()); // 宽度设置为屏幕的0.65，根据实际情况调整
-        if (bottom==1){
+        if (bottom == 1) {
             p.height = (int) (d.getHeight() * 0.2);
 
-        }else{
+        } else {
             p.height = (int) (d.getHeight() * 0.65);
 
         }
@@ -440,12 +440,16 @@ public class DetailsActivity extends BaseActivity {
         }
     }
 
+    //评论
     private class CommentCall implements DataCall<Result<List<MyComment>>> {
         @Override
         public void success(Result<List<MyComment>> data) {
             List<MyComment> result = data.getResult();
             commentAdapter.addAll(result);
             commentAdapter.notifyDataSetChanged();
+            commentAll.setVisibility(View.GONE);
+
+
         }
 
         @Override
@@ -477,6 +481,7 @@ public class DetailsActivity extends BaseActivity {
 
     }
 
+    //点赞
     private class HandCall implements DataCall<Result> {
         @Override
         public void success(Result data) {
@@ -491,6 +496,7 @@ public class DetailsActivity extends BaseActivity {
         }
     }
 
+    //取消点赞
     private class CancelHandCall implements DataCall<Result> {
         @Override
         public void success(Result data) {
@@ -538,19 +544,22 @@ public class DetailsActivity extends BaseActivity {
         super.onResume();
 
         detailsPresenter = new DetailsPresenter(new DetailsCall());
-        if (classify ==1){
+        if (classify == 1) {
+            //banner
             detailsPresenter.reqeust(userid, sessionid, bid);
 
-        }else{
+        } else {
+            //列表
             detailsPresenter.reqeust(userid, sessionid, zid);
 
         }
 
     }
+
     //分享链接
     public void WeChatShare(int classify) {
         WXWebpageObject webpage = new WXWebpageObject();
-        webpage.webpageUrl = "http://www.huxiao.com";
+        webpage.webpageUrl = "http://www.hooxiao.com";
 
         initSend(webpage, classify);
     }
@@ -558,7 +567,7 @@ public class DetailsActivity extends BaseActivity {
     private void initSend(WXMediaMessage.IMediaObject webpage, int classify) {
         WXMediaMessage msg = new WXMediaMessage();
         msg.title = detailsBean.getTitle();
-        msg.description = "测试说明...";
+        msg.description = detailsBean.getSummary();
         msg.mediaObject = webpage;
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();

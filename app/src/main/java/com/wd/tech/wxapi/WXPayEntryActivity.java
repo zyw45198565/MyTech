@@ -74,17 +74,22 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             switch (resp.errCode) {
                 case BaseResp.ErrCode.ERR_OK:
+                    finish();
                     //支付成功后的逻辑
                     result = "微信支付成功";
                     break;
                 case BaseResp.ErrCode.ERR_COMM:
+                    finish();
 
                     result = "微信支付失败";
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
+                    finish();
+
                     result = "微信支付取消";
                     break;
                 default:
+                    finish();
 
                     result = "微信支付未知异常：";
                     break;
