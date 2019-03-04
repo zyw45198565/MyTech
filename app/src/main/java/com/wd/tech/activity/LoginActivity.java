@@ -1,5 +1,6 @@
 package com.wd.tech.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.InputType;
@@ -13,6 +14,9 @@ import android.widget.Toast;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.bean.LoginBean;
@@ -40,6 +44,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private String trim;
     private String trim1;
     private ImageView xian;
+    private IWXAPI api;
 
     @Override
     protected int getLayoutId() {
@@ -48,6 +53,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void initView() {
+
+        //通过WXAPIFactory工厂获取IWXApI的示例
+        api = WXAPIFactory.createWXAPI(this,"wx4c96b6b8da494224",true);
+        //将应用的appid注册到微信
+        api.registerApp("wx4c96b6b8da494224");
 
 
         TextView txt_registration = (TextView) findViewById(R.id.registration);
@@ -66,6 +76,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         String pass111 = WDApp.getShare().getString("pass", "");
         phone.setText(phone111);
         pass.setText(pass111);
+
+        ImageView weixin = (ImageView) findViewById(R.id.weixin);
+        weixin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SendAuth.Req req = new SendAuth.Req();
+                req.scope = "snsapi_userinfo";
+                req.state = "wechat_sdk_微信登录"; // 自行填写
+                api.sendReq(req);
+               finish();
+            }
+        });
     }
 
     @Override

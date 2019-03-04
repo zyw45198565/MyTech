@@ -831,4 +831,11 @@ public interface Interfacea {
                                            @Field("newGroupId") int newGroupId,
                                            @Field("friendUid") int friendUid);
 
+
+
+    @POST("user/v1/weChatLogin")
+    @FormUrlEncoded
+    Observable<Result<LoginBean>> weChatLogin(@Header("ak")String ak,
+                                              @Field("code")String code);
+
 }
