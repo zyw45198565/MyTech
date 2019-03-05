@@ -1,5 +1,6 @@
 package com.wd.tech.frag.fragone;
 
+import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.wd.tech.R;
 import com.wd.tech.utils.util.WDFragment;
 
@@ -21,6 +22,5 @@ public class FragOneMessage extends WDFragment {
 
     @Override
     protected void initView() {
-
-    }
+}
 }

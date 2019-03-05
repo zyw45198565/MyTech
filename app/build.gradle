@@ -1,14 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'tech'
-            keyPassword '123456'
-            storeFile file('C:/Users/lenovo/Desktop/tech.keystore')
-            storePassword '123456'
-        }
-    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.wd.tech"
@@ -18,19 +10,12 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
         }
-        debug {
-            signingConfig signingConfigs.config
-        }
-    }
-    productFlavors {
     }
 }
 
@@ -73,4 +58,5 @@ dependencies {
     //支付宝
     implementation(name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
 
+    implementation 'com.yanzhenjie:recyclerview-swipe:1.2.3'
 }

@@ -4,4 +4,7 @@
     <dimen name="dip_8">8dp</dimen>
     <dimen name="dip_6">6dp</dimen>
     <dimen name="sp_6">6dp</dimen>
+    <dimen name="dp_46">46dp</dimen>
+    <dimen name="dp_90">90dp</dimen>
+    <dimen name="dp_60">60dp</dimen>
 </resources>

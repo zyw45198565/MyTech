@@ -21,6 +21,9 @@ public class WantGroupChatActivity extends BaseActivity {
     TextView groupChatName;
     @BindView(R.id.group_chat_setting)
     ImageView groupChatSetting;
+    private int groupId;
+    private String name;
+    private String icon;
 
     @Override
     protected int getLayoutId() {
@@ -30,8 +33,10 @@ public class WantGroupChatActivity extends BaseActivity {
     @Override
     protected void initView() {
         Intent intent = getIntent();
-        String name = intent.getStringExtra("groupName");
-        int groupId = intent.getIntExtra("groupId",0);
+        name = intent.getStringExtra("groupName");
+        groupId = intent.getIntExtra("groupId",0);
+        icon = intent.getStringExtra("icon");
+
         groupChatName.setText(name);
         EaseChatFragment chatFragment = new EaseChatFragment();
         chatFragment.setArguments(getIntent().getExtras());
@@ -58,7 +63,11 @@ public class WantGroupChatActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.group_chat_setting:
-
+                Intent intent = new Intent(WantGroupChatActivity.this,GroupDetailsSettingsActivity.class);
+                intent.putExtra("groupId",groupId);
+                intent.putExtra("groupName",name);
+                intent.putExtra("icon",icon);
+                startActivity(intent);
                 break;
         }
     }

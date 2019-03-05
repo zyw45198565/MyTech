@@ -19,7 +19,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
     <application
         android:name=".WDApp"
         android:allowBackup="true"
@@ -99,6 +98,9 @@
         <activity android:name=".activity.VipActivity" />
         <activity android:name=".activity.IntegralActivity" />
         <activity android:name=".activity.UserPwdActivity"></activity>
+        <activity android:name=".activity.CheckGroupActivity"/>
+        <activity android:name=".activity.GroupMemberActivity"/>
+        <activity android:name=".activity.GroupDetailsSettingsActivity"/>
         <!-- 微信支付 -->
         <activity
             android:name="com.wd.tech.wxapi.WXPayEntryActivity"
