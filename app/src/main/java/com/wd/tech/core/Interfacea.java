@@ -784,7 +784,7 @@ public interface Interfacea {
     Observable<Result<String>> pay(@Header("userId") int userId,
                                    @Header("sessionId") String sessionId,
                                    @Field("orderId") String orderId,
-                                   @Field("payType") int payType);
+                                  @Field("payType") int payType);
 
     /**
      * 微信分享前置接口，获取分享所需参数
