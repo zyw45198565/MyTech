@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:name=".WDApp"
@@ -15,8 +16,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.UserPostListActivity"></activity>
+        <activity android:name=".activity.CommentListShowActivity" />
         <activity android:name=".activity.CreateFriendActivity" />
-        <activity android:name=".activity.PublishMyInvitationActivity"></activity>
+        <activity android:name=".activity.PublishMyInvitationActivity" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,13 +47,13 @@
         <activity android:name=".activity.AdvertiseActivity" />
         <activity android:name=".activity.FindGroupsByUserIdActivity" />
         <activity android:name=".activity.SearchActivity" />
-        <activity android:name=".activity.PlateActivity"></activity>
-        <activity android:name=".activity.CollectionActivity"/>
-        <activity android:name=".activity.WantAddFriendActivity"/>
+        <activity android:name=".activity.PlateActivity" />
+        <activity android:name=".activity.CollectionActivity" />
+        <activity android:name=".activity.WantAddFriendActivity" />
         <activity android:name=".activity.MyintegralActivity" />
         <activity android:name=".activity.MytaskActivity" />
         <activity android:name=".activity.MyPostActivity" />
-        <activity android:name=".activity.MyTongzhiActivity"></activity>
+        <activity android:name=".activity.MyTongzhiActivity" />
     </application>
 
 </manifest>

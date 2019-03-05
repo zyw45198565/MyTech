@@ -24,6 +24,7 @@ public class FindCommunityList {
      * whetherVip : 2
      * headPic : D:/image/2018-09-19/20180919083221.jpg
      * signature : 秋天不回来
+     * {"content":"好","nickName":"旺旺","userId":59}
      */
 
     private int comment;
@@ -40,6 +41,7 @@ public class FindCommunityList {
     private int whetherVip;
     private String headPic;
     private String signature;
+    private List<CommunityItem> communityCommentVoList;
 
     public int getComment() {
         return comment;
@@ -153,4 +155,11 @@ public class FindCommunityList {
         this.signature = signature;
     }
 
+    public List<CommunityItem> getCommunityCommentVoList() {
+        return communityCommentVoList;
+    }
+
+    public void setCommunityCommentVoList(List<CommunityItem> communityCommentVoList) {
+        this.communityCommentVoList = communityCommentVoList;
+    }
 }

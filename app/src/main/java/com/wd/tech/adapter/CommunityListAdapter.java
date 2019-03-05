@@ -1,8 +1,10 @@
 package com.wd.tech.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +13,16 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
+import com.wd.tech.bean.CommunityItem;
 import com.wd.tech.bean.FindCommunityList;
 import com.wd.tech.utils.util.DateUtils1;
 import com.wd.tech.utils.util.SpacingItemDecoration;
 import com.wd.tech.utils.util.StringUtils;
+import com.wd.tech.utils.util.UIUtils;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Description:社区列表展示adapter
@@ -30,6 +34,8 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
     Context context;
     private ClickOkListener clickOkListener;
     private TalkBack myTalkBack;
+    private ClickTextStart clickTextStart;
+    private ClickHeadLinstener clickHeadLinstener;
 
     public CommunityListAdapter(Context context) {
         this.context = context;
@@ -47,8 +53,10 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
     @Override
     public void onBindViewHolder(@NonNull final MyHolder myHolder, int i) {
         final FindCommunityList findCommunityList = mList.get(i);
-        myHolder.head.setImageURI(findCommunityList.getHeadPic());
-        myHolder.nick.setText(findCommunityList.getNickName());
+        final String headPic = findCommunityList.getHeadPic();//头像
+        myHolder.head.setImageURI(headPic);
+        final String nickName = findCommunityList.getNickName();//昵称
+        myHolder.nick.setText(nickName);
         try {
             myHolder.time.setText(DateUtils1.dateTransformer(Long.parseLong(findCommunityList.getPublishTime() + ""), DateUtils1.DATE_PATTERN));//显示时间
         } catch (Exception e) {
@@ -61,14 +69,16 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             myHolder.title.setVisibility(View.VISIBLE);
             myHolder.title.setText(findCommunityList.getContent());
         }
-        myHolder.comment_text.setText(findCommunityList.getComment() + "");
-        myHolder.like_text.setText(findCommunityList.getPraise() + "");
+
+        final int comment = findCommunityList.getComment();//评论数量
+        myHolder.commentText.setText( comment+ "");
+        myHolder.likeText.setText(findCommunityList.getPraise() + "");
 
         //图片判断
         if (StringUtils.isEmpty(findCommunityList.getFile())) {//图片为空
-            myHolder.picter_rlv.setVisibility(View.GONE);//没有图片设为空
+            myHolder.picterRlv.setVisibility(View.GONE);//没有图片设为空
         } else {
-            myHolder.picter_rlv.setVisibility(View.VISIBLE);//没有图片设为空
+            myHolder.picterRlv.setVisibility(View.VISIBLE);//没有图片设为空
             String[] images = findCommunityList.getFile().split(",");
             int colNum;//列数
             if (images.length == 1) {
@@ -87,27 +97,78 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
 
         final int whetherGreat = findCommunityList.getWhetherGreat();//点赞状态
         if(whetherGreat==1){
-            myHolder.communitylist_like.setImageResource(R.drawable.community_icon_like_true);
+            myHolder.communitylistLike.setImageResource(R.drawable.community_icon_like_true);
         }else{
-            myHolder.communitylist_like.setImageResource(R.drawable.community_icon_like_false);
+            myHolder.communitylistLike.setImageResource(R.drawable.community_icon_like_false);
         }
-        myHolder.communitylist_right_linear.setOnClickListener(new View.OnClickListener() {//点赞
+        myHolder.communitylistRightLinear.setOnClickListener(new View.OnClickListener() {//点赞
             @Override
             public void onClick(View v) {
-                findCommunityList.setWhetherGreat(1);//设置点赞状态为选中
+                if(whetherGreat==2){
+                    findCommunityList.setWhetherGreat(1);//设置点赞状态为选中
+                }else{
+                    findCommunityList.setWhetherGreat(2);//设置点赞状态为不选中
+                }
                 if(whetherGreat!=1){//如果不选中，设置点赞数量+1
                     findCommunityList.setPraise(findCommunityList.getPraise()+1);
+                    myHolder.communitylistLike.setImageResource(R.drawable.community_icon_like_true);
+                }else{
+                    findCommunityList.setPraise(findCommunityList.getPraise()-1);
+                    myHolder.communitylistLike.setImageResource(R.drawable.community_icon_like_false);
                 }
-                myHolder.communitylist_like.setImageResource(R.drawable.community_icon_like_true);
-                clickOkListener.ClickOk(findCommunityList.getId());
+                clickOkListener.clickOk(findCommunityList.getId(),whetherGreat);
                 notifyDataSetChanged();
             }
         });
 
-        myHolder.communitylist_left_linear.setOnClickListener(new View.OnClickListener() {//点击评论
+        myHolder.communitylistLeftLinear.setOnClickListener(new View.OnClickListener() {//点击评论
             @Override
             public void onClick(View v) {
                 myTalkBack.talkBacks(findCommunityList.getId());
+            }
+        });
+
+        ReviewAdapter reviewAdapter = new ReviewAdapter();//社区评论展示
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        myHolder.reviewShow.setLayoutManager(linearLayoutManager);
+        myHolder.reviewShow.setAdapter(reviewAdapter);
+        List<CommunityItem> communityCommentVoList = findCommunityList.getCommunityCommentVoList();
+
+
+        if(comment==0){//设置底部文字
+            myHolder.reviewText.setText("快来评论呀~");
+            myHolder.reviewText.setTextColor(Color.parseColor("#7a7a7a"));
+            myHolder.reviewShow.setVisibility(View.GONE);//列表隐藏
+        }else if(comment<=3){
+            myHolder.reviewShow.setVisibility(View.VISIBLE);//列表隐藏
+            reviewAdapter.addAll(communityCommentVoList);
+            reviewAdapter.notifyDataSetChanged();
+            myHolder.reviewText.setText("没有更多评论了~");
+            myHolder.reviewText.setTextColor(Color.parseColor("#7a7a7a"));
+        }else{
+            myHolder.reviewShow.setVisibility(View.VISIBLE);//列表隐藏
+            reviewAdapter.addAll(communityCommentVoList);
+            reviewAdapter.notifyDataSetChanged();
+            myHolder.reviewText.setText("点击查看更多评论");
+            myHolder.reviewText.setTextColor(Color.parseColor("#50bef8"));
+        }
+
+        myHolder.reviewText.setOnClickListener(new View.OnClickListener() {//点击评论文字跳转页面
+            @Override
+            public void onClick(View v) {
+                if(comment==0){
+                    UIUtils.showToastSafe("暂时没有评论哦，快去评论吧~");
+                    return;
+                }
+                clickTextStart.clickShow(findCommunityList.getId(),comment,headPic,nickName);
+            }
+        });
+
+        myHolder.head.setOnClickListener(new View.OnClickListener() {//getUserId 发布人id getId社区id
+            @Override
+            public void onClick(View v) {
+                clickHeadLinstener.clickHead(findCommunityList.getUserId(),
+                        headPic,nickName,findCommunityList.getSignature());
             }
         });
     }
@@ -134,16 +195,16 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         private final TextView time;
         private final TextView signature;
         private final TextView title;
-        private final RecyclerView picter_rlv;//图片列表
-        private final LinearLayout communitylist_left_linear;//点击弹框
-        private final LinearLayout communitylist_right_linear;//点击点赞
-        private final RecyclerView review_show;//评论列表 有就展示 没有隐藏
-        private final TextView review_text;//点击跳转,如果评论有数量超过3条点击查看更多评论,不超过是没有更多评论了~
-        private final TextView comment_text;
-        private final TextView like_text;
+        private final RecyclerView picterRlv;//图片列表
+        private final LinearLayout communitylistLeftLinear;//点击弹框
+        private final LinearLayout communitylistRightLinear;//点击点赞
+        private final RecyclerView reviewShow;//评论列表 有就展示 没有隐藏
+        private final TextView reviewText;//点击跳转,如果评论有数量超过3条点击查看更多评论,不超过是没有更多评论了~
+        private final TextView commentText;
+        private final TextView likeText;
         private final ImageAdapter imageAdapter;
         private final GridLayoutManager gridLayoutManager;
-        private final SimpleDraweeView communitylist_like;//点赞图片
+        private final SimpleDraweeView communitylistLike;//点赞图片
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -152,27 +213,26 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
             time = itemView.findViewById(R.id.communitylist_time);
             signature = itemView.findViewById(R.id.communitylist_signature);
             title = itemView.findViewById(R.id.communitylist_title);
-            picter_rlv = itemView.findViewById(R.id.communitylist_picter_rlv);
-            communitylist_left_linear = itemView.findViewById(R.id.communitylist_layout_left);
-            comment_text = itemView.findViewById(R.id.communitylist_comment_text);//评论数量
-            communitylist_right_linear = itemView.findViewById(R.id.communitylist_layout_right);
-            like_text = itemView.findViewById(R.id.communitylist_like_text);//点赞数量
-            communitylist_like = itemView.findViewById(R.id.communitylist_like);
-            review_show = itemView.findViewById(R.id.communitylist_review_show);
-            review_text = itemView.findViewById(R.id.communitylist_review_text);
+            picterRlv = itemView.findViewById(R.id.communitylist_picter_rlv);
+            communitylistLeftLinear = itemView.findViewById(R.id.communitylist_layout_left);
+            commentText = itemView.findViewById(R.id.communitylist_comment_text);//评论数量
+            communitylistRightLinear = itemView.findViewById(R.id.communitylist_layout_right);
+            likeText = itemView.findViewById(R.id.communitylist_like_text);//点赞数量
+            communitylistLike = itemView.findViewById(R.id.communitylist_like);
+            reviewShow = itemView.findViewById(R.id.communitylist_review_show);
+            reviewText = itemView.findViewById(R.id.communitylist_review_text);
 
             imageAdapter = new ImageAdapter();//社区图片展示
-            int space = context.getResources().getDimensionPixelSize(R.dimen.dip_8);
-            ;//图片间距
+            int space = context.getResources().getDimensionPixelSize(R.dimen.dip_8);//图片间距
             gridLayoutManager = new GridLayoutManager(context, 3);
-            picter_rlv.addItemDecoration(new SpacingItemDecoration(space));//添加视图的间距
-            picter_rlv.setLayoutManager(gridLayoutManager);
-            picter_rlv.setAdapter(imageAdapter);
+            picterRlv.addItemDecoration(new SpacingItemDecoration(space));//添加视图的间距
+            picterRlv.setLayoutManager(gridLayoutManager);
+            picterRlv.setAdapter(imageAdapter);
         }
     }
     
-    public interface ClickOkListener{//点赞回电到页面的自定义接口/评论
-        void ClickOk(int id);
+    public interface ClickOkListener{//点赞回调到页面的自定义接口/评论
+        void clickOk(int id,int greatStyle);
     }
     public void setClickOkListener(ClickOkListener clickOkListener){
         this.clickOkListener = clickOkListener;
@@ -182,5 +242,20 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
     }
     public void setMyTalkBack(TalkBack myTalkBack){
         this.myTalkBack = myTalkBack;
+    }
+
+    public interface ClickTextStart{
+        void clickShow(int id,int num,String headPic,String nickName);
+    }
+    public void setClickTextStart(ClickTextStart clickTextStart){
+        this.clickTextStart = clickTextStart;
+    }
+
+    public interface ClickHeadLinstener{//点击头像的自定义接口
+        void clickHead(int userId,String head,String nick,String text);
+    }
+
+    public void setClickHeadLinstener(ClickHeadLinstener clickHeadLinstener){
+        this.clickHeadLinstener = clickHeadLinstener;
     }
 }

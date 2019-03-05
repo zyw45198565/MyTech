@@ -17,7 +17,9 @@ import com.wd.tech.bean.MyComment;
 import com.wd.tech.bean.MyPostByIdBean;
 import com.wd.tech.bean.MyTongzhiBean;
 import com.wd.tech.bean.Result;
+import com.wd.tech.bean.UserComment;
 import com.wd.tech.bean.UserInfoBean;
+import com.wd.tech.bean.UserPost;
 import com.wd.tech.bean.UserTaskBean;
 import com.wd.tech.bean.UserintegralBean;
 
@@ -27,6 +29,8 @@ import java.util.List;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -165,29 +169,41 @@ public interface Interfacea {
      * 发布帖子
      * @param userId
      * @param sessionId
-     * @param content
-     * @param file
+     * @param body 传资源使用
      * @return
      */
     @POST("community/verify/v1/releasePost")
     @FormUrlEncoded
     Observable<Result> releasePost(@Header("userId")int userId,
                                    @Header("sessionId")String sessionId,
-                                   @Field("content")String content,
-                                   @Field("file")File file);
+                                   @Body MultipartBody body);
+    /*@Field("content")String content,
+    @Field("file")File file*/
 
     /**
      * 帖子点赞
      * @param userId
      * @param sessionId
-     * @param communityId
+     * @param communityId 帖子id
      * @return
      */
     @POST("community/verify/v1/addCommunityGreat")
     @FormUrlEncoded
-    Observable<List> addCommunityGreat(@Header("userId")int userId,
+    Observable<Result> addCommunityGreat(@Header("userId")int userId,
                                        @Header("sessionId")String sessionId,
                                        @Field("communityId")int communityId);
+
+    /**
+     * 社区取消点赞
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @return
+     */
+    @DELETE("community/verify/v1/cancelCommunityGreat")
+    Observable<Result> cancelCommunityGreat(@Header("userId")int userId,
+                                            @Header("sessionId")String sessionId,
+                                            @Query("communityId")int communityId);
     /**
      * 查询资讯评论列表
      *
@@ -466,4 +482,36 @@ public interface Interfacea {
                                                               @Header("sessionId") String sessionId,
                                                               @Query("page")int page,
                                                               @Query("count")int count);
+
+    /**
+     * 社区用户评论列表（bean方式反参）
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("community/v1/findCommunityUserCommentList")
+    Observable<Result<List<UserComment>>> findCommunityUserCommentList(@Header("userId") int userId,
+                                                                       @Header("sessionId") String sessionId,
+                                                                       @Query("communityId")int communityId,
+                                                                       @Query("page")int page,
+                                                                       @Query("count")int count);
+
+    /**
+     * 查询用户发布的帖子
+     * @param userId
+     * @param sessionId
+     * @param fromUid  用户id
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("community/verify/v1/findUserPostById")
+    Observable<Result<List<UserPost>>> findUserPostById(@Header("userId") int userId,
+                                                        @Header("sessionId") String sessionId,
+                                                        @Query("fromUid")int fromUid,
+                                                        @Query("page")int page,
+                                                        @Query("count")int count);
 }
