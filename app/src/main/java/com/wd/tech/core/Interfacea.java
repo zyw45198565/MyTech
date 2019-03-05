@@ -565,8 +565,6 @@ public interface Interfacea {
                                                         @Query("fromUid")int fromUid,
                                                         @Query("page")int page,
                                                         @Query("count")int count);
-                                                              @Query("page") int page,
-                                                              @Query("count") int count);
 
 
     /**
