@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.MyWanshanActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="#fff"
+        android:layout_height="80dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:id="@+id/back"
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/common_nav_btn_back_n_"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_centerInParent="true"
+                android:textColor="#666666"
+                android:text="完善个人信息"/>
+
+            <TextView
+                android:id="@+id/wancheng"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:textSize="20sp"
+                android:textColor="#666666"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="完成"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_alignParentBottom="true"
+            android:background="#ddd"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+
+    </RelativeLayout>
+
+
+    <!--2222222222222222222222222222222222222222222222-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="110dp"
+        android:layout_marginLeft="30dp"
+        android:orientation="vertical"
+        android:background="@drawable/whith_shape"
+        android:layout_marginRight="30dp">
+
+
+        <LinearLayout
+            android:id="@+id/nichengll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+
+            <!--111111111111111111111111111111111111111111111-->
+            <LinearLayout
+                android:id="@+id/llhead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_gravity="center"
+                    android:text="昵称"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="12sp"
+                    android:textColor="#999999"
+                    android:text="烤面筋"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:background="#f2f2f2"
+                android:layout_marginTop="5dp"
+                android:layout_height="1dp"/>
+
+
+        </LinearLayout>
+
+        <!--11111111111111111111111111111111111111111111111111111-->
+
+        <LinearLayout
+            android:id="@+id/sexll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_gravity="center"
+                    android:text="性别"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="12sp"
+                    android:textColor="#999999"
+                    android:text="男"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:background="#f2f2f2"
+                android:layout_marginTop="5dp"
+                android:layout_height="1dp"/>
+
+
+        </LinearLayout>
+
+        <!--1111111111111111111111111111111111111111111-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:id="@+id/qianll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_gravity="center"
+                    android:text="签名"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/my_icon_next_n_"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:background="#f2f2f2"
+                android:layout_marginTop="5dp"
+                android:layout_height="1dp"/>
+
+
+        </LinearLayout>
+
+        <!--1111111111111111111111111111111111111111111-->
+
+
+        <LinearLayout
+            android:id="@+id/chu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_gravity="center"
+                    android:text="出生日期"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="12sp"
+                    android:textColor="#999999"
+                    android:text="123321"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:background="#f2f2f2"
+                android:layout_marginTop="5dp"
+                android:layout_height="1dp"/>
+
+
+        </LinearLayout>
+
+
+        <!--111111111111111111111111111111111111-->
+
+        <LinearLayout
+            android:id="@+id/youll"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_gravity="center"
+                    android:text="邮箱"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/emaile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="12sp"
+                    android:textColor="#999999"
+                    android:text="123321"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:background="#f2f2f2"
+                android:layout_marginTop="5dp"
+                android:layout_height="1dp"/>
+
+
+        </LinearLayout>
+
+        <!--111111111111111111111111111111111-->
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

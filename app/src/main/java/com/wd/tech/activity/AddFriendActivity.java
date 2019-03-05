@@ -75,7 +75,7 @@ public class AddFriendActivity extends WDActivity {
     private int userId;
     private String sessionId;
     private FindUser findUser;
-    private FindGroup findGroup;
+    private FindGroup findGroup=new FindGroup();
     private FindGroupInfoPresenter findGroupInfoPresenter;
 
     @Override
@@ -131,7 +131,7 @@ public class AddFriendActivity extends WDActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.add_friend_back, R.id.find_r, R.id.find_q,R.id.find_search,R.id.find_q_next,R.id.find_r_next})
+    @OnClick({R.id.add_friend_back, R.id.find_r, R.id.find_q,R.id.find_search,R.id.find_q_relative,R.id.find_r_relative})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.add_friend_back:
@@ -161,10 +161,12 @@ public class AddFriendActivity extends WDActivity {
                     }
                 }*/
                 break;
-            case R.id.find_q_next:
-
+            case R.id.find_q_relative:
+                Intent intent_q = new Intent(AddFriendActivity.this,FindGroupDetailsActivity.class);
+                intent_q.putExtra("findGroup",findGroup);
+                startActivity(intent_q);
                 break;
-            case R.id.find_r_next:
+            case R.id.find_r_relative:
                 Intent intent = new Intent(AddFriendActivity.this,FindUserDetailsActivity.class);
                 intent.putExtra("findUser",findUser);
                 startActivity(intent);
@@ -181,10 +183,11 @@ public class AddFriendActivity extends WDActivity {
             if (data.getStatus().equals("0000")) {
                 //Log.i("abc", "success: " + new Gson().toJson(data.getResult()));
                 findGroup = data.getResult();
-
+                findNot.setVisibility(View.VISIBLE);
+                findRRelative.setVisibility(View.GONE);
+                findQRelative.setVisibility(View.GONE);
                 if (findGroup.equals(null)){
-                    findRRelative.setVisibility(View.GONE);
-                    findQRelative.setVisibility(View.GONE);
+
                 }else {
                     findRRelative.setVisibility(View.GONE);
                     findQRelative.setVisibility(View.VISIBLE);

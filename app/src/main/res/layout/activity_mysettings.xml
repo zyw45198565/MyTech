@@ -74,6 +74,7 @@
 
             <!--111111111111111111111111111111111111111111111-->
             <LinearLayout
+                android:id="@+id/llhead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -265,6 +266,7 @@
 
         <!--1111111111111111111111111111111111111111111-->
         <LinearLayout
+            android:id="@+id/lldate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -355,6 +357,7 @@
         <!--111111111111111111111111111111111-->
 
         <LinearLayout
+            android:id="@+id/you"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -574,6 +577,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/xiupwd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_gravity="center"
+                    android:textColor="#ff5757"
+                    android:text="修改密码"/>
 
 
 

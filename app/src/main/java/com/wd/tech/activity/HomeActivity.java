@@ -58,6 +58,7 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
     private LinearLayout myTask;
     private LinearLayout tie;
     private LinearLayout tongzhi;
+    private LinearLayout qian1;
 
     @Override
     protected void initView() {
@@ -146,6 +147,7 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
         rl1 = findViewById(R.id.rl1);
         ll1 = findViewById(R.id.ll1);
         head = findViewById(R.id.head);
+        head.setOnClickListener(this);
         name = findViewById(R.id.name);
         qian = findViewById(R.id.qian);
         vip = findViewById(R.id.vip);
@@ -163,6 +165,8 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
         tie.setOnClickListener(this);
         tongzhi = findViewById(R.id.tongzhi);
         tongzhi.setOnClickListener(this);
+        qian1 = findViewById(R.id.qiandao);
+        qian1.setOnClickListener(this);
     }
 
     @Override
@@ -227,6 +231,14 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
             case R.id.tongzhi:
                 Intent intent6 = new Intent(HomeActivity.this,MyTongzhiActivity.class);
                 startActivity(intent6);
+                break;
+            case R.id.qiandao:
+                Intent intent7 = new Intent(HomeActivity.this,SignCalendarActivity.class);
+                startActivity(intent7);
+                break;
+            case R.id.head:
+                Intent intent8 = new Intent(HomeActivity.this,MyUserActivity.class);
+                startActivity(intent8);
                 break;
         }
     }

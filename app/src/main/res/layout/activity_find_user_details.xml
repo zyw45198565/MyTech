@@ -21,6 +21,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginTop="30dp"
+            android:layout_marginLeft="20dp"
             android:src="@drawable/common_nav_btn_back_n_xhdpi"/>
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/user_details_icon"
@@ -77,14 +78,15 @@
         android:textColor="#999999"
         android:textSize="14sp"/>
        <LinearLayout
-           android:layout_width="300dp"
+           android:layout_width="240dp"
            android:layout_marginTop="64dp"
            android:layout_height="wrap_content"
            android:gravity="center_vertical">
-           <View
+           <TextView
                android:layout_width="0dp"
                android:layout_weight="1"
-               android:layout_height="2dp"
+               android:layout_height="wrap_content"
+               android:text=" - - - - - - - - - - - -"
                />
            <TextView
                android:layout_width="wrap_content"
@@ -92,10 +94,11 @@
                android:text="个人资料"
                android:textSize="12sp"
                android:textColor="#333333"/>
-           <View
+           <TextView
                android:layout_width="0dp"
                android:layout_weight="1"
-               android:layout_height="2dp"
+               android:layout_height="wrap_content"
+               android:text=" - - - - - - - - - - - -"
                />
        </LinearLayout>
     <TextView

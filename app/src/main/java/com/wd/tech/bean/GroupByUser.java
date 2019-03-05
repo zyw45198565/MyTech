@@ -13,6 +13,15 @@ public class GroupByUser {
     private String groupImage;
     private String groupName;
     private String hxGroupId;
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public int getGroupId() {
         return groupId;

@@ -2,23 +2,46 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="10dp"
-    android:background="#FFF"
+    android:background="#ffffff"
     android:gravity="center" >
-
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/sdv_child"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@mipmap/ic_launcher"
-        app:roundAsCircle="true"/>
-    <TextView
-        android:id="@+id/tv_child"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="item text" />
+        android:layout_height="wrap_content">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_child"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/ic_launcher"
+            app:roundAsCircle="true"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_child_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:text="item text" />
+            <TextView
+                android:id="@+id/tv_child_signature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textSize="10sp"
+                android:layout_marginTop="2dp"
+                android:textColor="#999999"
+                android:text="item text" />
+        </LinearLayout>
+    </LinearLayout>
 
 
+    <View
+        android:layout_width="1dp"
+        android:id="@+id/item_pop_show"
+        android:layout_height="1dp"/>
 </LinearLayout>

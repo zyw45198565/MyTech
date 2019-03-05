@@ -1,9 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.SearchActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/bigsou"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="34dp"
+            android:background="@drawable/search_shape"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+            <ImageView
+                android:id="@+id/sou"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/btn_search"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="12dp"/>
+
+            <EditText
+                android:id="@+id/search_text"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:layout_toRightOf="@id/sou"
+                android:background="@null"
+                android:layout_marginRight="12dp"
+                android:hint="搜索文章"
+                android:textColorHint="#666666"
+                android:textSize="14sp"
+                android:imeOptions="actionSearch"
+                android:maxLength="30"
+                android:singleLine="true"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:textSize="18sp"
+            android:textColor="#666666" />
+
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/resou"
+        android:layout_below="@id/bigsou"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="12dp">
+
+        <TextView
+            android:id="@+id/ad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="热搜词"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            />
+        <android.support.v7.widget.RecyclerView
+            android:layout_below="@id/ad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/resoucilist"
+            >
+
+
+        </android.support.v7.widget.RecyclerView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/liebiao"
+        android:layout_below="@id/bigsou"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/searchlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/wu"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:textSize="20sp"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="没有找到相关的数据！"/>
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

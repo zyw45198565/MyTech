@@ -23,6 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 
 
 public abstract class WDPresenter {
+    private boolean running;
     private DataCall dataCall;
 
     public WDPresenter(DataCall dataCall) {
@@ -32,6 +33,9 @@ public abstract class WDPresenter {
     protected abstract Observable<Result> observable(Object... args);
 
     public void reqeust(Object... args) {
+        if (running)
+            return;
+        running = true;
         observable(args)
                 .compose(ResponseTransformer.handleResult())
                 .compose(new ObservableTransformer() {
@@ -44,6 +48,7 @@ public abstract class WDPresenter {
                 .subscribe(new Consumer<Result>() {
                     @Override
                     public void accept(Result result) throws Exception {
+                        running = false;
                         if (result.getStatus().equals("9999")){
                             Dialog dialog = new AlertDialog.Builder(WDActivity.getForegroundActivity()).setMessage("请登录")
                                     .setPositiveButton("确认", new DialogInterface.OnClickListener() {
@@ -64,6 +69,7 @@ public abstract class WDPresenter {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
+                        running = false;
                         // 处理异常
 //                        UIUtils.showToastSafe("请求失败");
                         if (dataCall!=null) {
@@ -72,6 +78,9 @@ public abstract class WDPresenter {
                     }
                 });
 
+    }
+    public boolean isRunning() {
+        return running;
     }
 
     public void unBind() {

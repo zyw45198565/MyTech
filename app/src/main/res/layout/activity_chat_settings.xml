@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:hyphenate="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical"
+    android:background="#f2f2f2">
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="40dp"
+       android:layout_marginTop="30dp">
+      <ImageView
+          android:id="@+id/chat_settings_back"
+          android:layout_width="24dp"
+          android:layout_height="24dp"
+          android:layout_marginLeft="20dp"
+          android:src="@drawable/common_nav_btn_back_n_xhdpi"
+          android:layout_centerVertical="true"/>
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+          android:textSize="20sp"
+          android:text="聊天设置"/>
+
+   </RelativeLayout>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_marginTop="10dp"
+       android:layout_height="100dp"
+       android:orientation="vertical"
+       android:background="#ffffff">
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:orientation="vertical"
+          android:layout_marginTop="10dp"
+          android:gravity="center_horizontal"
+          android:layout_marginLeft="20dp"
+          android:layout_height="wrap_content">
+         <com.facebook.drawee.view.SimpleDraweeView
+             android:id="@+id/chat_settings_icon"
+             android:layout_width="48dp"
+
+             android:layout_height="48dp" />
+         <TextView
+             android:id="@+id/chat_settings_name"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textColor="#999999"
+             android:textSize="16sp"
+             android:layout_marginTop="10dp"
+             android:text="姓名"/>
+      </LinearLayout>
+
+   </LinearLayout>
+
+   <LinearLayout
+       android:layout_marginTop="2dp"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="40dp">
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textSize="18sp"
+             android:text=""/>
+      </RelativeLayout>
+   </LinearLayout>
+</LinearLayout>
