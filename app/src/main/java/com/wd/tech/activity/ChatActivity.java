@@ -43,12 +43,12 @@ public class ChatActivity extends BaseActivity {
         nickName = share.getString("nickName", "");
         Intent intent = getIntent();
         friendInfoList = (FriendInfoList) intent.getSerializableExtra("friendInfoList");
-        chatName.setText(friendInfoList.getNickName());
+        //chatName.setText(friendInfoList.getNickName());
 
         EaseChatFragment chatFragment = new EaseChatFragment();
         chatFragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager().beginTransaction().add(R.id.hx_ok, chatFragment).commit();
-        setEaseUser();
+
     }
 
     @Override

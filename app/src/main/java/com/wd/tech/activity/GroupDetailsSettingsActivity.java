@@ -83,8 +83,10 @@ public class GroupDetailsSettingsActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.group_details_setting_icon:
+
                 break;
             case R.id.group_details_setting_member:
+
                 break;
             case R.id.group_details_setting_intro:
                 break;

@@ -15,9 +15,12 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.hyphenate.chat.EMConversation;
+import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.wd.tech.R;
 import com.wd.tech.activity.AddFriendActivity;
+import com.wd.tech.activity.ChatActivity;
 import com.wd.tech.activity.CreateFriendActivity;
 import com.wd.tech.adapter.FragmentViewAdapter;
 import com.wd.tech.frag.fragone.FragOneContact;
@@ -51,6 +54,7 @@ public class Frag_02 extends WDFragment {
     ViewPager myMessageViewPager;
     Unbinder unbinder;
     private PopupWindow window;
+    private EaseConversationListFragment easeConversationListFragment;
 
     @Override
     public String getPageName() {
@@ -68,8 +72,19 @@ public class Frag_02 extends WDFragment {
         myMessage.setTextColor(Color.WHITE);
         myMessage.setBackgroundResource(R.drawable.text_magess_shape);
         List<Fragment> list = new ArrayList<>();
-        list.add(new EaseConversationListFragment());
+        easeConversationListFragment = new EaseConversationListFragment();
+        list.add(easeConversationListFragment);
         list.add(new FragOneContact());
+        easeConversationListFragment.setConversationListItemClickListener(new EaseConversationListFragment.EaseConversationListItemClickListener() {
+
+            @Override
+            public void onListItemClicked(EMConversation conversation) {
+                Intent intent = new Intent(getContext(), ChatActivity.class);
+                intent.putExtra(EaseConstant.EXTRA_USER_ID, conversation.conversationId());
+                startActivity(intent);
+            }
+        });
+
         FragmentPagerAdapter fragmentPagerAdapter = new FragmentViewAdapter(getActivity().getSupportFragmentManager(),list);
         myMessageViewPager.setAdapter(fragmentPagerAdapter);
         myMessageViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
