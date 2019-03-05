@@ -1,20 +1,18 @@
 package com.wd.tech.frag;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
+import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -25,12 +23,15 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
+import com.wd.tech.activity.CommentListShowActivity;
 import com.wd.tech.activity.PublishMyInvitationActivity;
+import com.wd.tech.activity.UserPostListActivity;
 import com.wd.tech.adapter.CommunityListAdapter;
 import com.wd.tech.bean.FindCommunityList;
 import com.wd.tech.bean.Result;
 import com.wd.tech.presenter.AddCommunityCommentPresenter;
 import com.wd.tech.presenter.AddCommunityGreatPresenter;
+import com.wd.tech.presenter.CancelCommunityGreatPresenter;
 import com.wd.tech.presenter.FindCommunityListPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
@@ -50,10 +51,10 @@ import butterknife.Unbinder;
  * QQ:45198565
  * 佛曰：永无BUG 盘他！
  */
-public class Frag_03 extends WDFragment implements XRecyclerView.LoadingListener {
+public class Frag_03 extends WDFragment {
 
     @BindView(R.id.frag03xlv)
-    XRecyclerView mFrag03xlv;
+    RecyclerView mFrag03xlv;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
     Unbinder unbinder;
@@ -68,6 +69,8 @@ public class Frag_03 extends WDFragment implements XRecyclerView.LoadingListener
     private View parent;
     private TextView frag03WriteCommentSend;
     private EditText frag03WriteCommentEdit;
+    private PopupWindow mPop;
+    private CancelCommunityGreatPresenter cancelCommunityGreatPresenter;
 
     @Override
     public String getPageName() {
@@ -88,38 +91,52 @@ public class Frag_03 extends WDFragment implements XRecyclerView.LoadingListener
         sessionid = sp.getString("sessionid", "");
         myrefreshLayout();
 
-        mFindCommunityListPresenter = new FindCommunityListPresenter(new CommunityListCall());//社区列表
-        addCommunityGreatPresenter = new AddCommunityGreatPresenter(new CommunityGreatCall());//点赞
-        addCommunityCommentPresenter = new AddCommunityCommentPresenter(new CommunityCommentCall());//评论
+        mFindCommunityListPresenter = new FindCommunityListPresenter(new communityListCall());//社区列表
+        addCommunityGreatPresenter = new AddCommunityGreatPresenter(new communityGreatCall());//点赞
+        addCommunityCommentPresenter = new AddCommunityCommentPresenter(new communityCommentCall());//评论
+        cancelCommunityGreatPresenter = new CancelCommunityGreatPresenter(new cancelCommunityGreatCall());//取消点赞
 
         mCommunityListAdapter = new CommunityListAdapter(getContext());
-
-        mFrag03xlv.setLoadingListener(this);
-        mFrag03xlv.setLoadingMoreEnabled(true);
-        mFrag03xlv.setPullRefreshEnabled(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());//创建布局管理器
         mFrag03xlv.setLayoutManager(linearLayoutManager);
         mFrag03xlv.setAdapter(mCommunityListAdapter);//设置适配器
 
-        mCommunityListAdapter.setClickOkListener(new CommunityListAdapter.ClickOkListener() {//点赞自定义接口回调
+        mCommunityListAdapter.setClickOkListener(new CommunityListAdapter.ClickOkListener() {//点赞/取消点赞
             @Override
-            public void ClickOk(int id) {
-                addCommunityGreatPresenter.reqeust(userid, sessionid, id);
+            public void clickOk(int id, int greatStyle) {
+                if(greatStyle==2){
+                    addCommunityGreatPresenter.reqeust(userid, sessionid, id);
+                }else{
+                    cancelCommunityGreatPresenter.reqeust(userid,sessionid,id);
+                }
             }
         });
 
+        mCommunityListAdapter.setClickHeadLinstener(new CommunityListAdapter.ClickHeadLinstener() {
+            @Override
+            public void clickHead(int userId, String head, String nick, String text) {
+                Intent intent = new Intent(getContext(), UserPostListActivity.class);
+                intent.putExtra("userId",userId);
+                intent.putExtra("head",head);
+                intent.putExtra("nick",nick);
+                intent.putExtra("text",text);
+                startActivity(intent);
+            }
+        });
         mCommunityListAdapter.setMyTalkBack(new CommunityListAdapter.TalkBack() {//评论自定义回调接口
             @Override
             public void talkBacks(int id) {
                 ids = id;
                 View contentView = View.inflate(getContext(),R.layout.popupwindow_edit,null);
-                PopupWindow pop = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                mPop = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-                pop.setFocusable(true);
-                pop.setTouchable(true);
-                pop.setOutsideTouchable(true);
-                pop.setBackgroundDrawable(new BitmapDrawable());
+                mPop.setFocusable(true);
+                mPop.setTouchable(true);
+                mPop.setOutsideTouchable(true);
+                mPop.setBackgroundDrawable(new BitmapDrawable());
+                mPop.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
+                mPop.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
                 frag03WriteCommentEdit = contentView.findViewById(R.id.frag03_write_comment_edit);
                 frag03WriteCommentSend = contentView.findViewById(R.id.frag03_write_comment_send);
@@ -134,13 +151,25 @@ public class Frag_03 extends WDFragment implements XRecyclerView.LoadingListener
                         }
                         addCommunityCommentPresenter.reqeust(userid,sessionid,ids,s);
                         frag03WriteCommentEdit.setText("");
+                        mPop.dismiss();
                     }
                 });
 
-                pop.showAtLocation(parent, Gravity.BOTTOM,0,0);
+                mPop.showAtLocation(parent, Gravity.BOTTOM,0,0);
             }
         });
 
+        mCommunityListAdapter.setClickTextStart(new CommunityListAdapter.ClickTextStart() {
+            @Override
+            public void clickShow(int id, int num, String headPic, String nickName) {
+                Intent intent = new Intent(getContext(), CommentListShowActivity.class);
+                intent.putExtra("id",id);
+                intent.putExtra("num",num);
+                intent.putExtra("headPic",headPic);
+                intent.putExtra("nickName",nickName);
+                startActivity(intent);
+            }
+        });
         mFindCommunityListPresenter.reqeust(userid, sessionid, false, 5);
     }
 
@@ -167,6 +196,7 @@ public class Frag_03 extends WDFragment implements XRecyclerView.LoadingListener
         mFindCommunityListPresenter.unBind();
         addCommunityGreatPresenter.unBind();
         addCommunityCommentPresenter.unBind();
+        cancelCommunityGreatPresenter.unBind();
     }
 
     private void myrefreshLayout() {//刷新加载更多定义
@@ -175,6 +205,9 @@ public class Frag_03 extends WDFragment implements XRecyclerView.LoadingListener
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 refreshlayout.finishRefresh();
+                mCommunityListAdapter.remove();
+                mCommunityListAdapter.notifyDataSetChanged();
+                mFindCommunityListPresenter.reqeust(userid, sessionid, false, 5);
             }
         });
         //加载更多
@@ -182,6 +215,7 @@ public class Frag_03 extends WDFragment implements XRecyclerView.LoadingListener
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 refreshlayout.finishLoadmore();
+                mFindCommunityListPresenter.reqeust(userid, sessionid, true, 5);
             }
         });
 
@@ -193,22 +227,7 @@ public class Frag_03 extends WDFragment implements XRecyclerView.LoadingListener
         refreshLayout.finishLoadmore();
     }
 
-
-    @Override
-    public void onRefresh() {
-        mFrag03xlv.refreshComplete();
-        mCommunityListAdapter.remove();
-        mCommunityListAdapter.notifyDataSetChanged();
-        mFindCommunityListPresenter.reqeust(userid, sessionid, false, 5);
-    }
-
-    @Override
-    public void onLoadMore() {
-        mFrag03xlv.loadMoreComplete();
-        mFindCommunityListPresenter.reqeust(userid, sessionid, true, 5);
-    }
-
-    private class CommunityListCall implements DataCall<Result<List<FindCommunityList>>> {//社区列表展示
+    private class communityListCall implements DataCall<Result<List<FindCommunityList>>> {//社区列表展示
 
         @Override
         public void success(Result<List<FindCommunityList>> data) {
@@ -228,12 +247,11 @@ public class Frag_03 extends WDFragment implements XRecyclerView.LoadingListener
         }
     }
 
-    private class CommunityGreatCall implements DataCall<Result> {//点赞
+    private class communityGreatCall implements DataCall<Result> {//点赞
 
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")) {
-//                UIUtils.showToastSafe("社区点赞：  " + data.getMessage());
                 mCommunityListAdapter.remove();
                 mFindCommunityListPresenter.reqeust(userid, sessionid, false, 5);
             }
@@ -245,7 +263,7 @@ public class Frag_03 extends WDFragment implements XRecyclerView.LoadingListener
         }
     }
 
-    private class CommunityCommentCall implements DataCall<Result> {//评论
+    private class communityCommentCall implements DataCall<Result> {//评论
         @Override
         public void success(Result data) {
             if(data.getStatus().equals("0000")){
@@ -259,5 +277,20 @@ public class Frag_03 extends WDFragment implements XRecyclerView.LoadingListener
         public void fail(ApiException e) {
             UIUtils.showToastSafe("社区评论：   "+e.getMessage());
         }
+    }
+
+    private class cancelCommunityGreatCall implements DataCall<Result> {
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")) {
+                mCommunityListAdapter.remove();
+                mFindCommunityListPresenter.reqeust(userid, sessionid, false, 5);
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+            UIUtils.showToastSafe("取消点赞：  " + e.getMessage());
+        }//取消点赞
     }
 }

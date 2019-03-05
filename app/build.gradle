@@ -73,4 +73,6 @@ dependencies {
     //支付宝
     implementation(name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
     implementation files('libs/universal-image-loader-1.9.5.jar')
+
+    implementation 'com.yanzhenjie:recyclerview-swipe:1.2.3'
 }

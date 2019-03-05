@@ -13,9 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.EaseConstant;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.bean.FindUser;
+import com.wd.tech.bean.FriendInfoList;
 import com.wd.tech.bean.Result;
 import com.wd.tech.presenter.CheckMyFriendPresenter;
 import com.wd.tech.utils.DataCall;
@@ -129,6 +132,18 @@ public class FindUserDetailsActivity extends WDActivity {
             case R.id.user_details_yes:
                 if (flag==1){
                     UIUtils.showToastSafe("发消息");
+                    /*FriendInfoList friendInfoList = new FriendInfoList();
+                    friendInfoList.setFriendUid(findUser.getUserId());
+                    friendInfoList.setHeadPic(findUser.getHeadPic());
+                    friendInfoList.setNickName(findUser.getNickName());
+                    friendInfoList.setRemarkName(findUser.getNickName());
+                    friendInfoList.setSignature(findUser.getSignature());
+                    friendInfoList.setUserName(findUser.);
+                    Intent intent = new Intent(FindUserDetailsActivity.this, ChatActivity.class);
+                    intent.putExtra(EaseConstant.EXTRA_USER_ID,friendInfoList.getUserName());
+                    intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
+                    intent.putExtra("friendInfoList",friendInfoList);
+                    startActivity(intent);*/
                 }else {
                     Intent intent = new Intent(FindUserDetailsActivity.this,WantAddFriendActivity.class);
                     intent.putExtra("findUser",findUser);
