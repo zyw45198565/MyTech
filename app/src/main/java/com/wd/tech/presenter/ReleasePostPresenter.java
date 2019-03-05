@@ -6,8 +6,12 @@ import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.NetWorkManager;
 
 import java.io.File;
+import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * Description:<br>
@@ -21,8 +25,20 @@ public class ReleasePostPresenter extends WDPresenter{
     }
 
     @Override
-    protected Observable<Result> observable(Object... args) {
+    protected Observable observable(Object... args) {
         Interfacea interfacea = NetWorkManager.getInstance().create(Interfacea.class);
-        return interfacea.releasePost((int)args[0],(String) args[1],(String) args[2],(File) args[3]);
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        builder.addFormDataPart("content", (String)args[2]);
+        List<Object> list = (List<Object>) args[3];
+
+        if (list.size()>1) {
+            for (int i = 1; i < list.size(); i++) {
+                File file = new File((String) list.get(i));
+                builder.addFormDataPart("file", file.getName(),
+                        RequestBody.create(MediaType.parse("multipart/octet-stream"),
+                                file));
+            }
+        }
+        return interfacea.releasePost((int)args[0],(String) args[1],builder.build());
     }
 }

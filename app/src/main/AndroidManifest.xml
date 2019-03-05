@@ -27,8 +27,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.UserPostListActivity"></activity>
+        <activity android:name=".activity.CommentListShowActivity" />
         <activity android:name=".activity.CreateFriendActivity" />
-        <activity android:name=".activity.PublishMyInvitationActivity" />
+        <activity android:name=".activity.PublishMyInvitationActivity"></activity>
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -66,7 +68,7 @@
         <activity android:name=".activity.MyintegralActivity" />
         <activity android:name=".activity.MytaskActivity" />
         <activity android:name=".activity.MyPostActivity" />
-        <activity android:name=".activity.MyTongzhiActivity"></activity>
+        <activity android:name=".activity.MyTongzhiActivity" />
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="1182180123115181#weixinandqq" /> <!-- 声明SDK所需的service SDK核心功能 -->
