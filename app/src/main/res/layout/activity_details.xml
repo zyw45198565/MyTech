@@ -75,13 +75,19 @@
                     android:textSize="16sp" />
             </RelativeLayout>
 
-            <WebView
+           <!-- <WebView
                 android:id="@+id/mywebview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dip_10"
                 android:background="@android:color/transparent"
-                tools:ignore="WebViewLayout"></WebView>
+                tools:ignore="WebViewLayout"></WebView>-->
+            <TextView
+                android:id="@+id/mytext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dip_10"
+                />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/platerecycler"

@@ -70,9 +70,9 @@ public class LoveActivity extends BaseActivity implements DataCall<Result<List<M
         loveAdapter.getShan(new LoveAdapter.Shan() {
             @Override
             public void onshan(int i) {
-                loveBeans.remove(i);
                 CanceFollowPresenter canceFollowPresenter = new CanceFollowPresenter(new CanceCall());
                 canceFollowPresenter.reqeust(userid,sessionid,loveBeans.get(i).getFocusUid());
+                loveBeans.remove(i);
                 loveAdapter.notifyDataSetChanged();
             }
         });

@@ -1,6 +1,7 @@
 package com.wd.tech.core;
 
 import com.wd.tech.bean.CollectionBean;
+import com.wd.tech.bean.Conversation;
 import com.wd.tech.bean.FindFriendNoticePageList;
 import com.wd.tech.bean.FindGroup;
 import com.wd.tech.bean.FindGroupNoticePageList;
@@ -195,6 +196,7 @@ public interface Interfacea {
      * @return
      */
     @POST("community/verify/v1/releasePost")
+    @FormUrlEncoded
     Observable<Result> releasePost(@Header("userId")int userId,
                                    @Header("sessionId")String sessionId,
                                    @Body MultipartBody body);
@@ -956,6 +958,12 @@ public interface Interfacea {
                                             @Field("role") int role );
 
 
+    /**
+     * 微信登录
+     * @param ak
+     * @param code
+     * @return
+     */
     @POST("user/v1/weChatLogin")
     @FormUrlEncoded
     Observable<Result<LoginBean>> weChatLogin(@Header("ak")String ak,
@@ -985,5 +993,41 @@ public interface Interfacea {
     Observable<Result<FindUser>> queryFriendInformation(@Header("userId") int userId,
                                                               @Header("sessionId")String sessionId,
                                                               @Query("friend")int friend);
+
+    /**
+     * 根据环信userNames批量查询会话列表需要的用户信息
+     * @param userId
+     * @param sessionId
+     * @param userNames
+     * @return
+     */
+
+    @GET("user/verify/v1/findConversationList")
+    Observable<Result<List<Conversation>>> findConversationList(@Header("userId") int userId,
+                                                                @Header("sessionId") String sessionId,
+                                                                @Query("userNames") String userNames);
+
+
+    /**
+     * 绑定faceid
+     * @param userId
+     * @param sessionId
+     * @param featureInfo
+     * @return
+     */
+    @PUT("user/verify/v1/bindingFaceId")
+    @FormUrlEncoded
+    Observable<Result> bindingFaceId(@Header("userId") int userId,
+                                         @Header("sessionId")String sessionId,
+                                         @Field("featureInfo")String featureInfo);
+
+    /**
+     * 刷脸登陆
+     * @param faceId
+     * @return
+     */
+    @POST("user/v1/faceLogin")
+    @FormUrlEncoded
+    Observable<Result<LoginBean>> faceLogin(@Field("faceId")String faceId);
 
 }

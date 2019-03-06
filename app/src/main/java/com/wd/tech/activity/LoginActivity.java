@@ -1,9 +1,12 @@
 package com.wd.tech.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +24,7 @@ import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.bean.LoginBean;
 import com.wd.tech.bean.Result;
+import com.wd.tech.hractivity.DetecterActivity;
 import com.wd.tech.presenter.LoginPresenter;
 import com.wd.tech.presenter.UserByUserIdPresenter;
 import com.wd.tech.utils.DataCall;
@@ -37,6 +41,7 @@ import com.wd.tech.utils.util.WDActivity;
 public class LoginActivity extends BaseActivity implements View.OnClickListener,DataCall<Result<LoginBean>> {
 
 
+    private static final int REQUEST_CODE_OP = 3;
     private EditText phone;
     private EditText pass;
     private Button login;
@@ -88,6 +93,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                finish();
             }
         });
+        ImageView face = (ImageView) findViewById(R.id.face);
+        face.setOnClickListener(this);
     }
 
     @Override
@@ -109,6 +116,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                             Toast.makeText(this, "请输入手机号或密码……", Toast.LENGTH_SHORT).show();
                             return;
                         }
+                        boolean b = validatePhonePass(trim1);
+                        if(!b){
+                            return;
+                        }
                         try {
                             passss = RsaCoder.encryptByPublicKey(trim1);
                         } catch (Exception e) {
@@ -120,6 +131,23 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         break;
                     case R.id.xian:
                         showOrHide(pass);
+                        break;
+                    case R.id.face:
+                        if( ((WDApp)getApplicationContext()).mFaceDB.mRegister.isEmpty() ) {
+                            Toast.makeText(this, "没有注册人脸，请先注册！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            new AlertDialog.Builder(this)
+                                    .setTitle("请选择相机")
+                                    .setIcon(android.R.drawable.ic_dialog_info)
+                                    .setItems(new String[]{"后置相机", "前置相机"}, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            startDetector(which);
+                                            finish();
+                                        }
+                                    })
+                                    .show();
+                        }
                         break;
                 }
     }
@@ -182,5 +210,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
         etPassword.setSelection(pos);
 
+    }
+
+    private void startDetector(int camera) {
+        Intent it = new Intent(LoginActivity.this, DetecterActivity.class);
+        it.putExtra("Camera", camera);
+        startActivityForResult(it, REQUEST_CODE_OP);
+    }
+
+    public static boolean validatePhonePass(String pass) {
+        String passRegex = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$";
+        return !TextUtils.isEmpty(pass) && pass.matches(passRegex);
     }
 }

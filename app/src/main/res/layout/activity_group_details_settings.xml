@@ -77,13 +77,12 @@
                android:layout_marginRight="12dp"
                android:layout_height="wrap_content">
                <TextView
-                   android:id="@+id/group_details_setting_num"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:textSize="14sp"
                    android:textColor="#333333"
                    android:layout_marginRight="10dp"
-                   android:text="共几人"/>
+                   />
 
                <ImageView
                    android:layout_width="20dp"

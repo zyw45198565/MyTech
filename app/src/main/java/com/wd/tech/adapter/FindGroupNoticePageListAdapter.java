@@ -3,6 +3,7 @@ package com.wd.tech.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,12 @@ public class FindGroupNoticePageListAdapter extends RecyclerView.Adapter<Recycle
         if (viewHolder instanceof FindGroupNoticePageListAdapter.Daichuli) {
             String timedate = TimeUtills.timedate(list.get(i).getNoticeTime());
             ((Daichuli) viewHolder).tvtime.setText(timedate);
+            ((Daichuli) viewHolder).request1.setText(list.get(i).getRemark());
+            if (TextUtils.isEmpty(list.get(i).getRemark())){
+                ((Daichuli) viewHolder).request1.setText("加入"+list.get(i).getGroupName());
+            }else {
+                ((Daichuli) viewHolder).request1.setText(list.get(i).getRemark());
+            }
             ((Daichuli) viewHolder).tvname.setText(list.get(i).getGroupName());
             ((Daichuli) viewHolder).sdv.setImageURI(list.get(i).getHeadPic());
             ((Daichuli) viewHolder).agree1.setOnClickListener(new View.OnClickListener() {
@@ -86,12 +93,24 @@ public class FindGroupNoticePageListAdapter extends RecyclerView.Adapter<Recycle
             ((Agree) viewHolder).tvtime2.setText(timedate);
             ((Agree) viewHolder).sdv2.setImageURI(list.get(i).getHeadPic());
             ((Agree) viewHolder).tv_name2.setText(list.get(i).getGroupName());
+            if (TextUtils.isEmpty(list.get(i).getRemark())){
+                ((Agree) viewHolder).request2.setText("加入"+list.get(i).getGroupName());
+            }else {
+                ((Agree) viewHolder).request2.setText(list.get(i).getRemark());
+            }
+
 
         }else{
             String timedate = TimeUtills.timedate(list.get(i).getNoticeTime());
             ((Jujue) viewHolder).tvtime3.setText(timedate);
             ((Jujue) viewHolder).sdv3.setImageURI(list.get(i).getHeadPic());
             ((Jujue) viewHolder).tv_name3.setText(list.get(i).getGroupName());
+            if (TextUtils.isEmpty(list.get(i).getRemark())){
+                ((Jujue) viewHolder).request3.setText("加入"+list.get(i).getGroupName());
+            }else {
+                ((Jujue) viewHolder).request3.setText(list.get(i).getRemark());
+            }
+
         }
     }
 
@@ -112,7 +131,7 @@ public class FindGroupNoticePageListAdapter extends RecyclerView.Adapter<Recycle
 
     //待处理
     class Daichuli extends RecyclerView.ViewHolder {
-        TextView tvtime , tvname , agree1 , jujue1;
+        TextView tvtime , tvname , agree1 , jujue1,request1;
         SimpleDraweeView sdv;
 
 
@@ -123,6 +142,7 @@ public class FindGroupNoticePageListAdapter extends RecyclerView.Adapter<Recycle
             tvname = itemView.findViewById(R.id.group_tv_name1);
             agree1 = itemView.findViewById(R.id.group_agree1);
             jujue1 = itemView.findViewById(R.id.group_jujue1);
+            request1 = itemView.findViewById(R.id.group_tv_request1);
 
         }
     }
@@ -130,13 +150,14 @@ public class FindGroupNoticePageListAdapter extends RecyclerView.Adapter<Recycle
     //同意
     class Agree extends RecyclerView.ViewHolder {
 
-        TextView tvtime2 , tv_name2;
+        TextView tvtime2 , tv_name2,request2;
         SimpleDraweeView sdv2;
 
         public Agree(@NonNull View itemView) {
             super(itemView);
             tvtime2 = itemView.findViewById(R.id.group_longtime2);
             tv_name2 = itemView.findViewById(R.id.group_tv_name2);
+            request2 = itemView.findViewById(R.id.group_tv_request2);
             sdv2 = itemView.findViewById(R.id.group_sdv_t2);
 
         }
@@ -145,13 +166,14 @@ public class FindGroupNoticePageListAdapter extends RecyclerView.Adapter<Recycle
     //拒绝
     class Jujue extends RecyclerView.ViewHolder {
 
-        TextView tvtime3 , tv_name3;
+        TextView tvtime3 , tv_name3,request3;
         SimpleDraweeView sdv3;
 
         public Jujue(@NonNull View itemView) {
             super(itemView);
             tvtime3 = itemView.findViewById(R.id.group_longtime3);
             tv_name3 = itemView.findViewById(R.id.group_tv_name3);
+            request3 = itemView.findViewById(R.id.group_tv_request3);
             sdv3 = itemView.findViewById(R.id.group_sdv_t3);
 
 
