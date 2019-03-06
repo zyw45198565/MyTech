@@ -88,9 +88,9 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     int plateId = 0;
     private List<HomeAll> result;
     private Dialog dialog;
-    public static IWXAPI iwxapi;
     private IWXAPI wxapi;
     private int homealli;
+    private boolean zai;
 
     @Override
     public String getPageName() {
@@ -132,33 +132,23 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         homeAllAdapter.xihuan(new HomeAllAdapter.Mylove() {
             @Override
             public void win(int id, int whetherCollection, int possion) {
-                homealli = possion;
-                if (whetherCollection==2){
-                AddCollectionPresenter addCollectionPresenter = new AddCollectionPresenter(new MyCollect());
-                addCollectionPresenter.reqeust(userid, sessionid, id);
-                }else{
-                    String eid = id + "";
-                    CancelCollectionPresenter cancelCollectionPresenter = new CancelCollectionPresenter(new MyCancelCollect());
-                    cancelCollectionPresenter.reqeust(userid, sessionid, eid);
+                zai = WDApp.getShare().getBoolean("zai", false);
+                if (!zai) {
+                    Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT).show();
+                    result.get(possion).setWhetherCollection(1);
+                } else {
+                    homealli = possion;
+                    if (whetherCollection == 2) {
+                        AddCollectionPresenter addCollectionPresenter = new AddCollectionPresenter(new MyCollect());
+                        addCollectionPresenter.reqeust(userid, sessionid, id);
+                    } else {
+                        String eid = id + "";
+                        CancelCollectionPresenter cancelCollectionPresenter = new CancelCollectionPresenter(new MyCancelCollect());
+                        cancelCollectionPresenter.reqeust(userid, sessionid, eid);
+                    }
                 }
             }
         });
-        /*homeAllAdapter.xihuan(new HomeAllAdapter.Mylove() {
-            @Override
-            public void win(int possion) {
-                int id = result.get(possion).getId();
-                AddCollectionPresenter addCollectionPresenter = new AddCollectionPresenter(new MyCollect());
-                addCollectionPresenter.reqeust(userid, sessionid, id);
-            }
-
-            @Override
-            public void abolish(int possion) {
-                int id = result.get(possion).getId();
-                String eid = id + "";
-                CancelCollectionPresenter cancelCollectionPresenter = new CancelCollectionPresenter(new MyCancelCollect());
-                cancelCollectionPresenter.reqeust(userid, sessionid, eid);
-            }
-        });*/
     }
 
     private void homeallre() {
@@ -169,37 +159,40 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         homeAllAdapter.sharecircle(new HomeAllAdapter.MyShare() {
             @Override
             public void share(final int possion) {
-                dialog = new Dialog(getActivity(), R.style.DialogTheme);
+                if (!zai) {
+                    Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT).show();
+                } else {
+                    dialog = new Dialog(getActivity(), R.style.DialogTheme);
 
-                View view = View.inflate(getActivity(), R.layout.twoshare, null);
-                dialog.setContentView(view);
-                dialog.getWindow().setGravity(Gravity.BOTTOM);
-                dialog.show();
-                getshoud();
-                TextView cancle = view.findViewById(R.id.cancel);
-                ImageView wxfriend = view.findViewById(R.id.wxfriend);
-                ImageView weixinf = view.findViewById(R.id.weixinf);
-                cancle.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                wxfriend.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //微信朋友圈
-                        WeChatShare(possion, 1);
-                    }
-                });
-                weixinf.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //微信朋友圈
-                        WeChatShare(possion, 2);
-                    }
-                });
-
+                    View view = View.inflate(getActivity(), R.layout.twoshare, null);
+                    dialog.setContentView(view);
+                    dialog.getWindow().setGravity(Gravity.BOTTOM);
+                    dialog.show();
+                    getshoud();
+                    TextView cancle = view.findViewById(R.id.cancel);
+                    ImageView wxfriend = view.findViewById(R.id.wxfriend);
+                    ImageView weixinf = view.findViewById(R.id.weixinf);
+                    cancle.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    wxfriend.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //微信朋友圈
+                            WeChatShare(possion, 1);
+                        }
+                    });
+                    weixinf.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //微信朋友圈
+                            WeChatShare(possion, 2);
+                        }
+                    });
+                }
 
             }
         });
@@ -336,11 +329,19 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         oneBanner.start();//开始轮播
-        userid = WDApp.getShare().getInt("userid", 0);
-        sessionid = WDApp.getShare().getString("sessionid", "");
+        homeAllAdapter.clearAll();
         homeAllPresenter = new HomeAllPresenter(new HomeCall());
-
+            userid = WDApp.getShare().getInt("userid", 0);
+            sessionid = WDApp.getShare().getString("sessionid", "");
+        boolean zai = WDApp.getShare().getBoolean("zai", false);
+        if(!zai){
+            userid=0;
+            sessionid="";
+        }
         homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
+
+
+
     }
 
     private class HomeCall implements DataCall<Result<List<HomeAll>>> {

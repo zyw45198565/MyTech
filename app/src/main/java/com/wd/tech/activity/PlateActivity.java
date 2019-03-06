@@ -67,6 +67,7 @@ public class PlateActivity extends WDActivity {
     private Dialog dialog;
     private List<HomeAll> result;
     private IWXAPI wxapi;
+    private int homei;
 
     @Override
     protected int getLayoutId() {
@@ -75,9 +76,13 @@ public class PlateActivity extends WDActivity {
 
     @Override
     protected void initView() {
-        userid = WDApp.getShare().getInt("userid", 0);
-        sessionid = WDApp.getShare().getString("sessionid", "");
-
+        if (WDApp.getShare().getBoolean("zai",false)) {
+            userid = WDApp.getShare().getInt("userid", 0);
+            sessionid = WDApp.getShare().getString("sessionid", "");
+        }else{
+            userid=0;
+            sessionid="";
+        }
         // 通过WXAPIFactory工厂，获取IWXAPI的实例  APP_ID为微信的AppID
         wxapi = WXAPIFactory.createWXAPI(PlateActivity.this, "wx4c96b6b8da494224", true);
 
@@ -106,32 +111,17 @@ public class PlateActivity extends WDActivity {
         homeAllAdapter.xihuan(new HomeAllAdapter.Mylove() {
             @Override
             public void win(int id, int whetherCollection, int possion) {
-                if (whetherCollection==1){
+                homei = possion;
+                if (whetherCollection == 2) {
                     AddCollectionPresenter addCollectionPresenter = new AddCollectionPresenter(new MyCollect());
                     addCollectionPresenter.reqeust(userid, sessionid, id);
-                }else{
+                } else {
                     String eid = id + "";
                     CancelCollectionPresenter cancelCollectionPresenter = new CancelCollectionPresenter(new MyCancelCollect());
                     cancelCollectionPresenter.reqeust(userid, sessionid, eid);
                 }
             }
         });
-        /*homeAllAdapter.xihuan(new HomeAllAdapter.Mylove() {
-            @Override
-            public void win(int possion) {
-                int id = result.get(possion).getId();
-                AddCollectionPresenter addCollectionPresenter = new AddCollectionPresenter(new MyCollect());
-                addCollectionPresenter.reqeust(userid, sessionid, id);
-            }
-
-            @Override
-            public void abolish(int possion) {
-                int id = result.get(possion).getId();
-                String eid = id + "";
-                CancelCollectionPresenter cancelCollectionPresenter = new CancelCollectionPresenter(new MyCancelCollect());
-                cancelCollectionPresenter.reqeust(userid, sessionid, eid);
-            }
-        });*/
     }
 
     private void myrefreshLayout() {
@@ -256,6 +246,8 @@ public class PlateActivity extends WDActivity {
     private class MyCollect implements DataCall<Result> {
         @Override
         public void success(Result data) {
+            homeAllAdapter.notifyItemChanged(homei);
+
             Toast.makeText(PlateActivity.this, data.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
@@ -264,11 +256,13 @@ public class PlateActivity extends WDActivity {
 
         }
     }
+
     //取消收藏
     private class MyCancelCollect implements DataCall<Result> {
         @Override
         public void success(Result data) {
             Toast.makeText(PlateActivity.this, data.getMessage(), Toast.LENGTH_SHORT).show();
+            homeAllAdapter.notifyItemChanged(homei);
 
         }
 
