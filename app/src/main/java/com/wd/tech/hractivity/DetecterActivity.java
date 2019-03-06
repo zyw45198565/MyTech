@@ -1,6 +1,7 @@
 package com.wd.tech.hractivity;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -10,11 +11,13 @@ import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arcsoft.ageestimation.ASAE_FSDKAge;
 import com.arcsoft.ageestimation.ASAE_FSDKEngine;
@@ -42,8 +45,19 @@ import com.guo.android_extend.widget.CameraFrameData;
 import com.guo.android_extend.widget.CameraGLSurfaceView;
 import com.guo.android_extend.widget.CameraSurfaceView;
 import com.guo.android_extend.widget.CameraSurfaceView.OnCameraListener;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
+import com.wd.tech.bean.LoginBean;
+import com.wd.tech.bean.Result;
+import com.wd.tech.presenter.BindFaceIdPresenter;
+import com.wd.tech.presenter.FaceLoginPresenter;
+import com.wd.tech.utils.DataCall;
+import com.wd.tech.utils.exception.ApiException;
+import com.wd.tech.utils.util.RsaCoder;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -171,6 +185,19 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 							}
 							mImageView.setImageAlpha(255);
 							mImageView.setImageBitmap(bmp);
+
+							SharedPreferences share = WDApp.getShare();
+							String faceid = share.getString("faceid", "");
+
+							try {
+								String s = RsaCoder.encryptByPublicKey(faceid);
+								FaceLoginPresenter faceLoginPresenter = new FaceLoginPresenter(new FaceLoginCall());
+								faceLoginPresenter.reqeust(s);
+								finish();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
 						}
 					});
 				} else {
@@ -377,6 +404,51 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 	public void onAutoFocus(boolean success, Camera camera) {
 		if (success) {
 			Log.d(TAG, "Camera Focus SUCCESS!");
+		}
+	}
+
+	private class FaceLoginCall implements DataCall<Result<LoginBean>> {
+		@Override
+		public void success(Result<LoginBean> data) {
+			if (data.getStatus().equals("0000")){
+				SharedPreferences share = WDApp.getShare();
+				SharedPreferences.Editor edit = share.edit();
+				edit.putInt("userid",data.getResult().getUserId());
+				edit.putString("sessionid",data.getResult().getSessionId());
+				edit.putString("userName",data.getResult().getUserName());
+				edit.putString("headPic",data.getResult().getHeadPic());
+				edit.putString("nickName",data.getResult().getNickName());
+				edit.putBoolean("zai",true);
+				edit.commit();
+				Message message = new Message();
+				message.what=1;
+				EventBus.getDefault().postSticky(message);
+				EMClient.getInstance().login(data.getResult().getUserName(),data.getResult().getPwd(),new EMCallBack() {//回调
+					@Override
+					public void onSuccess() {
+						EMClient.getInstance().groupManager().loadAllGroups();
+						EMClient.getInstance().chatManager().loadAllConversations();
+						Log.d("main", "登录聊天服务器成功！");
+						finish();
+					}
+
+					@Override
+					public void onProgress(int progress, String status) {
+
+					}
+
+					@Override
+					public void onError(int code, String message) {
+						Log.d("main", "登录聊天服务器失败！");
+						finish();
+					}
+				});
+			}
+		}
+
+		@Override
+		public void fail(ApiException e) {
+
 		}
 	}
 }

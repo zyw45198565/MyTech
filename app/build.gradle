@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'tech'
             keyPassword '123456'
-            storeFile file('C:/Users/lenovo/Desktop/tech.keystore')
+            storeFile file('C:/Users/admin/Desktop/tech.keystore')
             storePassword '123456'
         }
     }
@@ -86,7 +86,6 @@ dependencies {
     //支付宝
     implementation(name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
     implementation files('libs/universal-image-loader-1.9.5.jar')
-
     implementation 'com.yanzhenjie:recyclerview-swipe:1.2.3'
     implementation files('libs/ageestimation.jar')
     implementation files('libs/facedetection.jar')
@@ -94,4 +93,5 @@ dependencies {
     implementation files('libs/facetracking.jar')
     implementation files('libs/genderestimation.jar')
     implementation 'com.guo.android_extend:android-extend:1.0.1'
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }

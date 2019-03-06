@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -37,6 +38,11 @@ import com.guo.android_extend.widget.ExtImageView;
 import com.guo.android_extend.widget.HListView;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
+import com.wd.tech.bean.Result;
+import com.wd.tech.presenter.BindFaceIdPresenter;
+import com.wd.tech.utils.DataCall;
+import com.wd.tech.utils.exception.ApiException;
+import com.wd.tech.utils.util.RsaCoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -274,6 +280,13 @@ public class RegisterActivity extends Activity implements SurfaceHolder.Callback
 									((WDApp)RegisterActivity.this.getApplicationContext()).mFaceDB.addFace(mEditText.getText().toString(), mAFR_FSDKFace);
 									mRegisterViewAdapter.notifyDataSetChanged();
 									dialog.dismiss();
+
+									SharedPreferences share = WDApp.getShare();
+									int userId = share.getInt("userid", 0);
+									String sessionId = share.getString("sessionid", "");
+
+									BindFaceIdPresenter bindFaceIdPresenter = new BindFaceIdPresenter(new BindFaceidCall());
+									bindFaceIdPresenter.reqeust(userId,sessionId,mAFR_FSDKFace.getFeatureData().toString());
 								}
 							})
 							.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -377,6 +390,27 @@ public class RegisterActivity extends Activity implements SurfaceHolder.Callback
 						}
 					})
 					.show();
+		}
+	}
+
+	private class BindFaceidCall implements DataCall<Result> {
+		@Override
+		public void success(Result data) {
+			String faceId = data.getFaceId();
+			try {
+				String s = RsaCoder.decryptByPublicKey(faceId);
+				SharedPreferences share = WDApp.getShare();
+				SharedPreferences.Editor edit = share.edit();
+				edit.putString("faceid",s);
+				edit.commit();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		@Override
+		public void fail(ApiException e) {
+
 		}
 	}
 }

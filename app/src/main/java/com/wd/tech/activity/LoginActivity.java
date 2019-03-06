@@ -143,6 +143,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             startDetector(which);
+                                            finish();
                                         }
                                     })
                                     .show();
