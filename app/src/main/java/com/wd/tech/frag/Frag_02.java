@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +23,15 @@ import com.wd.tech.R;
 import com.wd.tech.activity.AddFriendActivity;
 import com.wd.tech.activity.ChatActivity;
 import com.wd.tech.activity.CreateFriendActivity;
+import com.wd.tech.activity.WantGroupChatActivity;
 import com.wd.tech.adapter.FragmentViewAdapter;
+import com.wd.tech.bean.GroupByUser;
+import com.wd.tech.bean.Result;
 import com.wd.tech.frag.fragone.FragOneContact;
 import com.wd.tech.frag.fragone.FragOneMessage;
+import com.wd.tech.presenter.FindGroupsByUserIdPresenter;
+import com.wd.tech.utils.DataCall;
+import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.util.WDFragment;
 
 import java.util.ArrayList;
@@ -68,7 +75,6 @@ public class Frag_02 extends WDFragment {
 
     @Override
     protected void initView() {
-
         myMessage.setTextColor(Color.WHITE);
         myMessage.setBackgroundResource(R.drawable.text_magess_shape);
         List<Fragment> list = new ArrayList<>();
@@ -79,9 +85,21 @@ public class Frag_02 extends WDFragment {
 
             @Override
             public void onListItemClicked(EMConversation conversation) {
-                Intent intent = new Intent(getContext(), ChatActivity.class);
-                intent.putExtra(EaseConstant.EXTRA_USER_ID, conversation.conversationId());
-                startActivity(intent);
+                EMConversation.EMConversationType type = conversation.getType();
+                if (type== EMConversation.EMConversationType.Chat){
+                    Intent intent = new Intent(getContext(), ChatActivity.class);
+                    intent.putExtra(EaseConstant.EXTRA_USER_ID, conversation.conversationId());
+                    intent.putExtra("userNames", conversation.conversationId());
+
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent(getContext(), WantGroupChatActivity.class);
+                    intent.putExtra(EaseConstant.EXTRA_USER_ID, conversation.conversationId());
+                    intent.putExtra("userNames", conversation.conversationId());
+                    startActivity(intent);
+                }
+
+
             }
         });
 
@@ -183,4 +201,5 @@ public class Frag_02 extends WDFragment {
                 break;
         }
     }
+
 }

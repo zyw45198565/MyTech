@@ -19,8 +19,8 @@
             <ImageView
                 android:id="@+id/back"
                 android:padding="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginLeft="30dp"
                android:layout_centerVertical="true"
                 android:src="@drawable/common_nav_btn_back_n_"/>
@@ -215,6 +215,7 @@
                 android:layout_marginTop="10dp">
 
                 <LinearLayout
+                    android:id="@+id/qian"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">

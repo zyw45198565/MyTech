@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.hyphenate.easeui.EaseConstant;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.bean.FindGroup;
@@ -106,6 +107,11 @@ public class FindGroupDetailsActivity extends BaseActivity {
             case R.id.find_group_details_yes:
                 if (flag == 1) {
                     UIUtils.showToastSafe("发消息");
+                    Intent intent = new Intent(FindGroupDetailsActivity.this, WantGroupChatActivity.class);
+                    intent.putExtra(EaseConstant.EXTRA_USER_ID,findGroup.getHxGroupId());
+                    intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_GROUP);
+                    intent.putExtra("userNames",findGroup.getHxGroupId());
+                    startActivity(intent);
                 } else {
                     Intent intent = new Intent(FindGroupDetailsActivity.this,WantAddGroupActivity.class);
                     intent.putExtra("groupId",findGroup.getGroupId());
@@ -123,6 +129,7 @@ public class FindGroupDetailsActivity extends BaseActivity {
                 flag = data.getFlag();
                 if (data.getFlag() == 1) {
                     findGroupDetailsYes.setText("发消息");
+
                 } else {
                     findGroupDetailsYes.setText("申请加群");
                 }

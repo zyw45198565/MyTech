@@ -1,5 +1,6 @@
 package com.wd.tech.activity;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -67,6 +68,10 @@ public class RegistrActivity extends BaseActivity implements View.OnClickListene
                     Toast.makeText(this, "请输入手机号或密码……", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                boolean b = validatePhonePass(trim1);
+                if(!b){
+                    return;
+                }
                 try {
                     passss = RsaCoder.encryptByPublicKey(trim1);
                     Log.i("abc", "onClick: "+passss);
@@ -121,6 +126,11 @@ public class RegistrActivity extends BaseActivity implements View.OnClickListene
             }).start();*/
             finish();
         }
+    }
+
+    public static boolean validatePhonePass(String pass) {
+        String passRegex = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$";
+        return !TextUtils.isEmpty(pass) && pass.matches(passRegex);
     }
 
     @Override

@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -60,6 +62,12 @@ public class LoveAdapter extends RecyclerView.Adapter<LoveAdapter.MyViewHolder> 
                 shan.onshan(position);
             }
         });
+        holder.ll2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "111111", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     //重写onCreateViewHolder方法，返回一个自定义的ViewHolder
@@ -76,6 +84,7 @@ public class LoveAdapter extends RecyclerView.Adapter<LoveAdapter.MyViewHolder> 
         TextView qian;
         TextView shanchu;
         SideslipView sideslipView;
+        LinearLayout ll2;
 
         public MyViewHolder(View view) {
             super(view);
@@ -84,6 +93,7 @@ public class LoveAdapter extends RecyclerView.Adapter<LoveAdapter.MyViewHolder> 
            qian = view.findViewById(R.id.qian);
            shanchu = view.findViewById(R.id.shanchu);
             sideslipView = view.findViewById(R.id.side);
+            ll2 = view.findViewById(R.id.ll2);
         }
     }
 

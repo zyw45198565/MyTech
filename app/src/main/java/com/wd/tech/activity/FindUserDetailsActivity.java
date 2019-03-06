@@ -132,18 +132,11 @@ public class FindUserDetailsActivity extends WDActivity {
             case R.id.user_details_yes:
                 if (flag==1){
                     UIUtils.showToastSafe("发消息");
-                    /*FriendInfoList friendInfoList = new FriendInfoList();
-                    friendInfoList.setFriendUid(findUser.getUserId());
-                    friendInfoList.setHeadPic(findUser.getHeadPic());
-                    friendInfoList.setNickName(findUser.getNickName());
-                    friendInfoList.setRemarkName(findUser.getNickName());
-                    friendInfoList.setSignature(findUser.getSignature());
-                    friendInfoList.setUserName(findUser.);
                     Intent intent = new Intent(FindUserDetailsActivity.this, ChatActivity.class);
-                    intent.putExtra(EaseConstant.EXTRA_USER_ID,friendInfoList.getUserName());
-                    intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
-                    intent.putExtra("friendInfoList",friendInfoList);
-                    startActivity(intent);*/
+                    intent.putExtra(EaseConstant.EXTRA_USER_ID,findUser.getUserName());
+                    intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
+                    intent.putExtra("userNames",findUser.getUserName());
+                    startActivity(intent);
                 }else {
                     Intent intent = new Intent(FindUserDetailsActivity.this,WantAddFriendActivity.class);
                     intent.putExtra("findUser",findUser);

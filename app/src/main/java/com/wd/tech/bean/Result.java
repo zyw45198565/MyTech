@@ -19,6 +19,15 @@ public class Result<T> {
     private String sign;
     private String timeStamp;
     private String packageValue;
+    String faceId;
+
+    public String getFaceId() {
+        return faceId;
+    }
+
+    public void setFaceId(String faceId) {
+        this.faceId = faceId;
+    }
 
     public String getAppId() {
         return appId;
