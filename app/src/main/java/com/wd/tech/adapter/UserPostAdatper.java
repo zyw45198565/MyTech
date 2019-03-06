@@ -1,6 +1,8 @@
 package com.wd.tech.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,12 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.bean.UserPost;
+import com.wd.tech.picter.PhotoViewActivity;
 import com.wd.tech.utils.util.SpacingItemDecoration;
 import com.wd.tech.utils.util.StringUtils;
 
@@ -31,8 +35,6 @@ public class UserPostAdatper extends RecyclerView.Adapter<UserPostAdatper.MyHold
     Context context;
     ArrayList<UserPost.CommunityUserPostVoListBean> mList = new ArrayList<>();
     private ClickComment clickComment;
-    private UserPost.CommunityUserPostVoListBean userPost;
-    private int whetherGreat;
     private ClickLike clickLike;
     private LayoutInflater inflater;
 
@@ -50,7 +52,7 @@ public class UserPostAdatper extends RecyclerView.Adapter<UserPostAdatper.MyHold
 
     @Override
     public void onBindViewHolder(@NonNull final MyHolder myHolder, final int i) {
-        userPost = mList.get(i);
+         UserPost.CommunityUserPostVoListBean userPost = mList.get(i);
         String content = userPost.getContent();//title
         if(content.equals("")){
             myHolder.userPostContent.setVisibility(View.GONE);
@@ -85,51 +87,38 @@ public class UserPostAdatper extends RecyclerView.Adapter<UserPostAdatper.MyHold
             myHolder.imageAdapter.notifyDataSetChanged();
         }
 
-
-        whetherGreat = userPost.getWhetherGreat();//点赞状态
+        int whetherGreat  = userPost.getWhetherGreat();//点赞状态
         if(whetherGreat ==1){
-            myHolder.userPostLike.setChecked(true);
+            myHolder.userPostLike.setImageResource(R.drawable.praise_s);
         }else{
-            myHolder.userPostLike.setChecked(false);
+            myHolder.userPostLike.setImageResource(R.drawable.prise_n);
+
         }
 
         myHolder.userPostLike.setOnClickListener(new View.OnClickListener() {//点赞
             @Override
             public void onClick(View v) {
-                CheckBox checkBox= (CheckBox) v;
-                boolean checked = checkBox.isChecked();
-                if (checked){
-                    userPost.setPraise(userPost.getPraise()+1);
-//                    userPost.setWhetherGreat(1);//设置点赞状态为选中
 
+                UserPost.CommunityUserPostVoListBean userPost = mList.get(i);
+                int whetherGreat  = userPost.getWhetherGreat();//点赞状态
+                if(whetherGreat==2){
                     clickLike.clickLikeChange(userPost.getId());
-
-                }else{
-//                    userPost.setWhetherGreat(2);
-
-                    clickLike.clickLikefail(userPost.getId());
-                    userPost.setPraise(userPost.getPraise()-1);
-
-                }
-               /* if(whetherGreat==2){
                     userPost.setWhetherGreat(1);//设置点赞状态为选中
                     userPost.setPraise(userPost.getPraise()+1);
-                    myHolder.userPostLike.setChecked(true);
-                    clickLike.clickLikeChange(userPost.getId());
 
                 }else {
+                    clickLike.clickLikeChange2(userPost.getId());
                     userPost.setWhetherGreat(2);
                     userPost.setPraise(userPost.getPraise()-1);
-                    myHolder.userPostLike.setChecked(false);
-                    clickLike.clickLikefail(userPost.getId());
-                }*/
-//                notifyDataSetChanged();
+                }
+                notifyDataSetChanged();
             }
         });
 
         myHolder.userPostLayoutLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UserPost.CommunityUserPostVoListBean userPost = mList.get(i);
                 clickComment.clickStart(userPost.getId(),userPost.getComment());
             }
         });
@@ -155,7 +144,7 @@ public class UserPostAdatper extends RecyclerView.Adapter<UserPostAdatper.MyHold
         private final TextView userPostContent;
         private final RecyclerView userPostImg;
         private final LinearLayout userPostLayoutLeft;
-        private final CheckBox userPostLike;
+        private final ImageView userPostLike;
         private final TextView userPostLikeText;
         private final ImageAdapterTwo imageAdapter;
         private final GridLayoutManager gridLayoutManager;
@@ -173,7 +162,7 @@ public class UserPostAdatper extends RecyclerView.Adapter<UserPostAdatper.MyHold
             userPostLikeText = itemView.findViewById(R.id.user_post_item_like_text);
 
             imageAdapter = new ImageAdapterTwo();//社区图片展示
-            int space = context.getResources().getDimensionPixelSize(R.dimen.dip_6);//图片间距
+            int space = context.getResources().getDimensionPixelSize(R.dimen.dp_4);//图片间距
             gridLayoutManager = new GridLayoutManager(context, 3);
             userPostImg.addItemDecoration(new SpacingItemDecoration(space));//添加视图的间距
             userPostImg.setLayoutManager(gridLayoutManager);
@@ -189,8 +178,8 @@ public class UserPostAdatper extends RecyclerView.Adapter<UserPostAdatper.MyHold
     }
 
     public interface ClickLike{//点赞
-        void clickLikeChange(int id);
-        void clickLikefail(int id);
+        void clickLikeChange(int possion);
+        void clickLikeChange2(int possion);
     }
     public void setClickLike(ClickLike clickLike){
         this.clickLike = clickLike;

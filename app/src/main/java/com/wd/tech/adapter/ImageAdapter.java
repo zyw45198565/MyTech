@@ -1,5 +1,7 @@
 package com.wd.tech.adapter;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -7,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
+import com.wd.tech.picter.PhotoViewActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +26,19 @@ class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
+    public void onBindViewHolder(@NonNull final MyHolder myHolder, int i) {
         myHolder.image.setImageURI(mList.get(i));//设置图片
+        myHolder.image.setOnClickListener(new View.OnClickListener() {//点击图片放大
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), PhotoViewActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("imageArray", mList);
+                intent.putExtras(bundle);
+                intent.putExtra("position", v.getId());//下标
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

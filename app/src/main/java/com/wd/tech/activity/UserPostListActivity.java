@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,21 +19,28 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.adapter.UserPostAdatper;
+import com.wd.tech.bean.FindUser;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.UserPost;
-import com.wd.tech.frag.Frag_03;
+import com.wd.tech.picter.PhotoViewActivity;
 import com.wd.tech.presenter.AddCommunityGreatPresenter;
+import com.wd.tech.presenter.AddFollowPresenter;
 import com.wd.tech.presenter.CancelCommunityGreatPresenter;
+import com.wd.tech.presenter.CancelFollowPresenter;
 import com.wd.tech.presenter.FindUserPostPresenter;
+import com.wd.tech.presenter.QueryFriendInformationPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.util.UIUtils;
 import com.wd.tech.utils.util.WDActivity;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class UserPostListActivity extends WDActivity {
 
@@ -52,6 +60,12 @@ public class UserPostListActivity extends WDActivity {
     SmartRefreshLayout refreshLayoutX;
     @BindView(R.id.layout)
     LinearLayout layout;
+    @BindView(R.id.add_friend)
+    TextView addFriend;
+    @BindView(R.id.add_attention)
+    TextView addAttention;
+    @BindView(R.id.layout_hide)
+    LinearLayout layoutHide;
     private SharedPreferences sp;
     private int userid;
     private String sessionid;
@@ -60,10 +74,43 @@ public class UserPostListActivity extends WDActivity {
     private FindUserPostPresenter mFindUserPostPresenter;
     private CancelCommunityGreatPresenter mCancelCommunityGreatPresenter;
     private int userId;
+    private int mmid;
+    private List<UserPost.CommunityUserPostVoListBean> communityUserPostVoList;
+    private AddFollowPresenter mAddFollowPresenter;
+    private UserPost userPost1;
+    private CancelFollowPresenter mCancelFollowPresenter;
+    int flag1 = 2;//默认为不关注
+    int flag2 = 2;
+    private QueryFriendInformationPresenter mQueryFriendInformationPresenter;
+    private Intent intent;
+
 
     @Override
     protected int getLayoutId() {
         return R.layout.activity_user_post_list;
+    }
+
+    @OnClick({R.id.user_post_more,R.id.add_attention,R.id.add_friend})
+    public void setClick(View view) {
+        switch (view.getId()) {
+            case R.id.user_post_more://点击+关注 +好友
+                layoutHide.setVisibility(View.VISIBLE);
+                userPostMore.setVisibility(View.GONE);
+                break;
+
+            case R.id.add_friend://加好友
+                mQueryFriendInformationPresenter = new QueryFriendInformationPresenter(new mQueryFriendInformationCall());//查询好友信息
+                mQueryFriendInformationPresenter.reqeust(userid,sessionid,userId);//查询好友信息
+                break;
+
+            case R.id.add_attention://加关注
+                if(flag2==1){
+                    mCancelFollowPresenter.reqeust(userid,sessionid,userId);
+                }else{
+                    mAddFollowPresenter.reqeust(userid,sessionid,userId);
+                }
+                break;
+        }
     }
 
     @Override
@@ -77,35 +124,50 @@ public class UserPostListActivity extends WDActivity {
 
         Intent intent = getIntent();
         userId = intent.getIntExtra("userId", 0);//获取用户id/发布人id
-        String head = intent.getStringExtra("head");
+        final String head = intent.getStringExtra("head");
+        final ArrayList<String> mList = new ArrayList<>();
+        mList.add(head);
         String nick = intent.getStringExtra("nick");
         String text = intent.getStringExtra("text");
         myrefreshLayout();
         userPostBackground.setImageURI(head);//背景设置
         userPostHead.setImageURI(head);//头像
+        userPostHead.setOnClickListener(new View.OnClickListener() {//点击图片放大
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserPostListActivity.this, PhotoViewActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("imageArray", mList);
+                intent.putExtras(bundle);
+                intent.putExtra("position", v.getId());//下标
+                v.getContext().startActivity(intent);
+            }
+        });
+
         userPostNick.setText(nick);//昵称
         userPostSignature.setText(text);//签名
 
 
         mFindUserPostPresenter = new FindUserPostPresenter(new userPostCall());//用户发布帖子列表展示
+        mAddUserGreatPresenter = new AddCommunityGreatPresenter(new userGreatCall());//点赞
+        mCancelCommunityGreatPresenter = new CancelCommunityGreatPresenter(new mCancelCommunityGreatCall());//取消点赞
+        mAddFollowPresenter = new AddFollowPresenter(new mAddFollowCall());//关注用户
+        mCancelFollowPresenter = new CancelFollowPresenter(new mCancelFollowCall());//取消关注
 
         mUserPostAdatper = new UserPostAdatper(this);
 
-        mUserPostAdatper.setClickLike(new UserPostAdatper.ClickLike() {
-                                          @Override
-                                          public void clickLikeChange(int id) {
-                                              mAddUserGreatPresenter = new AddCommunityGreatPresenter(new userGreatCall());//点赞
-                                              mAddUserGreatPresenter.reqeust(userid, sessionid, id);
-                                          }
+        mUserPostAdatper.setClickLike(new UserPostAdatper.ClickLike() {//点赞
+            @Override
+            public void clickLikeChange(int possion) {
+                mAddUserGreatPresenter.reqeust(userid, sessionid,possion);
+            }
 
-                                          @Override
-                                          public void clickLikefail(int id) {
-                                              mCancelCommunityGreatPresenter = new CancelCommunityGreatPresenter(new mCancelCommunityGreatCall());//取消点赞
-                                              mCancelCommunityGreatPresenter.reqeust(userid, sessionid, id);
-                                          }
-                                      }
-        );
+            @Override
+            public void clickLikeChange2(int possion) {//取消点赞
+                mCancelCommunityGreatPresenter.reqeust(userid, sessionid, possion);
+            }
 
+        });
         mUserPostAdatper.setClickComment(new UserPostAdatper.ClickComment() {
             @Override
             public void clickStart(int id, int number) {
@@ -125,6 +187,9 @@ public class UserPostListActivity extends WDActivity {
     protected void destoryData() {
         mAddUserGreatPresenter.unBind();
         mFindUserPostPresenter.unBind();
+        mCancelCommunityGreatPresenter.unBind();
+        mAddFollowPresenter.unBind();
+        mCancelFollowPresenter.unBind();
     }
 
     @Override
@@ -166,11 +231,7 @@ public class UserPostListActivity extends WDActivity {
         @Override
         public void success(Result data) {
             Toast.makeText(UserPostListActivity.this, data.getMessage(), Toast.LENGTH_SHORT).show();
-//            mUserPostAdatper.remove();
-//            mUserPostAdatper.notifyDataSetChanged();
-
-            mFindUserPostPresenter.reqeust(userid, sessionid, userId, false, 10);//列表展示
-
+            mUserPostAdatper.notifyItemChanged(mmid);//当前条目刷新
         }
 
         @Override
@@ -180,12 +241,25 @@ public class UserPostListActivity extends WDActivity {
     }
 
     private class userPostCall implements DataCall<Result<List<UserPost>>> {
+
         @Override
         public void success(Result<List<UserPost>> data) {
             if (data.getStatus().equals("0000")) {
                 List<UserPost> result = data.getResult();
-                UserPost userPost1 = result.get(0);
-                List<UserPost.CommunityUserPostVoListBean> communityUserPostVoList = userPost1.getCommunityUserPostVoList();
+                userPost1 = result.get(0);
+                communityUserPostVoList = userPost1.getCommunityUserPostVoList();
+                flag1 = userPost1.getCommunityUserVo().getWhetherMyFriend();//+好友状态
+                flag2 = userPost1.getCommunityUserVo().getWhetherFollow();//+关注状态
+                if(userPost1.getCommunityUserVo().getWhetherFollow()==1){
+                    addAttention.setText("取消关注");
+                }else{
+                    addAttention.setText("+关注");
+                }
+                if(userPost1.getCommunityUserVo().getWhetherMyFriend()==1){
+                    addFriend.setText("好友");
+                }else{
+                    addFriend.setText("+好友");
+                }
                 mUserPostAdatper.addList(communityUserPostVoList);
                 mUserPostAdatper.notifyDataSetChanged();
             }
@@ -197,21 +271,65 @@ public class UserPostListActivity extends WDActivity {
         }
     }
 
-    //取消点赞
-    private class mCancelCommunityGreatCall implements DataCall<Result> {
+    private class mCancelCommunityGreatCall implements DataCall<Result> {//取消点赞
         @Override
         public void success(Result data) {
             Toast.makeText(UserPostListActivity.this, data.getMessage(), Toast.LENGTH_SHORT).show();
-//            mUserPostAdatper.remove();
-//            mUserPostAdatper.notifyDataSetChanged();
-
-            mFindUserPostPresenter.reqeust(userid, sessionid, userId, false, 10);//列表展示
+            mUserPostAdatper.notifyItemChanged(mmid);
 
         }
 
         @Override
         public void fail(ApiException e) {
             UIUtils.showToastSafe("取消点赞：  " + e.getMessage());
+        }
+    }
+
+    private class mAddFollowCall implements DataCall<Result> {//关注用户
+        @Override
+        public void success(Result data) {
+            if(data.getStatus().equals("0000")){
+                addAttention.setText("取消关注");
+                UIUtils.showToastSafe("关注用户  ：  " + data.getMessage());
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+            UIUtils.showToastSafe("关注用户  ：  " + e.getMessage());
+        }
+    }
+
+    private class mCancelFollowCall implements DataCall<Result> {//取消关注
+        @Override
+        public void success(Result data) {
+            if(data.getStatus().equals("0000")){
+                UIUtils.showToastSafe("取消关注  ：  " + data.getMessage());
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+            UIUtils.showToastSafe("取消关注用户  ：  " + e.getMessage());
+        }
+    }
+
+    private class mQueryFriendInformationCall implements DataCall<Result<FindUser>>{//查询好友信息
+        @Override
+        public void success(Result<FindUser> data) {
+            if(data.getStatus().equals("0000")){
+
+                FindUser result = data.getResult();
+                intent = new Intent(UserPostListActivity.this, FindUserDetailsActivity.class);
+                intent.putExtra("findUser",result);
+                startActivity(intent);
+                finish();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
         }
     }
 }

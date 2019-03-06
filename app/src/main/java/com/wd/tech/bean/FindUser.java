@@ -1,6 +1,7 @@
 package com.wd.tech.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * date:2019/2/20 16:24
@@ -32,6 +33,9 @@ public class FindUser implements Serializable {
     private int userId;
     private int whetherVip;
     private int whetherFaceId;
+    private Long vipExpireDate;
+    private List<MyGroup> myGroupList;
+
 
     public String getEmail() {
         return email;
@@ -111,5 +115,21 @@ public class FindUser implements Serializable {
 
     public void setWhetherFaceId(int whetherFaceId) {
         this.whetherFaceId = whetherFaceId;
+    }
+
+    public Long getVipExpireDate() {
+        return vipExpireDate;
+    }
+
+    public void setVipExpireDate(Long vipExpireDate) {
+        this.vipExpireDate = vipExpireDate;
+    }
+
+    public List<MyGroup> getMyGroupList() {
+        return myGroupList;
+    }
+
+    public void setMyGroupList(List<MyGroup> myGroupList) {
+        this.myGroupList = myGroupList;
     }
 }

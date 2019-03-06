@@ -31,7 +31,8 @@
         <activity android:name=".activity.CommentListShowActivity" />
         <activity android:name=".activity.CreateFriendActivity" />
         <activity android:name=".activity.PublishMyInvitationActivity"></activity>
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -69,6 +70,7 @@
         <activity android:name=".activity.MytaskActivity" />
         <activity android:name=".activity.MyPostActivity" />
         <activity android:name=".activity.MyTongzhiActivity" />
+        <activity android:name=".picter.PhotoViewActivity" />
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="1182180123115181#weixinandqq" /> <!-- 声明SDK所需的service SDK核心功能 -->
@@ -115,6 +117,8 @@
             android:exported="true"
             android:launchMode="singleTop"
             />
+        <activity android:name=".activity.FindGroupDetailsActivity"/>
+        <activity android:name=".activity.WantAddGroupActivity"/>
     </application>
 
 </manifest>

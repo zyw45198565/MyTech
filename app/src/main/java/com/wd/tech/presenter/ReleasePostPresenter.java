@@ -31,10 +31,10 @@ public class ReleasePostPresenter extends WDPresenter{
         builder.addFormDataPart("content", (String)args[2]);
         List<Object> list = (List<Object>) args[3];
 
-        if (list.size()>1) {
-            for (int i = 1; i < list.size(); i++) {
-                File file = new File((String) list.get(i));
-                builder.addFormDataPart("file", file.getName(),
+        if (list.size()>0) {
+            for (int i = 0; i < list.size(); i++) {
+                File file = (File) list.get(i);
+                        builder.addFormDataPart("file", file.getName(),
                         RequestBody.create(MediaType.parse("multipart/octet-stream"),
                                 file));
             }
