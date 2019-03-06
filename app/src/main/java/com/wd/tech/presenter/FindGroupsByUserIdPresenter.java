@@ -19,6 +19,6 @@ public class FindGroupsByUserIdPresenter extends WDPresenter {
     @Override
     public Observable observable(Object... args) {
         Interfacea iRequest = NetWorkManager.getInstance().create(Interfacea.class);
-        return iRequest.findGroupsByUserId((int)args[0],(String)args[1]);
+        return iRequest.findUserJoinedGroup((int)args[0],(String)args[1]);
     }
 }

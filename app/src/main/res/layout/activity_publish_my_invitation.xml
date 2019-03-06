@@ -56,8 +56,9 @@
                 android:id="@+id/publish_myinvitation_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="178/300"
+                android:text="0/300"
                 android:layout_alignParentRight="true"
+                android:maxLength="300"
                 android:layout_marginBottom="@dimen/dip_10"/>
         </RelativeLayout>
     </LinearLayout>
@@ -74,10 +75,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/bo_text"
-            android:layout_alignParentLeft="true"
-            android:visibility="gone"></android.support.v7.widget.RecyclerView>
+            android:layout_alignParentLeft="true"></android.support.v7.widget.RecyclerView>
         <!--android:visibility="gone"-->
-        <LinearLayout
+        <!--<LinearLayout
             android:id="@+id/publish_myinvitation_picter_add"
             android:layout_width="84dp"
             android:layout_height="84dp"
@@ -88,7 +88,7 @@
                 android:layout_width="39dp"
                 android:layout_height="39dp"
                 android:src="@drawable/common_nav_btn_add"/>
-        </LinearLayout>
+        </LinearLayout>-->
     </LinearLayout>
 
 </LinearLayout>

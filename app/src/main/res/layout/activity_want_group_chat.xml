@@ -22,14 +22,14 @@
           android:layout_height="wrap_content"
           android:layout_centerInParent="true"
           android:textSize="20sp"
-          android:text="添加好友"/>
+          android:text="群"/>
       <ImageView
           android:id="@+id/group_chat_setting"
           android:layout_width="24dp"
           android:layout_height="24dp"
           android:layout_alignParentRight="true"
           android:layout_centerVertical="true"
-         android:src="@drawable/nav_btn_setting_n_xhdpi"
+         android:src="@drawable/nav_group_setting_n_xhdpi"
           android:layout_marginRight="18dp"/>
 
    </RelativeLayout>

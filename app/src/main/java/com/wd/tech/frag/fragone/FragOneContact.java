@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -78,6 +80,7 @@ public class FragOneContact extends WDFragment {
     private int black;
     private DeleteFriendRelationPresenter deleteFriendRelationPresenter;
     private TransferFriendGroupPresenter transferFriendGroupPresenter;
+    private FriendInfoList friendInfoList;
 
     @Override
     public String getPageName() {
@@ -118,7 +121,8 @@ public class FragOneContact extends WDFragment {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
                 //UIUtils.showToastSafe(groups.get(i).getFriendInfoList().get(i1).getFriendUid()+"");
-                FriendInfoList friendInfoList = groups.get(i).getFriendInfoList().get(i1);
+                friendInfoList = groups.get(i).getFriendInfoList().get(i1);
+
                 Intent intent = new Intent(getContext(), ChatActivity.class);
                 intent.putExtra(EaseConstant.EXTRA_USER_ID,friendInfoList.getUserName());
                 intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
@@ -360,6 +364,7 @@ public class FragOneContact extends WDFragment {
         public void fail(ApiException e) {
 
         }
+
     }
     @Override
     public void onResume() {
@@ -369,4 +374,5 @@ public class FragOneContact extends WDFragment {
         session1d = share.getString("sessionid", "");
         allFriendsListPresenter.reqeust(userid, session1d);
     }
+
 }

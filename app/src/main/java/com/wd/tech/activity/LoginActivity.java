@@ -163,7 +163,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             edit.putInt("userid",data.getResult().getUserId());
             edit.putString("sessionid",data.getResult().getSessionId());
             edit.putString("userName",data.getResult().getUserName());
-            edit.putString("pwd",data.getResult().getPwd());
+            edit.putString("headPic",data.getResult().getHeadPic());
+            edit.putString("nickName",data.getResult().getNickName());
             edit.putBoolean("zai",true);
             edit.commit();
             EMClient.getInstance().login(data.getResult().getUserName(),data.getResult().getPwd(),new EMCallBack() {//回调

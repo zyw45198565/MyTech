@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'tech'
             keyPassword '123456'
-            storeFile file('C:/Users/admin/Desktop/tech.keystore')
+            storeFile file('C:/Users/lenovo/Desktop/tech.keystore')
             storePassword '123456'
         }
     }
@@ -85,6 +85,9 @@ dependencies {
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
     //支付宝
     implementation(name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
+    implementation files('libs/universal-image-loader-1.9.5.jar')
+
+    implementation 'com.yanzhenjie:recyclerview-swipe:1.2.3'
     implementation files('libs/ageestimation.jar')
     implementation files('libs/facedetection.jar')
     implementation files('libs/facerecognition.jar')

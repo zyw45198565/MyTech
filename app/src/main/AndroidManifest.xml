@@ -28,6 +28,8 @@
         android:roundIcon="@mipmap/icon111"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.UserPostListActivity"></activity>
+        <activity android:name=".activity.CommentListShowActivity" />
         <activity android:name=".activity.CreateFriendActivity" />
         <activity android:name=".activity.PublishMyInvitationActivity" />
         <activity android:name=".activity.MainActivity">
@@ -101,6 +103,9 @@
         <activity android:name=".activity.VipActivity" />
         <activity android:name=".activity.IntegralActivity" />
         <activity android:name=".activity.UserPwdActivity"></activity>
+        <activity android:name=".activity.CheckGroupActivity"/>
+        <activity android:name=".activity.GroupMemberActivity"/>
+        <activity android:name=".activity.GroupDetailsSettingsActivity"/>
         <!-- 微信支付 -->
         <activity
             android:name="com.wd.tech.wxapi.WXPayEntryActivity"

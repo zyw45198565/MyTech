@@ -67,13 +67,13 @@ public class FindGroupsByUserIdActivity extends BaseActivity {
         });
         findGroupsByUserIdAdapter.setOnItemClickListener(new FindGroupsByUserIdAdapter.ClickListener() {
             @Override
-            public void click(int id, String name,String xh) {
+            public void click(int id, String name,String xh,String icon) {
                 Intent intent = new Intent(FindGroupsByUserIdActivity.this, WantGroupChatActivity.class);
                 intent.putExtra(EaseConstant.EXTRA_USER_ID,xh);
-                intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
-                intent.putExtra("name",name);
-                intent.putExtra("friendUid",id);
-
+                intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.GroupChat);
+                intent.putExtra("groupName",name);
+                intent.putExtra("groupId",id);
+                intent.putExtra("icon",icon);
                 startActivity(intent);
             }
         });

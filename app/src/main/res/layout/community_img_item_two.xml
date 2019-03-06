@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/communitylist_img_item"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="6dp"
+        android:adjustViewBounds="true"
+        app:roundedCornerRadius="8dp"/>
+
+    <!--app:roundTopLeft="true"
+    app:roundTopRight="true"
+    android:minHeight="140dp"-->
+</LinearLayout>

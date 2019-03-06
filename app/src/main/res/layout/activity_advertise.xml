@@ -9,6 +9,7 @@
     tools:context=".activity.AdvertiseActivity">
 
     <LinearLayout
+        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -29,7 +30,11 @@
             android:text="详情"
             android:textSize="20sp" />
     </LinearLayout>
-
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="4dp" />
     <WebView
         android:id="@+id/mywebview"
         android:layout_width="match_parent"
