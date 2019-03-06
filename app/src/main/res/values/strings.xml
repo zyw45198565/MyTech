@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tech</string>
+    <string name="app_name">维度科技</string>
 
     <string name="Registered_successfully">注册成功</string>
     <string name="network_anomalies">网络不可用，请检查网络!</string>

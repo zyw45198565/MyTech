@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'tech'
             keyPassword '123456'
-            storeFile file('C:/Users/lenovo/Desktop/tech.keystore')
+            storeFile file('C:/Users/admin/Desktop/tech.keystore')
             storePassword '123456'
         }
     }
@@ -19,6 +19,10 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         signingConfig signingConfigs.config
+
+        ndk {
+            abiFilters  "armeabi-v7a"  // 指定要ndk需要兼容的架构(这样其他依赖包里mips,x86,armeabi,arm-v8之类的so会被过滤掉)
+        }
     }
     buildTypes {
         release {
@@ -30,8 +34,17 @@ android {
             signingConfig signingConfigs.config
         }
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
     productFlavors {
     }
+
+
+
 }
 
 dependencies {
@@ -72,5 +85,10 @@ dependencies {
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
     //支付宝
     implementation(name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
-
+    implementation files('libs/ageestimation.jar')
+    implementation files('libs/facedetection.jar')
+    implementation files('libs/facerecognition.jar')
+    implementation files('libs/facetracking.jar')
+    implementation files('libs/genderestimation.jar')
+    implementation 'com.guo.android_extend:android-extend:1.0.1'
 }
