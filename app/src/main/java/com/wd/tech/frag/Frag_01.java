@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -89,6 +90,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     private Dialog dialog;
     public static IWXAPI iwxapi;
     private IWXAPI wxapi;
+    private int homealli;
 
     @Override
     public String getPageName() {
@@ -124,13 +126,24 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
         //收藏喜欢
         collectlove();
-
-        iwxapi = WXAPIFactory.createWXAPI(getContext(), "wx4c96b6b8da494224", true);
-        iwxapi.registerApp("wx4c96b6b8da494224");
     }
 
     private void collectlove() {
         homeAllAdapter.xihuan(new HomeAllAdapter.Mylove() {
+            @Override
+            public void win(int id, int whetherCollection, int possion) {
+                homealli = possion;
+                if (whetherCollection==2){
+                AddCollectionPresenter addCollectionPresenter = new AddCollectionPresenter(new MyCollect());
+                addCollectionPresenter.reqeust(userid, sessionid, id);
+                }else{
+                    String eid = id + "";
+                    CancelCollectionPresenter cancelCollectionPresenter = new CancelCollectionPresenter(new MyCancelCollect());
+                    cancelCollectionPresenter.reqeust(userid, sessionid, eid);
+                }
+            }
+        });
+        /*homeAllAdapter.xihuan(new HomeAllAdapter.Mylove() {
             @Override
             public void win(int possion) {
                 int id = result.get(possion).getId();
@@ -145,7 +158,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
                 CancelCollectionPresenter cancelCollectionPresenter = new CancelCollectionPresenter(new MyCancelCollect());
                 cancelCollectionPresenter.reqeust(userid, sessionid, eid);
             }
-        });
+        });*/
     }
 
     private void homeallre() {
@@ -346,10 +359,14 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         }
     }
 
+    //收藏
     private class MyCollect implements DataCall<Result> {
         @Override
         public void success(Result data) {
             Toast.makeText(getActivity(), data.getMessage(), Toast.LENGTH_SHORT).show();
+            homeAllAdapter.notifyItemChanged(homealli);
+//            homeAllAdapter.notifyDataSetChanged(homealli);
+
         }
 
         @Override
@@ -358,22 +375,15 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         }
     }
 
+    //取消收藏
     private class MyCancelCollect implements DataCall<Result> {
         @Override
         public void success(Result data) {
             Toast.makeText(getActivity(), data.getMessage(), Toast.LENGTH_SHORT).show();
+//            homeAllAdapter.notifyDataSetChanged(homealli);
+            homeAllAdapter.notifyItemChanged(homealli);
 
-        }
-
-        @Override
-        public void fail(ApiException e) {
-
-        }
-    }
-
-    private class WXShare implements DataCall {
-        @Override
-        public void success(Object data) {
+            Log.i("shahahaha",homealli+"-------------------------------");
 
         }
 

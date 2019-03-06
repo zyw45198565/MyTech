@@ -4,10 +4,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -28,6 +33,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
@@ -70,8 +78,8 @@ public class DetailsActivity extends BaseActivity {
     TextView time;
     @BindView(R.id.thumbnail)
     SimpleDraweeView thumbnail;
-    @BindView(R.id.mywebview)
-    WebView mywebview;
+    @BindView(R.id.mytext)
+    TextView mytext;
     @BindView(R.id.source)
     TextView source;
     @BindView(R.id.platerecycler)
@@ -162,6 +170,8 @@ public class DetailsActivity extends BaseActivity {
         bid = intent.getIntExtra("zurl", 1);
         classify = intent.getIntExtra("classify", 0);
 
+        ImageLoader imageLoader = ImageLoader.getInstance();//ImageLoader需要实例化
+        imageLoader.init(ImageLoaderConfiguration.createDefault(this));
 
         //板块
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -398,7 +408,10 @@ public class DetailsActivity extends BaseActivity {
             if (readPower == 2) {
                 buyAll.setVisibility(View.VISIBLE);
             } else {
-                WebSettings settings = mywebview.getSettings();
+                URLImageParser imageGetter = new URLImageParser(mytext);
+                String string=detailsBean.getContent();
+                mytext.setText(Html.fromHtml(string, imageGetter, null));
+                /*WebSettings settings = mywebview.getSettings();
                 settings.setTextZoom(250); // 通过百分比来设置文字的大小，默认值是100。
                 settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
                 settings.setUseWideViewPort(true);
@@ -419,7 +432,7 @@ public class DetailsActivity extends BaseActivity {
 //                    mWebViewHeight = view.getHeight();
 //                    Log.i(TAG, "WEBVIEW高度:" + view.getHeight());
                     }
-                });
+                });*/
             }
 
             //板块
@@ -437,6 +450,36 @@ public class DetailsActivity extends BaseActivity {
         @Override
         public void fail(ApiException e) {
 
+        }
+    }
+    public class URLImageParser implements Html.ImageGetter {
+        TextView mTextView;
+        public URLImageParser(TextView textView) {
+            this.mTextView = textView;
+        }
+        @Override
+        public Drawable getDrawable(String source) {
+            final URLDrawable urlDrawable = new URLDrawable();
+            ImageLoader.getInstance().loadImage(source,
+                    new SimpleImageLoadingListener() {
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                            urlDrawable.bitmap = loadedImage;
+                            urlDrawable.setBounds(0, 0, loadedImage.getWidth(), loadedImage.getHeight());
+                            mTextView.invalidate();
+                            mTextView.setText(mTextView.getText());
+                        }
+                    });
+            return urlDrawable;
+        }
+    }
+    public class URLDrawable extends BitmapDrawable {
+        protected Bitmap bitmap;
+        @Override
+        public void draw(Canvas canvas) {
+            if (bitmap != null) {
+                canvas.drawBitmap(bitmap, 0, 0, getPaint());
+            }
         }
     }
 

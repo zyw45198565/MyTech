@@ -64,14 +64,13 @@
             android:layout_height="20dp"
             android:src="@drawable/buy_all" />
 
-        <CheckBox
+        <ImageView
+            android:src="@drawable/collect_w"
             android:id="@+id/like"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginLeft="40dp"
-            android:background="@drawable/love"
-            android:button="@null"
-            android:padding="20dp" />
+            />
 
         <TextView
             android:id="@+id/likenum"

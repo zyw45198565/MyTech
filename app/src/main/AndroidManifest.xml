@@ -25,9 +25,9 @@
     <application
         android:name=".WDApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon111"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/icon111"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.UserPostListActivity"></activity>
@@ -71,7 +71,11 @@
         <activity android:name=".activity.MyintegralActivity" />
         <activity android:name=".activity.MytaskActivity" />
         <activity android:name=".activity.MyPostActivity" />
-        <activity android:name=".activity.MyTongzhiActivity" />
+        <activity android:name=".activity.MyTongzhiActivity"></activity>
+        <activity android:name=".hractivity.DetecterActivity">
+        </activity>
+        <activity android:name=".hractivity.RegisterActivity">
+        </activity>
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="1182180123115181#weixinandqq" /> <!-- 声明SDK所需的service SDK核心功能 -->
@@ -95,7 +99,7 @@
             </intent-filter>
         </receiver>
         <activity android:name=".activity.ChatActivity"/>
-        <activity android:name=".activity.WantGroupChatActivity" />
+        <activity android:name=".activity.WantGroupChatActivity"/>
         <activity android:name=".activity.ChatSettingsActivity"/>
         <activity android:name=".activity.SignCalendarActivity" />
         <activity android:name=".activity.VipActivity" />

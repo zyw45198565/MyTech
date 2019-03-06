@@ -84,7 +84,7 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int itemViewType = getItemViewType(i);
         switch (itemViewType) {
             case TYPETWO:
-                ViewHolderA holderA = (ViewHolderA) viewHolder;
+                final ViewHolderA holderA = (ViewHolderA) viewHolder;
                 String[] split = list.get(i).getThumbnail().split("\\?");
                 holderA.simple.setImageURI(split[0]);
                 holderA.title.setText(homeAll.getTitle());
@@ -112,32 +112,28 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
 
                 //是否收藏
-                int whetherCollection = homeAll.getWhetherCollection();
-                if (whetherCollection == 1) {
-                    holderA.like.setChecked(true);
+
+                if (homeAll.getWhetherCollection() == 1) {
+                    holderA.like.setImageResource(R.drawable.collect_s);
+                }else{
+                    holderA.like.setImageResource(R.drawable.collect_w);
+
                 }
 
-               /* view.animate()
-                        .translationZ(15f).setDuration(300)
-                        .setListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                super.onAnimationEnd(animation);
-                                view.animate()
-                                        .translationZ(1.0f).setDuration(500);
-                            }
-                        }).start();*/
                 holderA.like.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        CheckBox checkBox = (CheckBox) v;
-                        boolean checked = checkBox.isChecked();
-                        if (checked) {
-                            mylove.win(i);
-                        } else {
-                            mylove.abolish(i);
+                        int whetherCollection1 = homeAll.getWhetherCollection();
+                        mylove.win(homeAll.getId(),homeAll.getWhetherCollection(),i);
 
-                        }
+                        if (whetherCollection1 ==2){
+                            homeAll.setWhetherCollection(1);
+                            homeAll.setCollection(homeAll.getCollection()+1);
+                       }else{
+                            homeAll.setWhetherCollection(2);
+                            homeAll.setCollection(homeAll.getCollection()-1);
+//                            mylove.win(homeAll.getId(),homeAll.getWhetherCollection(),i);
+                       }
                     }
                 });
 
@@ -181,11 +177,17 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         list.clear();
     }
 
+    public void notifyDataSetChanged(int homealli) {
+        notifyItemChanged(homealli);
+//        notifyDataSetChanged(homealli);
+    }
+
     private class ViewHolderA extends RecyclerView.ViewHolder {
         SimpleDraweeView simple;
         ImageView buyall;
         TextView title, content, writer, likenum, sharenum;
-        CheckBox like, share;
+        CheckBox  share;
+        ImageView like;
 
         public ViewHolderA(@NonNull View itemView) {
             super(itemView);
@@ -215,9 +217,7 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public interface Mylove {
-        void win(int possion);
-
-        void abolish(int possion);
+        void win(int id,int whetherCollection, int possion);
     }
 
     public interface MyShare {

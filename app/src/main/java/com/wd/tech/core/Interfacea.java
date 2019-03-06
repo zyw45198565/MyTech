@@ -958,6 +958,12 @@ public interface Interfacea {
                                             @Field("role") int role );
 
 
+    /**
+     * 微信登录
+     * @param ak
+     * @param code
+     * @return
+     */
     @POST("user/v1/weChatLogin")
     @FormUrlEncoded
     Observable<Result<LoginBean>> weChatLogin(@Header("ak")String ak,
@@ -975,5 +981,28 @@ public interface Interfacea {
     Observable<Result<List<Conversation>>> findConversationList(@Header("userId") int userId,
                                                                 @Header("sessionId") String sessionId,
                                                                 @Query("userNames") String userNames);
+
+
+    /**
+     * 绑定faceid
+     * @param userId
+     * @param sessionId
+     * @param featureInfo
+     * @return
+     */
+    @PUT("user/verify/v1/bindingFaceId")
+    @FormUrlEncoded
+    Observable<Result> bindingFaceId(@Header("userId") int userId,
+                                         @Header("sessionId")String sessionId,
+                                         @Field("featureInfo")String featureInfo);
+
+    /**
+     * 刷脸登陆
+     * @param faceId
+     * @return
+     */
+    @POST("user/v1/faceLogin")
+    @FormUrlEncoded
+    Observable<Result<LoginBean>> faceLogin(@Field("faceId")String faceId);
 
 }

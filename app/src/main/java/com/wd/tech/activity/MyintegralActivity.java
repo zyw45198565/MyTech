@@ -35,6 +35,9 @@ public class MyintegralActivity extends BaseActivity {
     private TextView lianxu;
     List<IntegralRecordBean> integralRecordBeans = new ArrayList<>();
     private IntegralRecordAdapter integralRecordAdapter;
+    int page = 1;
+    int count = 5;
+    private IntegralRecordPresenter integralRecordPresenter;
 
     @Override
     protected int getLayoutId() {
@@ -59,8 +62,8 @@ public class MyintegralActivity extends BaseActivity {
         userIntegralPresenter.reqeust(userid,sessionid);
         SignDaysPresenter signDaysPresenter = new SignDaysPresenter(new SignDaysCall());
         signDaysPresenter.reqeust(userid,sessionid);
-        IntegralRecordPresenter integralRecordPresenter = new IntegralRecordPresenter(new IngtegralRecordCall());
-        integralRecordPresenter.reqeust(userid,sessionid,1,5);
+        integralRecordPresenter = new IntegralRecordPresenter(new IngtegralRecordCall());
+        integralRecordPresenter.reqeust(userid,sessionid,page,count);
 
         SmartRefreshLayout mRefreshLayout = (SmartRefreshLayout) findViewById(R.id.refresh);
         mRefreshLayout.setEnableRefresh(true);//启用刷新
@@ -70,7 +73,9 @@ public class MyintegralActivity extends BaseActivity {
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-
+                page=1;
+                integralRecordBeans.clear();
+                integralRecordPresenter.reqeust(userid,sessionid,page,count);
                 refreshlayout.finishRefresh();
             }
         });
@@ -78,7 +83,8 @@ public class MyintegralActivity extends BaseActivity {
         mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-
+                page++;
+                integralRecordPresenter.reqeust(userid,sessionid,page,count);
                 refreshlayout.finishLoadmore();
             }
         });

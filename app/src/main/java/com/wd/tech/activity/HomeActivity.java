@@ -31,6 +31,10 @@ import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.util.WDActivity;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 public class HomeActivity extends WDActivity implements View.OnClickListener {
 
 
@@ -63,6 +67,7 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
 
     @Override
     protected void initView() {
+        EventBus.getDefault().register(this);
         frag_01 = new Frag_01();
         frag_02 = new Frag_02();
         frag_03 = new Frag_03();
@@ -292,6 +297,26 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
         @Override
         public void fail(ApiException e) {
 
+        }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void eventbus(Message message){
+        if(message.what==1){
+            SharedPreferences share = WDApp.getShare();
+            boolean zai = share.getBoolean("zai", false);
+            if(zai){
+                rl1.setVisibility(View.GONE);
+                ll1.setVisibility(View.VISIBLE);
+            }else {
+                rl1.setVisibility(View.VISIBLE);
+                ll1.setVisibility(View.GONE);
+            }
+
+            userid = WDApp.getShare().getInt("userid", 1);
+            sessionid = WDApp.getShare().getString("sessionid", "");
+
+            UserByUserIdPresenter userByUserIdPresenter = new UserByUserIdPresenter(new UserByIdClass());
+            userByUserIdPresenter.reqeust(userid, sessionid);
         }
     }
 }
