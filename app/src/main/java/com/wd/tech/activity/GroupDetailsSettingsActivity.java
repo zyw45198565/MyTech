@@ -34,8 +34,6 @@ public class GroupDetailsSettingsActivity extends BaseActivity {
     TextView groupDetailsSettingName;
     @BindView(R.id.group_details_setting_icon)
     SimpleDraweeView groupDetailsSettingIcon;
-    @BindView(R.id.group_details_setting_num)
-    TextView groupDetailsSettingNum;
     @BindView(R.id.group_details_setting_yes)
     Button groupDetailsSettingYes;
     private int flag = 2;//判断是否是群成员 默认不是
@@ -89,6 +87,7 @@ public class GroupDetailsSettingsActivity extends BaseActivity {
 
                 break;
             case R.id.group_details_setting_intro:
+
                 break;
             case R.id.group_details_setting_message:
                 Intent intent_g = new Intent(GroupDetailsSettingsActivity.this, GroupChatActivity.class);

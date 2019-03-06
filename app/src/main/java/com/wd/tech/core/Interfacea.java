@@ -1,6 +1,7 @@
 package com.wd.tech.core;
 
 import com.wd.tech.bean.CollectionBean;
+import com.wd.tech.bean.Conversation;
 import com.wd.tech.bean.FindFriendNoticePageList;
 import com.wd.tech.bean.FindGroup;
 import com.wd.tech.bean.FindGroupNoticePageList;
@@ -961,5 +962,18 @@ public interface Interfacea {
     @FormUrlEncoded
     Observable<Result<LoginBean>> weChatLogin(@Header("ak")String ak,
                                               @Field("code")String code);
+
+    /**
+     * 根据环信userNames批量查询会话列表需要的用户信息
+     * @param userId
+     * @param sessionId
+     * @param userNames
+     * @return
+     */
+
+    @GET("user/verify/v1/findConversationList")
+    Observable<Result<List<Conversation>>> findConversationList(@Header("userId") int userId,
+                                                                @Header("sessionId") String sessionId,
+                                                                @Query("userNames") String userNames);
 
 }

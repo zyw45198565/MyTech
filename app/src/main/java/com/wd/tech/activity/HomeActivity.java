@@ -3,8 +3,6 @@ package com.wd.tech.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -59,6 +57,9 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
     private LinearLayout tie;
     private LinearLayout tongzhi;
     private LinearLayout qian1;
+    private int mClickFragmentId;
+    private int mCurrentFragmentId;
+    private RadioGroup radioGroup;
 
     @Override
     protected void initView() {
@@ -73,24 +74,36 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
         fragmentTransaction.hide(frag_03);
         fragmentTransaction.commit();
 
-        RadioGroup radioGroup  = findViewById(R.id.rg);
+        mCurrentFragmentId = R.id.rb1;
+
+        radioGroup  = findViewById(R.id.rg);
         radioGroup.check(radioGroup.getChildAt(0).getId());
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
                 fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.hide(frag_01);
-                fragmentTransaction.hide(frag_02);
-                fragmentTransaction.hide(frag_03);
                 switch (checkedId){
                    case  R.id.rb1:
+                       mCurrentFragmentId = R.id.rb1;
+                       fragmentTransaction.hide(frag_02).hide(frag_03);
                        fragmentTransaction.show(frag_01);
                        break;
                     case  R.id.rb2:
-                        fragmentTransaction.show(frag_02);
+                        //判断是否有登录用户
+                        boolean isLogin = WDApp.getShare().getBoolean("zai",false);
+                        if (isLogin){
+                            mCurrentFragmentId = R.id.rb2;
+                            fragmentTransaction.hide(frag_01).hide(frag_03);
+                            fragmentTransaction.show(frag_02);
+                        }else{
+                            mClickFragmentId = R.id.rb2;
+                            intent(LoginActivity.class);
+                        }
                         break;
                     case  R.id.rb3:
+                        mCurrentFragmentId = R.id.rb3;
+                        fragmentTransaction.hide(frag_01).hide(frag_02);
                         fragmentTransaction.show(frag_03);
                         break;
                 }
@@ -178,7 +191,18 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
         if(zai){
             rl1.setVisibility(View.GONE);
             ll1.setVisibility(View.VISIBLE);
+            if (mClickFragmentId == R.id.rb2){
+                radioGroup.check(mClickFragmentId);
+                mCurrentFragmentId = R.id.rb2;
+                fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.hide(frag_01).hide(frag_03).show(frag_02).commit();
+                mClickFragmentId = 0;
+            }
         }else {
+            if (mClickFragmentId == R.id.rb2){
+                radioGroup.check(mCurrentFragmentId);
+            }
+            mClickFragmentId = 0;
             rl1.setVisibility(View.VISIBLE);
             ll1.setVisibility(View.GONE);
         }

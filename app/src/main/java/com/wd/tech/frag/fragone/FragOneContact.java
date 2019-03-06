@@ -125,8 +125,8 @@ public class FragOneContact extends WDFragment {
 
                 Intent intent = new Intent(getContext(), ChatActivity.class);
                 intent.putExtra(EaseConstant.EXTRA_USER_ID,friendInfoList.getUserName());
-                intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
-                intent.putExtra("friendInfoList",friendInfoList);
+                intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
+                intent.putExtra("userNames",friendInfoList.getUserName());
                 startActivity(intent);
                 return true;
             }
@@ -339,6 +339,12 @@ public class FragOneContact extends WDFragment {
             if (result.getStatus().equals("0000")) {
                 groups = result.getResult();
                 fragContactList.setAdapter(new MyExpandableListView());
+                StringBuffer userHxIds=new StringBuffer();
+                for (int i = 0; i < groups.size(); i++) {
+                    for (int j = 0; j < groups.get(i).getFriendInfoList().size(); j++) {
+                        userHxIds.append(groups.get(i).getFriendInfoList().get(j).getUserName()+",");
+                    }
+                }
                 fragOneContactSmart.finishRefresh();
             }
         }
@@ -370,6 +376,7 @@ public class FragOneContact extends WDFragment {
     public void onResume() {
         super.onResume();
         SharedPreferences share = WDApp.getShare();
+
         userid = share.getInt("userid", 0);
         session1d = share.getString("sessionid", "");
         allFriendsListPresenter.reqeust(userid, session1d);

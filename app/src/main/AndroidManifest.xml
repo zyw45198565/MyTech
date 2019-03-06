@@ -19,6 +19,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- 这个权限用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
     <application
         android:name=".WDApp"
         android:allowBackup="true"
@@ -92,7 +95,7 @@
             </intent-filter>
         </receiver>
         <activity android:name=".activity.ChatActivity"/>
-        <activity android:name=".activity.WantGroupChatActivity"/>
+        <activity android:name=".activity.WantGroupChatActivity" />
         <activity android:name=".activity.ChatSettingsActivity"/>
         <activity android:name=".activity.SignCalendarActivity" />
         <activity android:name=".activity.VipActivity" />
@@ -115,6 +118,17 @@
             android:exported="true"
             android:launchMode="singleTop"
             />
+        <activity android:name=".activity.FindGroupDetailsActivity"/>
+        <activity android:name=".activity.WantAddGroupActivity"/>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.wd.tech.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
 
 </manifest>

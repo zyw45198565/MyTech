@@ -18,6 +18,7 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
+import com.wd.tech.bean.Conversation;
 import com.wd.tech.bean.FriendInfoList;
 import com.wd.tech.bean.Result;
 import com.wd.tech.presenter.DeleteChatRecordPresenter;
@@ -48,7 +49,7 @@ public class ChatSettingsActivity extends BaseActivity {
     private PopupWindow window;
     private PopupWindow clearWindow;
     private View inflate;
-    private FriendInfoList friendInfoList;
+    private Conversation conversation;
     private DeleteFriendRelationPresenter deleteFriendRelationPresenter;
     private int userid;
     private String session1d;
@@ -65,10 +66,10 @@ public class ChatSettingsActivity extends BaseActivity {
         parent = View.inflate(this,R.layout.activity_chat_settings,null);
         deleteChatRecordPresenter = new DeleteChatRecordPresenter(new DeleteChatRecord());
         Intent intent = getIntent();
-        friendInfoList = (FriendInfoList) intent.getSerializableExtra("friendInfoList");
-        chatSettingsIcon.setImageURI(friendInfoList.getHeadPic());
-        chatSettingsName.setText(friendInfoList.getNickName());
-        chatSettingsNickname.setText(friendInfoList.getRemarkName());
+        conversation = (Conversation) intent.getSerializableExtra("conversation");
+        chatSettingsIcon.setImageURI(conversation.getHeadPic());
+        chatSettingsName.setText(conversation.getNickName());
+        chatSettingsNickname.setText(conversation.getNickName());
         deleteFriendRelationPresenter = new DeleteFriendRelationPresenter(new DeleteFriendRelation());
         SharedPreferences share = WDApp.getShare();
         userid = share.getInt("userid", 0);
@@ -102,7 +103,7 @@ public class ChatSettingsActivity extends BaseActivity {
                 break;
             case R.id.chat_settings_group:
                 Intent intent = new Intent(ChatSettingsActivity.this,CheckGroupActivity.class);
-                intent.putExtra("friendId",friendInfoList.getFriendUid());
+                intent.putExtra("friendId",conversation.getUserId());
                 startActivity(intent);
                 break;
             case R.id.chat_settings_chatting_records:
@@ -140,7 +141,7 @@ public class ChatSettingsActivity extends BaseActivity {
         popuClearChatOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteChatRecordPresenter.reqeust(userid,session1d,friendInfoList.getFriendUid());
+                deleteChatRecordPresenter.reqeust(userid,session1d,conversation.getUserId());
 
             }
         });
@@ -148,7 +149,7 @@ public class ChatSettingsActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                window.dismiss();
+                clearWindow.dismiss();
             }
         });
     }
@@ -157,11 +158,11 @@ public class ChatSettingsActivity extends BaseActivity {
         TextView popuDeleteMessage= inflate.findViewById(R.id.popu_delete_message);
         LinearLayout popuDeleteOk= inflate.findViewById(R.id.popu_delete_ok);
         LinearLayout popuDeleteNo= inflate.findViewById(R.id.popu_delete_no);
-        popuDeleteMessage.setText("将联系人 "+friendInfoList.getRemarkName()+" 删除，同时删除与该联系人的聊天记录" );
+        popuDeleteMessage.setText("将联系人 "+conversation.getNickName()+" 删除，同时删除与该联系人的聊天记录" );
         popuDeleteOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteFriendRelationPresenter.reqeust(userid,session1d,friendInfoList.getFriendUid());
+                deleteFriendRelationPresenter.reqeust(userid,session1d,conversation.getUserId());
             }
         });
         popuDeleteNo.setOnClickListener(new View.OnClickListener() {
@@ -192,7 +193,7 @@ public class ChatSettingsActivity extends BaseActivity {
 
         @Override
         public void success(Result data) {
-            window.dismiss();
+            clearWindow.dismiss();
             if (data.getStatus().equals("0000")){
 
             }

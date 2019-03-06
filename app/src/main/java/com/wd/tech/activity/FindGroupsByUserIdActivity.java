@@ -70,10 +70,8 @@ public class FindGroupsByUserIdActivity extends BaseActivity {
             public void click(int id, String name,String xh,String icon) {
                 Intent intent = new Intent(FindGroupsByUserIdActivity.this, WantGroupChatActivity.class);
                 intent.putExtra(EaseConstant.EXTRA_USER_ID,xh);
-                intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.GroupChat);
-                intent.putExtra("groupName",name);
-                intent.putExtra("groupId",id);
-                intent.putExtra("icon",icon);
+                intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_GROUP);
+                intent.putExtra("userNames",xh);
                 startActivity(intent);
             }
         });
