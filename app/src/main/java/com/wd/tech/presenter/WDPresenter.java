@@ -49,7 +49,7 @@ public abstract class WDPresenter {
                     @Override
                     public void accept(Result result) throws Exception {
                         running = false;
-                        if (result.getStatus().equals("9999")){
+                        /*if (result.getStatus().equals("9999")){
                             Dialog dialog = new AlertDialog.Builder(WDActivity.getForegroundActivity()).setMessage("请登录")
                                     .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                         @Override
@@ -60,11 +60,11 @@ public abstract class WDPresenter {
                                     .setNegativeButton("取消",null)
                                     .show();
 
-                        }else {
+                        }else {*/
                             if (dataCall!=null){
                                 dataCall.success(result);
                             }
-                        }
+                       // }
                     }
                 }, new Consumer<Throwable>() {
                     @Override

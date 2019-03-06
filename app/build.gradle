@@ -1,14 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'tech'
-            keyPassword '123456'
-            storeFile file('C:/Users/admin/Desktop/tech.keystore')
-            storePassword '123456'
-        }
-    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.wd.tech"
@@ -18,8 +10,6 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        signingConfig signingConfigs.config
-
         ndk {
             abiFilters  "armeabi-v7a"  // 指定要ndk需要兼容的架构(这样其他依赖包里mips,x86,armeabi,arm-v8之类的so会被过滤掉)
         }
@@ -28,23 +18,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
-        }
-        debug {
-            signingConfig signingConfigs.config
         }
     }
-
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
         }
     }
-    productFlavors {
-    }
-
-
-
 }
 
 dependencies {
