@@ -62,12 +62,13 @@ public class PlateActivity extends WDActivity {
     private int userid;
     private String sessionid;
     int page = 1;
-    int count = 5;
+    int count = 10;
     private String mname;
     private Dialog dialog;
     private List<HomeAll> result;
     private IWXAPI wxapi;
     private int homei;
+    private int mid;
 
     @Override
     protected int getLayoutId() {
@@ -90,11 +91,12 @@ public class PlateActivity extends WDActivity {
         wxapi.registerApp("wx4c96b6b8da494224");
         final Intent intent = getIntent();
         mname = intent.getStringExtra("mname");
-        int mid = intent.getIntExtra("mid", 0);
+        mid = intent.getIntExtra("mid", 0);
         //列表
         homeAllPresenter = new HomeAllPresenter(new HomeCall());
 
         homeAllPresenter.reqeust(userid, sessionid, mid, page, count);
+        homeAllAdapter = new HomeAllAdapter(this);
 
         //刷新
         myrefreshLayout();
@@ -129,6 +131,9 @@ public class PlateActivity extends WDActivity {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
+                homeAllAdapter.clearAll();
+                page = 1;
+                homeAllPresenter.reqeust(userid, sessionid, mid, page, count);
                 refreshlayout.finishRefresh();
             }
         });
@@ -136,6 +141,8 @@ public class PlateActivity extends WDActivity {
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
+                page++;
+                homeAllPresenter.reqeust(userid, sessionid, mid, page, count);
                 refreshlayout.finishLoadmore();
             }
         });
@@ -174,7 +181,6 @@ public class PlateActivity extends WDActivity {
     private void homeallre() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         oneHomeall.setLayoutManager(linearLayoutManager);
-        homeAllAdapter = new HomeAllAdapter(this);
         oneHomeall.setAdapter(homeAllAdapter);
         homeAllAdapter.sharecircle(new HomeAllAdapter.MyShare() {
             @Override
