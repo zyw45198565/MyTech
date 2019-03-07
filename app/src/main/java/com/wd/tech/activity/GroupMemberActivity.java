@@ -65,7 +65,7 @@ public class GroupMemberActivity extends BaseActivity {
     private GroupMemberAdapter groupMemberAdapterTwo;
     private GroupMemberAdapter groupMemberAdapterOne;
     private ModifyPermissionPresenter modifyPermissionPresenter;
-
+    private int permission=1;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_group_member;
@@ -242,19 +242,29 @@ public class GroupMemberActivity extends BaseActivity {
             switch (menuPosition) {
                 case 1:
                     //  撤销管理员
+                    if (direction==3){
+                        modifyPermissionPresenter.reqeust(userId,sessionId,groupId,groupOne.get(position).getUserId(),1);
+                        groupTow.add(groupOne.get(position));
+                        groupOne.remove(position);
+                        groupMemberAdapterOne.notifyDataSetChanged();
+                        groupMemberAdapterTwo.notifyDataSetChanged();
+                    }else {
+                        UIUtils.showToastSafe("群主才有的权限");
+                    }
 
-                    modifyPermissionPresenter.reqeust(userId,sessionId,groupId,groupOne.get(position).getUserId(),1);
-                    groupTow.add(groupOne.get(position));
-                    groupOne.remove(position);
-                    groupMemberAdapterOne.notifyDataSetChanged();
-                    groupMemberAdapterTwo.notifyDataSetChanged();
 
                     break;
                     case 2:
                     //  移除
-                        groupOne.remove(position);
-                        groupMemberAdapterOne.notifyDataSetChanged();
-                    removeGroupMemberPresenter.reqeust(userId,sessionId,groupId,groupOne.get(position).getUserId());
+                        if (direction!=1){
+
+                            removeGroupMemberPresenter.reqeust(userId,sessionId,groupId,groupOne.get(position).getUserId());
+                            groupOne.remove(position);
+                            groupMemberAdapterOne.notifyDataSetChanged();
+                        }else {
+                            UIUtils.showToastSafe("管理员与群主才有的权限");
+                        }
+
 
                     break;
             }
@@ -315,19 +325,29 @@ public class GroupMemberActivity extends BaseActivity {
 
                     case 1:
                     //  设为管理员
+                        if (permission==3){
+                            modifyPermissionPresenter.reqeust(userId,sessionId,groupId,groupTow.get(position).getUserId(),2);
+                            groupOne.add(groupTow.get(position));
+                            groupMemberAdapterOne.notifyDataSetChanged();
+                            groupTow.remove(position);
+                            groupMemberAdapterTwo.notifyDataSetChanged();
+                        }else {
+                            UIUtils.showToastSafe("群主才有的权限");
+                        }
 
-                        modifyPermissionPresenter.reqeust(userId,sessionId,groupId,groupTow.get(position).getUserId(),2);
-                        groupOne.add(groupTow.get(position));
-                        groupMemberAdapterOne.notifyDataSetChanged();
-                        groupTow.remove(position);
-                        groupMemberAdapterTwo.notifyDataSetChanged();
 
                     break;
                     case 2:
                     //  移除
-                        groupTow.remove(position);
-                        groupMemberAdapterTwo.notifyDataSetChanged();
-                        removeGroupMemberPresenter.reqeust(userId,sessionId,groupId,groupTow.get(position).getUserId());
+                        if (permission!=1){
+
+                            removeGroupMemberPresenter.reqeust(userId,sessionId,groupId,groupTow.get(position).getUserId());
+                            groupTow.remove(position);
+                            groupMemberAdapterTwo.notifyDataSetChanged();
+                        }else {
+                            UIUtils.showToastSafe("管理员与群主才有的权限");
+                        }
+
 
                     break;
             }
@@ -340,6 +360,11 @@ public class GroupMemberActivity extends BaseActivity {
         public void success(Result<List<GroupMember>> data) {
             if (data.getStatus().equals("0000")){
                  result = data.getResult();
+                for (int i = 0; i < result.size(); i++) {
+                    if (result.get(i).getUserId()==userId){
+                        permission=result.get(i).getRole();
+                    }
+                }
                 getRecycle();
                 getOne();
                 getTwo();
@@ -357,8 +382,11 @@ public class GroupMemberActivity extends BaseActivity {
         public void success(Result data) {
             if (data.getStatus().equals("0000")){
 
+            }
+            if (data.getStatus().equals("1001")){
 
             }
+            UIUtils.showToastSafe(data.getMessage());
         }
 
         @Override

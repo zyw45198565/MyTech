@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,8 +12,7 @@ import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.bean.GroupByUser;
 import com.wd.tech.bean.Result;
-import com.wd.tech.frag.Frag_02;
-import com.wd.tech.presenter.FindGroupsByUserIdPresenter;
+import com.wd.tech.presenter.FindUserJoinedGroupPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 
@@ -35,7 +33,7 @@ public class WantGroupChatActivity extends BaseActivity {
     private int userid;
     private String userNames;
     private String session1d;
-    private FindGroupsByUserIdPresenter findGroupsByUserIdPresenter;
+    private FindUserJoinedGroupPresenter findUserJoinedGroupPresenter;
     private GroupByUser groupByUser;
 
     @Override
@@ -45,7 +43,7 @@ public class WantGroupChatActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        findGroupsByUserIdPresenter = new FindGroupsByUserIdPresenter(new FindGroupsByUserId());
+        findUserJoinedGroupPresenter = new FindUserJoinedGroupPresenter(new FindGroupsByUserId());
         Intent intent = getIntent();
         userNames = intent.getStringExtra("userNames");
 
@@ -57,7 +55,7 @@ public class WantGroupChatActivity extends BaseActivity {
 
     @Override
     protected void destoryData() {
-        findGroupsByUserIdPresenter.unBind();
+        findUserJoinedGroupPresenter.unBind();
     }
 
     @Override
@@ -113,7 +111,7 @@ public class WantGroupChatActivity extends BaseActivity {
         SharedPreferences share = WDApp.getShare();
         userid = share.getInt("userid", 0);
         session1d = share.getString("sessionid", "");
-        findGroupsByUserIdPresenter.reqeust(userid,session1d);
+        findUserJoinedGroupPresenter.reqeust(userid,session1d);
     }
 
 }

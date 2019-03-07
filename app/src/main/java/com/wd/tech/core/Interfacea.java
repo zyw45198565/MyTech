@@ -291,7 +291,7 @@ public interface Interfacea {
 
 
     /**
-     * 查询我创建的群组
+     * 查询我加入的群组
      *
      * @param userId
      * @param sessionId
@@ -937,7 +937,7 @@ public interface Interfacea {
     @DELETE("group/verify/v1/removeGroupMember")
     Observable<Result> removeGroupMember(@Header("userId") int userId,
                                          @Header("sessionId")String sessionId,
-                                         @Query("groupId") int friendUid,
+                                         @Query("groupId") int groupId,
                                          @Query("groupUserId") int groupUserId);
 
     /**
@@ -1005,4 +1005,51 @@ public interface Interfacea {
     @FormUrlEncoded
     Observable<Result<LoginBean>> faceLogin(@Field("faceId")String faceId);
 
+    /**
+     * 修改群简介
+     * @param userId
+     * @param sessionId
+     * @param description
+     * @return
+     */
+    @PUT("group/verify/v1/modifyGroupDescription")
+    @FormUrlEncoded
+    Observable<Result> modifyGroupDescription(@Header("userId") int userId,
+                                     @Header("sessionId")String sessionId,
+                                     @Field("groupId")int groupId,
+                                     @Field("description")String description);
+
+    /**
+     * 查询我创建的群组
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("group/verify/v1/findGroupsByUserId")
+    Observable<Result<List<GroupByUser>>> findGroupsByUserId(@Header("userId") int userId,
+                                                              @Header("sessionId") String sessionId);
+
+    /**
+     * 解散群组
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @return
+     */
+    @DELETE("group/verify/v1/disbandGroup")
+    Observable<Result> disbandGroup(@Header("userId") int userId,
+                                         @Header("sessionId")String sessionId,
+                                         @Query("groupId") int groupId);
+
+    /**
+     * 退群
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @return
+     */
+    @DELETE("group/verify/v1/retreat")
+    Observable<Result> retreat(@Header("userId") int userId,
+                                         @Header("sessionId")String sessionId,
+                                         @Query("groupId") int groupId);
 }
