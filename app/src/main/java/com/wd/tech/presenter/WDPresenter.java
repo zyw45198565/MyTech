@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
-import com.wd.tech.activity.LoginActivity;
 import com.wd.tech.bean.Result;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.CustomException;
