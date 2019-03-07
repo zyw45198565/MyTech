@@ -50,6 +50,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,6 +75,7 @@ public class PublishMyInvitationActivity extends WDActivity implements View.OnCl
     private SharedPreferences sp;
     private int userid;
     private String sessionid;
+    List<File> files = new ArrayList<>();
     //读写权限
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.CAMERA,
@@ -101,8 +103,8 @@ public class PublishMyInvitationActivity extends WDActivity implements View.OnCl
                 break;
             case R.id.publish_myinvitation_publish://点击发表
                 String trim = mPublishMyinvitationEdit.getText().toString().trim();
-                releasePostPresenter.reqeust(userid,sessionid,trim,objects);
                 finish();
+                releasePostPresenter.reqeust(userid,sessionid,trim,files);
                 break;
         }
     }
@@ -181,12 +183,23 @@ public class PublishMyInvitationActivity extends WDActivity implements View.OnCl
             String filePath = getFilePath("icon",requestCode,data);
             objects.add(filePath);
             mImageAdapter2.notifyDataSetChanged();
+
+
+            Uri data1 = data.getData();
+            String[] proj = { MediaStore.Images.Media.DATA };
+            Cursor actualimagecursor = managedQuery(data1,proj,null,null,null);
+            int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            actualimagecursor.moveToFirst();
+            String img_path = actualimagecursor.getString(actual_image_column_index);
+            final File file = new File(img_path);
+            files.add(file);
         }
 
         if(requestCode == 1){
             Bundle extras = data.getExtras();
             Bitmap data1 = (Bitmap) extras.get("data");
             File file = compressImage(data1);
+            files.add(file);
             String absolutePath = file.getAbsolutePath();
             objects.add(absolutePath);
             mImageAdapter2.notifyDataSetChanged();
@@ -235,7 +248,7 @@ public class PublishMyInvitationActivity extends WDActivity implements View.OnCl
         @Override
         public void success(Result data) {
             if(data.getStatus().equals("0000")){
-                UIUtils.showToastSafe("发布帖子： " + data.getMessage());
+                /*finish();*/
             }
         }
 

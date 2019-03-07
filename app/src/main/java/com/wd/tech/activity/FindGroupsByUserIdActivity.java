@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
-import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseConstant;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -17,7 +16,7 @@ import com.wd.tech.WDApp;
 import com.wd.tech.adapter.FindGroupsByUserIdAdapter;
 import com.wd.tech.bean.GroupByUser;
 import com.wd.tech.bean.Result;
-import com.wd.tech.presenter.FindGroupsByUserIdPresenter;
+import com.wd.tech.presenter.FindUserJoinedGroupPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.util.SpacingItemDecoration;
@@ -37,7 +36,7 @@ public class FindGroupsByUserIdActivity extends BaseActivity {
     SmartRefreshLayout findGroupsSmart;
     private int userid;
     private String session1d;
-    private FindGroupsByUserIdPresenter findGroupsByUserIdPresenter;
+    private FindUserJoinedGroupPresenter findGroupsByUserIdPresenter;
     private FindGroupsByUserIdAdapter findGroupsByUserIdAdapter;
 
     @Override
@@ -48,7 +47,7 @@ public class FindGroupsByUserIdActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        findGroupsByUserIdPresenter = new FindGroupsByUserIdPresenter(new FindGroupByUserId());
+        findGroupsByUserIdPresenter = new FindUserJoinedGroupPresenter(new FindGroupByUserId());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         findGroupsRecycle.addItemDecoration(new SpacingItemDecoration(20));

@@ -291,7 +291,7 @@ public interface Interfacea {
 
 
     /**
-     * 查询我创建的群组
+     * 查询我加入的群组
      *
      * @param userId
      * @param sessionId
@@ -937,7 +937,7 @@ public interface Interfacea {
     @DELETE("group/verify/v1/removeGroupMember")
     Observable<Result> removeGroupMember(@Header("userId") int userId,
                                          @Header("sessionId")String sessionId,
-                                         @Query("groupId") int friendUid,
+                                         @Query("groupId") int groupId,
                                          @Query("groupUserId") int groupUserId);
 
     /**
@@ -968,6 +968,31 @@ public interface Interfacea {
     @FormUrlEncoded
     Observable<Result<LoginBean>> weChatLogin(@Header("ak")String ak,
                                               @Field("code")String code);
+
+    /**
+     * 关注用户
+     * @param userId
+     * @param sessionId
+     * @param focusId 被关注用户id
+     * @return
+     */
+    @POST("user/verify/v1/addFollow")
+    @FormUrlEncoded
+    Observable<Result> addFollow(@Header("userId") int userId,
+                                 @Header("sessionId")String sessionId,
+                                 @Field("focusId")int focusId);
+
+    /**
+     * 查询好友信息
+     * @param userId
+     * @param sessionId
+     * @param friend 好友id
+     * @return
+     */
+    @GET("user/verify/v1/queryFriendInformation")
+    Observable<Result<FindUser>> queryFriendInformation(@Header("userId") int userId,
+                                                              @Header("sessionId")String sessionId,
+                                                              @Query("friend")int friend);
 
     /**
      * 根据环信userNames批量查询会话列表需要的用户信息
@@ -1005,4 +1030,51 @@ public interface Interfacea {
     @FormUrlEncoded
     Observable<Result<LoginBean>> faceLogin(@Field("faceId")String faceId);
 
+    /**
+     * 修改群简介
+     * @param userId
+     * @param sessionId
+     * @param description
+     * @return
+     */
+    @PUT("group/verify/v1/modifyGroupDescription")
+    @FormUrlEncoded
+    Observable<Result> modifyGroupDescription(@Header("userId") int userId,
+                                     @Header("sessionId")String sessionId,
+                                     @Field("groupId")int groupId,
+                                     @Field("description")String description);
+
+    /**
+     * 查询我创建的群组
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("group/verify/v1/findGroupsByUserId")
+    Observable<Result<List<GroupByUser>>> findGroupsByUserId(@Header("userId") int userId,
+                                                              @Header("sessionId") String sessionId);
+
+    /**
+     * 解散群组
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @return
+     */
+    @DELETE("group/verify/v1/disbandGroup")
+    Observable<Result> disbandGroup(@Header("userId") int userId,
+                                         @Header("sessionId")String sessionId,
+                                         @Query("groupId") int groupId);
+
+    /**
+     * 退群
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @return
+     */
+    @DELETE("group/verify/v1/retreat")
+    Observable<Result> retreat(@Header("userId") int userId,
+                                         @Header("sessionId")String sessionId,
+                                         @Query("groupId") int groupId);
 }

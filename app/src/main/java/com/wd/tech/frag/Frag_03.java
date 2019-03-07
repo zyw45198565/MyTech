@@ -71,6 +71,7 @@ public class Frag_03 extends WDFragment {
     private EditText frag03WriteCommentEdit;
     private PopupWindow mPop;
     private CancelCommunityGreatPresenter cancelCommunityGreatPresenter;
+    private boolean zai;
 
     @Override
     public String getPageName() {
@@ -89,6 +90,7 @@ public class Frag_03 extends WDFragment {
         sp = WDApp.getShare();//获取userId sessionId
         userid = sp.getInt("userid", 0);
         sessionid = sp.getString("sessionid", "");
+        zai = sp.getBoolean("zai", false);
         myrefreshLayout();
 
         mFindCommunityListPresenter = new FindCommunityListPresenter(new communityListCall());//社区列表
@@ -105,6 +107,10 @@ public class Frag_03 extends WDFragment {
         mCommunityListAdapter.setClickOkListener(new CommunityListAdapter.ClickOkListener() {//点赞/取消点赞
             @Override
             public void clickOk(int id, int greatStyle) {
+                if(!zai){
+                    UIUtils.showToastSafe("请先登录哦~");
+                    return;
+                }
                 if(greatStyle==2){
                     addCommunityGreatPresenter.reqeust(userid, sessionid, id);
                 }else{
@@ -116,6 +122,10 @@ public class Frag_03 extends WDFragment {
         mCommunityListAdapter.setClickHeadLinstener(new CommunityListAdapter.ClickHeadLinstener() {
             @Override
             public void clickHead(int userId, String head, String nick, String text) {
+                if(!zai){
+                    UIUtils.showToastSafe("请先登录哦~");
+                    return;
+                }
                 Intent intent = new Intent(getContext(), UserPostListActivity.class);
                 intent.putExtra("userId",userId);
                 intent.putExtra("head",head);
@@ -127,6 +137,10 @@ public class Frag_03 extends WDFragment {
         mCommunityListAdapter.setMyTalkBack(new CommunityListAdapter.TalkBack() {//评论自定义回调接口
             @Override
             public void talkBacks(int id) {
+                if(!zai){
+                    UIUtils.showToastSafe("请先登录哦~");
+                    return;
+                }
                 ids = id;
                 View contentView = View.inflate(getContext(),R.layout.popupwindow_edit,null);
                 mPop = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -162,6 +176,10 @@ public class Frag_03 extends WDFragment {
         mCommunityListAdapter.setClickTextStart(new CommunityListAdapter.ClickTextStart() {
             @Override
             public void clickShow(int id, int num, String headPic, String nickName) {
+                if(!zai){
+                    UIUtils.showToastSafe("请先登录哦~");
+                    return;
+                }
                 Intent intent = new Intent(getContext(), CommentListShowActivity.class);
                 intent.putExtra("id",id);
                 intent.putExtra("num",num);
@@ -177,6 +195,10 @@ public class Frag_03 extends WDFragment {
     public void setFrag03Click(View view) {
         switch (view.getId()) {
             case R.id.frag03_write_fresco://点击跳转到发布贴子页面
+                if(!zai){
+                    UIUtils.showToastSafe("请先登录哦~");
+                    return;
+                }
                 startActivity(new Intent(getContext(), PublishMyInvitationActivity.class));
                 break;
         }
