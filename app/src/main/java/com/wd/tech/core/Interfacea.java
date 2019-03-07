@@ -196,7 +196,6 @@ public interface Interfacea {
      * @return
      */
     @POST("community/verify/v1/releasePost")
-    @FormUrlEncoded
     Observable<Result> releasePost(@Header("userId")int userId,
                                    @Header("sessionId")String sessionId,
                                    @Body MultipartBody body);

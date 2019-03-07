@@ -103,7 +103,7 @@ public class PublishMyInvitationActivity extends WDActivity implements View.OnCl
                 break;
             case R.id.publish_myinvitation_publish://点击发表
                 String trim = mPublishMyinvitationEdit.getText().toString().trim();
-                finish();
+                mLoadDialog.show();
                 releasePostPresenter.reqeust(userid,sessionid,trim,files);
                 break;
         }
@@ -248,7 +248,8 @@ public class PublishMyInvitationActivity extends WDActivity implements View.OnCl
         @Override
         public void success(Result data) {
             if(data.getStatus().equals("0000")){
-                /*finish();*/
+                mLoadDialog.dismiss();
+                finish();
             }
         }
 
