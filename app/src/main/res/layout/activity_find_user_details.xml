@@ -78,7 +78,7 @@
         android:textColor="#999999"
         android:textSize="14sp"/>
        <LinearLayout
-           android:layout_width="240dp"
+           android:layout_width="wrap_content"
            android:layout_marginTop="64dp"
            android:layout_height="wrap_content"
            android:gravity="center_vertical">
@@ -86,7 +86,7 @@
                android:layout_width="0dp"
                android:layout_weight="1"
                android:layout_height="wrap_content"
-               android:text=" - - - - - - - - - - - -"
+               android:text=" - - - - - - - - -"
                />
            <TextView
                android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
                android:layout_width="0dp"
                android:layout_weight="1"
                android:layout_height="wrap_content"
-               android:text=" - - - - - - - - - - - -"
+               android:text=" - - - - - - - - - "
                />
        </LinearLayout>
     <TextView

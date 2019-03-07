@@ -117,6 +117,9 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
         // 将应用的appId注册到微信
         wxapi.registerApp("wx4c96b6b8da494224");
+
+        zai = WDApp.getShare().getBoolean("zai", false);
+
         //刷新
         myrefreshLayout();
 
@@ -132,7 +135,6 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         homeAllAdapter.xihuan(new HomeAllAdapter.Mylove() {
             @Override
             public void win(int id, int whetherCollection, int possion) {
-                zai = WDApp.getShare().getBoolean("zai", false);
                 if (!zai) {
                     Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT).show();
                     result.get(possion).setWhetherCollection(1);
@@ -333,7 +335,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         homeAllPresenter = new HomeAllPresenter(new HomeCall());
             userid = WDApp.getShare().getInt("userid", 0);
             sessionid = WDApp.getShare().getString("sessionid", "");
-        boolean zai = WDApp.getShare().getBoolean("zai", false);
+
         if(!zai){
             userid=0;
             sessionid="";

@@ -131,7 +131,6 @@ public class DetailsActivity extends BaseActivity {
     private String sessionid;
     private int zid;
     private int bid;
-    handlike handlike;
     private DetailsPresenter detailsPresenter;
     private Dialog dialog;
     private Intent intent;
@@ -143,10 +142,6 @@ public class DetailsActivity extends BaseActivity {
     private HomeAllPresenter homeAllPresenter;
     private HomeAllAdapter homeAllAdapter = new HomeAllAdapter(this);
     private boolean zai;
-
-    public void handlike(handlike handlike) {
-        this.handlike = handlike;
-    }
 
     @Override
     protected int getLayoutId() {
@@ -215,7 +210,6 @@ public class DetailsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
             }
         });
 
@@ -564,13 +558,6 @@ public class DetailsActivity extends BaseActivity {
         public void fail(ApiException e) {
 
         }
-    }
-
-    private interface handlike {
-        void onsuccess(int possion);
-
-        void onfail(int possion);
-
     }
 
     //点赞

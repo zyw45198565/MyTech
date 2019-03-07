@@ -16,6 +16,7 @@ import com.wd.tech.presenter.RegistrPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.util.RsaCoder;
+import com.wd.tech.utils.util.UIUtils;
 import com.wd.tech.utils.util.WDActivity;
 
 /**
@@ -70,6 +71,7 @@ public class RegistrActivity extends BaseActivity implements View.OnClickListene
                 }
                 boolean b = validatePhonePass(trim1);
                 if(!b){
+                    UIUtils.showToastSafe("密码最少8位包含字母和数字");
                     return;
                 }
                 try {
