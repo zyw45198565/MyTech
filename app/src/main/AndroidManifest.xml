@@ -34,7 +34,8 @@
         <activity android:name=".activity.CommentListShowActivity" />
         <activity android:name=".activity.CreateFriendActivity" />
         <activity android:name=".activity.PublishMyInvitationActivity"></activity>
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -71,7 +72,8 @@
         <activity android:name=".activity.MyintegralActivity" />
         <activity android:name=".activity.MytaskActivity" />
         <activity android:name=".activity.MyPostActivity" />
-        <activity android:name=".activity.MyTongzhiActivity"></activity>
+        <activity android:name=".activity.MyTongzhiActivity" />
+        <activity android:name=".picter.PhotoViewActivity" />
         <activity android:name=".hractivity.DetecterActivity">
         </activity>
         <activity android:name=".hractivity.RegisterActivity">

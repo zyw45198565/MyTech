@@ -13,12 +13,19 @@ android {
         ndk {
             abiFilters  "armeabi-v7a"  // 指定要ndk需要兼容的架构(这样其他依赖包里mips,x86,armeabi,arm-v8之类的so会被过滤掉)
         }
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
+        debug {
+            signingConfig signingConfigs.config
+        }
+    }
+    productFlavors {
     }
     sourceSets {
         main {
@@ -74,4 +81,6 @@ dependencies {
     implementation files('libs/genderestimation.jar')
     implementation 'com.guo.android_extend:android-extend:1.0.1'
     implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.github.chrisbanes:PhotoView:2.1.3'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 }

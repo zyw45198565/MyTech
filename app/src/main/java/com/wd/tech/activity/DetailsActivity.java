@@ -44,9 +44,11 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.adapter.CommentAdapter;
+import com.wd.tech.adapter.HomeAllAdapter;
 import com.wd.tech.adapter.InforAdapter;
 import com.wd.tech.adapter.PlateAdapter;
 import com.wd.tech.bean.DetailsBean;
+import com.wd.tech.bean.HomeAll;
 import com.wd.tech.bean.MyComment;
 import com.wd.tech.bean.Result;
 import com.wd.tech.presenter.AddCollectionPresenter;
@@ -55,6 +57,7 @@ import com.wd.tech.presenter.AddInfoCommentPresenter;
 import com.wd.tech.presenter.CancelCollectionPresenter;
 import com.wd.tech.presenter.CancelGreatPresenter;
 import com.wd.tech.presenter.DetailsPresenter;
+import com.wd.tech.presenter.HomeAllPresenter;
 import com.wd.tech.presenter.MyCommentPresenter;
 import com.wd.tech.presenter.WDPresenter;
 import com.wd.tech.utils.DataCall;
@@ -134,6 +137,12 @@ public class DetailsActivity extends BaseActivity {
     private Intent intent;
     private int classify;
     private IWXAPI wxapi;
+    int page = 1;
+    int count = 5;
+    int plateId = 0;
+    private HomeAllPresenter homeAllPresenter;
+    private HomeAllAdapter homeAllAdapter = new HomeAllAdapter(this);
+    private boolean zai;
 
     public void handlike(handlike handlike) {
         this.handlike = handlike;
@@ -163,8 +172,15 @@ public class DetailsActivity extends BaseActivity {
 
         // 将应用的appId注册到微信
         wxapi.registerApp("wx4c96b6b8da494224");
-        userid = WDApp.getShare().getInt("userid", 0);
-        sessionid = WDApp.getShare().getString("sessionid", "");
+        zai = WDApp.getShare().getBoolean("zai", false);
+
+        if (WDApp.getShare().getBoolean("zai", false)) {
+            userid = WDApp.getShare().getInt("userid", 0);
+            sessionid = WDApp.getShare().getString("sessionid", "");
+        } else {
+            userid = 0;
+            sessionid = "";
+        }
         intent = getIntent();
         zid = intent.getIntExtra("zid", 0);
         bid = intent.getIntExtra("zurl", 1);
@@ -199,6 +215,7 @@ public class DetailsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
             }
         });
 
@@ -214,14 +231,19 @@ public class DetailsActivity extends BaseActivity {
         publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String trim = mycommentTwo.getText().toString().trim();
-                if (trim.equals("")) {
-                    Toast.makeText(DetailsActivity.this, "请输入内容!", Toast.LENGTH_SHORT).show();
-                } else {
-                    addInfoCommentPresenter.reqeust(userid, sessionid, trim, DetailsActivity.this.zid);
-                    mycommentTwo.setText("");
-                    commentOne.setVisibility(View.VISIBLE);
+                if (!zai) {
+                    Toast.makeText(DetailsActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
                     commentTwo.setVisibility(View.GONE);
+                } else {
+                    String trim = mycommentTwo.getText().toString().trim();
+                    if (trim.equals("")) {
+                        Toast.makeText(DetailsActivity.this, "请输入内容!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        addInfoCommentPresenter.reqeust(userid, sessionid, trim, DetailsActivity.this.zid);
+                        mycommentTwo.setText("");
+                        commentOne.setVisibility(View.VISIBLE);
+                        commentTwo.setVisibility(View.GONE);
+                    }
                 }
             }
         });
@@ -230,16 +252,26 @@ public class DetailsActivity extends BaseActivity {
         hand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CheckBox checkBox = (CheckBox) v;
-                boolean checked = checkBox.isChecked();
-                if (checked) {
-                    AddGreatRecordPresenter addGreatRecordPresenter = new AddGreatRecordPresenter(new HandCall());
-                    addGreatRecordPresenter.reqeust(userid, sessionid, DetailsActivity.this.zid);
-                } else {
-                    CancelGreatPresenter cancelGreatPresenter = new CancelGreatPresenter(new CancelHandCall());
-                    cancelGreatPresenter.reqeust(userid, sessionid, DetailsActivity.this.zid);
+                if (!WDApp.getShare().getBoolean("zai", false)) {
+                    Toast.makeText(DetailsActivity.this, "请登录", Toast.LENGTH_SHORT).show();
+                    hand.setChecked(false);
 
+                    hand.setEnabled(false);
+                } else {
+
+                    CheckBox checkBox = (CheckBox) v;
+                    boolean checked = checkBox.isChecked();
+                    if (checked) {
+                        AddGreatRecordPresenter addGreatRecordPresenter = new AddGreatRecordPresenter(new HandCall());
+                        addGreatRecordPresenter.reqeust(userid, sessionid, DetailsActivity.this.zid);
+                    } else {
+
+                        CancelGreatPresenter cancelGreatPresenter = new CancelGreatPresenter(new CancelHandCall());
+                        cancelGreatPresenter.reqeust(userid, sessionid, DetailsActivity.this.zid);
+
+                    }
                 }
+
             }
         });
 
@@ -247,15 +279,22 @@ public class DetailsActivity extends BaseActivity {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CheckBox checkBox = (CheckBox) v;
-                boolean checked = checkBox.isChecked();
-                if (checked) {
-                    AddCollectionPresenter addCollectionPresenter = new AddCollectionPresenter(new MyCollect());
-                    addCollectionPresenter.reqeust(userid, sessionid, DetailsActivity.this.zid);
+                if (!zai) {
+                    Toast.makeText(DetailsActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
+                    like.setChecked(false);
+                    like.setEnabled(false);
+
                 } else {
-                    String eid = DetailsActivity.this.zid + "";
-                    CancelCollectionPresenter cancelCollectionPresenter = new CancelCollectionPresenter(new MyCancelCollect());
-                    cancelCollectionPresenter.reqeust(userid, sessionid, eid);
+                    CheckBox checkBox = (CheckBox) v;
+                    boolean checked = checkBox.isChecked();
+                    if (checked) {
+                        AddCollectionPresenter addCollectionPresenter = new AddCollectionPresenter(new MyCollect());
+                        addCollectionPresenter.reqeust(userid, sessionid, DetailsActivity.this.zid);
+                    } else {
+                        String eid = DetailsActivity.this.zid + "";
+                        CancelCollectionPresenter cancelCollectionPresenter = new CancelCollectionPresenter(new MyCancelCollect());
+                        cancelCollectionPresenter.reqeust(userid, sessionid, eid);
+                    }
                 }
             }
         });
@@ -272,7 +311,6 @@ public class DetailsActivity extends BaseActivity {
                 vip.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        boolean zai = WDApp.getShare().getBoolean("zai", false);
 
                         if (!zai) {
                             Toast.makeText(DetailsActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
@@ -312,39 +350,45 @@ public class DetailsActivity extends BaseActivity {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog = new Dialog(DetailsActivity.this, R.style.DialogTheme);
 
-                View view = View.inflate(DetailsActivity.this, R.layout.twoshare, null);
-                dialog.setContentView(view);
-                dialog.getWindow().setGravity(Gravity.BOTTOM);
-                dialog.show();
-                getshoud(1);
-                TextView cancle = view.findViewById(R.id.cancel);
-                ImageView wxfriend = view.findViewById(R.id.wxfriend);
-                ImageView weixinf = view.findViewById(R.id.weixinf);
-                cancle.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                wxfriend.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //微信朋友圈
-                        WeChatShare(1);
-                    }
-                });
-                weixinf.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //微信朋友圈
-                        WeChatShare(2);
-                    }
-                });
+                if (!zai) {
+                    Toast.makeText(DetailsActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
+                    share.setChecked(false);
+                    share.setEnabled(false);
+                } else {
+                    dialog = new Dialog(DetailsActivity.this, R.style.DialogTheme);
+
+                    View view = View.inflate(DetailsActivity.this, R.layout.twoshare, null);
+                    dialog.setContentView(view);
+                    dialog.getWindow().setGravity(Gravity.BOTTOM);
+                    dialog.show();
+                    getshoud(1);
+                    TextView cancle = view.findViewById(R.id.cancel);
+                    ImageView wxfriend = view.findViewById(R.id.wxfriend);
+                    ImageView weixinf = view.findViewById(R.id.weixinf);
+                    cancle.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    wxfriend.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //微信朋友圈
+                            WeChatShare(1);
+                        }
+                    });
+                    weixinf.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //微信朋友圈
+                            WeChatShare(2);
+                        }
+                    });
+                }
             }
         });
-
 
     }
 
@@ -409,7 +453,7 @@ public class DetailsActivity extends BaseActivity {
                 buyAll.setVisibility(View.VISIBLE);
             } else {
                 URLImageParser imageGetter = new URLImageParser(mytext);
-                String string=detailsBean.getContent();
+                String string = detailsBean.getContent();
                 mytext.setText(Html.fromHtml(string, imageGetter, null));
                 /*WebSettings settings = mywebview.getSettings();
                 settings.setTextZoom(250); // 通过百分比来设置文字的大小，默认值是100。
@@ -452,11 +496,14 @@ public class DetailsActivity extends BaseActivity {
 
         }
     }
+
     public class URLImageParser implements Html.ImageGetter {
         TextView mTextView;
+
         public URLImageParser(TextView textView) {
             this.mTextView = textView;
         }
+
         @Override
         public Drawable getDrawable(String source) {
             final URLDrawable urlDrawable = new URLDrawable();
@@ -473,8 +520,10 @@ public class DetailsActivity extends BaseActivity {
             return urlDrawable;
         }
     }
+
     public class URLDrawable extends BitmapDrawable {
         protected Bitmap bitmap;
+
         @Override
         public void draw(Canvas canvas) {
             if (bitmap != null) {
@@ -559,6 +608,7 @@ public class DetailsActivity extends BaseActivity {
         public void success(Result data) {
             Toast.makeText(DetailsActivity.this, data.getMessage(), Toast.LENGTH_SHORT).show();
             detailsPresenter.reqeust(userid, sessionid, zid);
+            homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
 
         }
 
@@ -573,6 +623,7 @@ public class DetailsActivity extends BaseActivity {
         public void success(Result data) {
             Toast.makeText(DetailsActivity.this, data.getMessage(), Toast.LENGTH_SHORT).show();
             detailsPresenter.reqeust(userid, sessionid, zid);
+            homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
 
         }
 
@@ -597,7 +648,28 @@ public class DetailsActivity extends BaseActivity {
 
         }
 
+        homeAllPresenter = new HomeAllPresenter(new HomeCall());
+
+        homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
     }
+
+    private class HomeCall implements DataCall<Result<List<HomeAll>>> {
+        @Override
+        public void success(Result<List<HomeAll>> data) {
+            List<HomeAll> result = data.getResult();
+            if (result.size() > 0) {
+                homeAllAdapter.clearAll();
+                homeAllAdapter.addAll(result);
+                homeAllAdapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+
 
     //分享链接
     public void WeChatShare(int classify) {

@@ -58,12 +58,13 @@
             android:gravity="center"
             android:layout_marginLeft="30dp"
             android:layout_alignParentRight="true">
-            <CheckBox
-                android:button="@null"
+            <ImageView
+
                 android:id="@+id/user_post_item_like"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:background="@drawable/praise" />
+                android:src="@drawable/prise_n"
+                 />
             <TextView
                 android:id="@+id/user_post_item_like_text"
                 android:layout_marginLeft="6dp"

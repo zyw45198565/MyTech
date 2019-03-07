@@ -970,6 +970,31 @@ public interface Interfacea {
                                               @Field("code")String code);
 
     /**
+     * 关注用户
+     * @param userId
+     * @param sessionId
+     * @param focusId 被关注用户id
+     * @return
+     */
+    @POST("user/verify/v1/addFollow")
+    @FormUrlEncoded
+    Observable<Result> addFollow(@Header("userId") int userId,
+                                 @Header("sessionId")String sessionId,
+                                 @Field("focusId")int focusId);
+
+    /**
+     * 查询好友信息
+     * @param userId
+     * @param sessionId
+     * @param friend 好友id
+     * @return
+     */
+    @GET("user/verify/v1/queryFriendInformation")
+    Observable<Result<FindUser>> queryFriendInformation(@Header("userId") int userId,
+                                                              @Header("sessionId")String sessionId,
+                                                              @Query("friend")int friend);
+
+    /**
      * 根据环信userNames批量查询会话列表需要的用户信息
      * @param userId
      * @param sessionId
