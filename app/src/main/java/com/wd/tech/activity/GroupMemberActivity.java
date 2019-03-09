@@ -183,7 +183,9 @@ public class GroupMemberActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.group_member_add:
-
+                Intent intent = new Intent(GroupMemberActivity.this,InviteFriendsActivity.class);
+                intent.putExtra("groupId",groupId);
+                startActivity(intent);
                 break;
         }
     }
@@ -242,7 +244,7 @@ public class GroupMemberActivity extends BaseActivity {
             switch (menuPosition) {
                 case 1:
                     //  撤销管理员
-                    if (direction==3){
+                    if (position==3){
                         modifyPermissionPresenter.reqeust(userId,sessionId,groupId,groupOne.get(position).getUserId(),1);
                         groupTow.add(groupOne.get(position));
                         groupOne.remove(position);
@@ -256,7 +258,7 @@ public class GroupMemberActivity extends BaseActivity {
                     break;
                     case 2:
                     //  移除
-                        if (direction!=1){
+                        if (permission!=1){
 
                             removeGroupMemberPresenter.reqeust(userId,sessionId,groupId,groupOne.get(position).getUserId());
                             groupOne.remove(position);

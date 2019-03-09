@@ -109,7 +109,9 @@ public class GroupDetailsSettingsActivity extends BaseActivity {
 
                 break;
             case R.id.group_details_setting_member:
-
+                Intent intent_m = new Intent(GroupDetailsSettingsActivity.this,GroupMemberShowActivity.class);
+                intent_m.putExtra("groupId",groupId);
+                startActivity(intent_m);
                 break;
             case R.id.group_details_setting_intro:
                 Intent intent_i = new Intent(GroupDetailsSettingsActivity.this,GroupIntroActivity.class);

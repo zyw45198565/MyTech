@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 
+import com.wd.tech.WDApp;
 import com.wd.tech.bean.Result;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.CustomException;
@@ -60,6 +62,12 @@ public abstract class WDPresenter {
                                     .show();
 
                         }else {*/
+                        if (result.getStatus().equals("9999")){
+                            SharedPreferences share = WDApp.getShare();
+                            SharedPreferences.Editor edit = share.edit();
+                            edit.putBoolean("zai",false);
+                            edit.commit();
+                        }
                             if (dataCall!=null){
                                 dataCall.success(result);
                             }

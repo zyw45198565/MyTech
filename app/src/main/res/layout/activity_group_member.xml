@@ -22,7 +22,7 @@
           android:layout_height="wrap_content"
           android:layout_centerInParent="true"
           android:textSize="20sp"
-          android:text="群成员"/>
+          android:text="群管理"/>
       <ImageView
           android:id="@+id/group_member_add"
           android:layout_width="24dp"

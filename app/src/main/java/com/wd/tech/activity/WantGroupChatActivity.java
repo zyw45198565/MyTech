@@ -13,6 +13,7 @@ import com.wd.tech.WDApp;
 import com.wd.tech.bean.GroupByUser;
 import com.wd.tech.bean.Result;
 import com.wd.tech.presenter.FindUserJoinedGroupPresenter;
+import com.wd.tech.utils.AndroidBug5497Workaround;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 
@@ -43,6 +44,7 @@ public class WantGroupChatActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        AndroidBug5497Workaround.assistActivity(this);
         findUserJoinedGroupPresenter = new FindUserJoinedGroupPresenter(new FindGroupsByUserId());
         Intent intent = getIntent();
         userNames = intent.getStringExtra("userNames");

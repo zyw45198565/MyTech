@@ -21,6 +21,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- 这个权限用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:name=".WDApp"
@@ -127,6 +128,8 @@
         <activity android:name=".activity.FindGroupDetailsActivity"/>
         <activity android:name=".activity.WantAddGroupActivity"/>
         <activity android:name=".activity.GroupIntroActivity"/>
+        <activity android:name=".activity.InviteFriendsActivity"/>
+        <activity android:name=".activity.GroupMemberShowActivity"/>
     </application>
 
 </manifest>

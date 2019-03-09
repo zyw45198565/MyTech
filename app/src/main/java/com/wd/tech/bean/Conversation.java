@@ -1,8 +1,12 @@
 package com.wd.tech.bean;
 
-import java.io.Serializable;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
 
-public class Conversation implements Serializable {
+import java.io.Serializable;
+import org.greenrobot.greendao.annotation.Generated;
+@Entity
+public class Conversation{
 
     /**
      * headPic : http://172.17.8.100/images/tech/head_pic/2018-10-08/20181008085110.jpg
@@ -15,8 +19,22 @@ public class Conversation implements Serializable {
     private String headPic;
     private String nickName;
     private String pwd;
-    private int userId;
+    @Id(autoincrement = true)
+    private long userId;
     private String userName;
+
+    @Generated(hash = 895508773)
+    public Conversation(String headPic, String nickName, String pwd, long userId, String userName) {
+        this.headPic = headPic;
+        this.nickName = nickName;
+        this.pwd = pwd;
+        this.userId = userId;
+        this.userName = userName;
+    }
+
+    @Generated(hash = 1893991898)
+    public Conversation() {
+    }
 
     public String getHeadPic() {
         return headPic;
@@ -42,11 +60,11 @@ public class Conversation implements Serializable {
         this.pwd = pwd;
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 

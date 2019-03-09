@@ -929,7 +929,7 @@ public interface Interfacea {
      * 移出群成员(管理员与群主才有的权限)
      * @param userId
      * @param sessionId
-     * @param friendUid
+     * @param groupId
      * @param groupUserId
      * @return
      */
@@ -1076,4 +1076,16 @@ public interface Interfacea {
     Observable<Result> retreat(@Header("userId") int userId,
                                          @Header("sessionId")String sessionId,
                                          @Query("groupId") int groupId);
+
+    /**
+     * 批量邀请加群
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("group/verify/v1/batchInviteAddGroup")
+    Observable<Result> batchInviteAddGroup(@Header("userId") int userId,
+                                           @Header("sessionId") String sessionId,
+                                           @Field("groupId") int groupId,
+                                           @Field("receiverUids") Object[] receiverUids);
 }
