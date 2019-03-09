@@ -1,53 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/loginbj"
+    android:background="@drawable/pager"
     tools:context=".activity.MainActivity">
 
-    <ImageView
-        android:layout_gravity="center"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:layout_marginTop="154dp"
-        android:src="@drawable/logo_reg"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
-
-    <TextView
-        android:id="@+id/zi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#fff"
-        android:textSize="36sp"
-        android:text="维度科技"
-        android:typeface="monospace"
-        android:layout_gravity="center"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="WEIDUKEJI"
-        android:textColor="#fff"
-        android:layout_gravity="center"
-        android:textSize="22sp"
-        android:layout_marginBottom="46dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="八维移动通信学院作品"
-        android:textSize="16sp"
-        android:layout_marginBottom="20dp"
-        android:layout_gravity="center"
-        android:textColor="#fff"/>
 
 
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

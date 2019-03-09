@@ -218,14 +218,9 @@ public class MyWanshanActivity extends BaseActivity {
             UserInfoBean result = data.getResult();
             name.setText(result.getNickName());
             sex.setText(result.getSex()==1?"男":"女");
-            if(result.getBirthday()!=-28800000){
-                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-                Date date2 = new Date(result.getBirthday());
-                date1.setText(sf.format(date2)+"");
-            }else {
-                date1.setText("");
-            }
-
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date2 = new Date(result.getBirthday());
+            date1.setText(sf.format(date2)+"");
             emaile.setText(result.getEmail());
             qian111=result.getSignature();
             emaile111 = result.getEmail();
