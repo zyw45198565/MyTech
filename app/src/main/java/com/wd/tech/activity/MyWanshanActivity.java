@@ -20,6 +20,7 @@ import com.wd.tech.bean.Result;
 import com.wd.tech.bean.UserInfoBean;
 import com.wd.tech.presenter.ModifyEmailPresenter;
 import com.wd.tech.presenter.PerfectUserInfoPresenter;
+import com.wd.tech.presenter.TheTaskPresenter;
 import com.wd.tech.presenter.UserByUserIdPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
@@ -42,6 +43,7 @@ public class MyWanshanActivity extends BaseActivity {
     String qian111 = "";
     String emaile111 = "";
     private String name111;
+    private TheTaskPresenter theTaskPresenter;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -61,8 +63,12 @@ public class MyWanshanActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+
+
         userid = WDApp.getShare().getInt("userid", 1);
         sessionid = WDApp.getShare().getString("sessionid", "");
+
+        theTaskPresenter = new TheTaskPresenter(new TheTaskCall());
 
         UserByUserIdPresenter userByUserIdPresenter = new UserByUserIdPresenter(new UserByIdClass());
         userByUserIdPresenter.reqeust(userid, sessionid);
@@ -233,7 +239,20 @@ public class MyWanshanActivity extends BaseActivity {
             Toast.makeText(MyWanshanActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
         if(data.getStatus().equals("0000")){
             finish();
+            theTaskPresenter.reqeust(userid,sessionid,1006);
         }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+
+    private class TheTaskCall implements DataCall<Result> {
+        @Override
+        public void success(Result data) {
+
         }
 
         @Override
