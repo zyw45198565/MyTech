@@ -309,7 +309,12 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
             }else {
                 vip.setVisibility(View.GONE);
             }
-            qian.setText(""+result.getSignature());
+            if(result.getSignature()!=null){
+                qian.setText(""+result.getSignature());
+            }else {
+                qian.setText("");
+            }
+
             name.setText(result.getNickName()+"");
             Glide.with(HomeActivity.this).load(result.getHeadPic())
                     .apply(RequestOptions.bitmapTransform(new CircleCrop()))
@@ -355,6 +360,13 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
             radioGroup.check(radioGroup.getChildAt(2).getId());
             fragmentTransaction.hide(mfrag_01).hide(mfrag_02);
             fragmentTransaction.show(mfrag_03);
+            fragmentTransaction.commit();
+        }
+        if(intExtra==1){
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            radioGroup.check(radioGroup.getChildAt(0).getId());
+            fragmentTransaction.hide(mfrag_03).hide(mfrag_02);
+            fragmentTransaction.show(mfrag_01);
             fragmentTransaction.commit();
         }
 

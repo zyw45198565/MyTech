@@ -54,7 +54,8 @@
             android:layout_toRightOf="@+id/user_details_icon">
             <TextView
                 android:id="@+id/user_details_name"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
+                android:singleLine="true"
                 android:layout_height="wrap_content"
                 android:textColor="#666666"
                 android:textSize="20sp"

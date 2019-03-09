@@ -92,9 +92,15 @@ public class MytaskActivity extends BaseActivity implements View.OnClickListener
                 finish();
                 break;
             case R.id.fenxiang:
+                Intent intent12 = new Intent(MytaskActivity.this,HomeActivity.class);
+                intent12.putExtra("aaaa",1);
+                startActivity(intent12);
                 finish();
                 break;
             case R.id.chakan:
+                Intent intent13 = new Intent(MytaskActivity.this,HomeActivity.class);
+                intent13.putExtra("aaaa",1);
+                startActivity(intent13);
                 finish();
                 break;
             case R.id.wanshan:
