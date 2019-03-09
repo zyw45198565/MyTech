@@ -44,6 +44,7 @@ import com.wd.tech.presenter.AddCollectionPresenter;
 import com.wd.tech.presenter.CancelCollectionPresenter;
 import com.wd.tech.presenter.HomeAllPresenter;
 import com.wd.tech.presenter.MyBannerPresenter;
+import com.wd.tech.presenter.TheTaskPresenter;
 import com.wd.tech.presenter.WxSharePresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
@@ -91,6 +92,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     private IWXAPI wxapi;
     private int homealli;
     private boolean zai;
+    private TheTaskPresenter theTaskPresenter;
 
     @Override
     public String getPageName() {
@@ -117,6 +119,9 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
         // 将应用的appId注册到微信
         wxapi.registerApp("wx4c96b6b8da494224");
+
+        zai = WDApp.getShare().getBoolean("zai", false);
+
         //刷新
         myrefreshLayout();
 
@@ -126,6 +131,19 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
         //收藏喜欢
         collectlove();
+
+        //广告 做任务
+        theTaskPresenter=new TheTaskPresenter(new TheTask());
+
+        homeAllAdapter.advert(new HomeAllAdapter.Myadvert() {
+            @Override
+            public void advert(int possion, String adurl) {
+                theTaskPresenter.reqeust(userid,sessionid,1005);
+                Intent intent = new Intent(getActivity(), AdvertiseActivity.class);
+                intent.putExtra("zurl", adurl);
+                getActivity().startActivity(intent);
+            }
+        });
     }
 
     private void collectlove() {
@@ -159,8 +177,9 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         homeAllAdapter.sharecircle(new HomeAllAdapter.MyShare() {
             @Override
             public void share(final int possion) {
+                theTaskPresenter.reqeust(userid,sessionid,1004);
 
-                    dialog = new Dialog(getActivity(), R.style.DialogTheme);
+                dialog = new Dialog(getActivity(), R.style.DialogTheme);
 
                     View view = View.inflate(getActivity(), R.layout.twoshare, null);
                     dialog.setContentView(view);
@@ -191,8 +210,6 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
                         }
                     });
                 }
-
-
         });
     }
 
@@ -419,5 +436,17 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
     private String buildTransaction(final String type) {
         return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
+    }
+
+    private class TheTask implements DataCall<Result> {
+        @Override
+        public void success(Result data) {
+
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
     }
 }

@@ -33,6 +33,7 @@
                 android:layout_marginRight="12dp"/>
 
             <EditText
+                android:focusableInTouchMode="true"
                 android:id="@+id/search_text"
                 android:layout_width="match_parent"
                 android:layout_height="34dp"
@@ -104,6 +105,7 @@
 
     </RelativeLayout>
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/wu"
         android:layout_width="match_parent"
         android:layout_height="50dp"

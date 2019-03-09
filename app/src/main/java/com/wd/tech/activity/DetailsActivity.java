@@ -51,6 +51,7 @@ import com.wd.tech.bean.DetailsBean;
 import com.wd.tech.bean.HomeAll;
 import com.wd.tech.bean.MyComment;
 import com.wd.tech.bean.Result;
+import com.wd.tech.frag.Frag_01;
 import com.wd.tech.presenter.AddCollectionPresenter;
 import com.wd.tech.presenter.AddGreatRecordPresenter;
 import com.wd.tech.presenter.AddInfoCommentPresenter;
@@ -59,6 +60,7 @@ import com.wd.tech.presenter.CancelGreatPresenter;
 import com.wd.tech.presenter.DetailsPresenter;
 import com.wd.tech.presenter.HomeAllPresenter;
 import com.wd.tech.presenter.MyCommentPresenter;
+import com.wd.tech.presenter.TheTaskPresenter;
 import com.wd.tech.presenter.WDPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
@@ -131,7 +133,6 @@ public class DetailsActivity extends BaseActivity {
     private String sessionid;
     private int zid;
     private int bid;
-    handlike handlike;
     private DetailsPresenter detailsPresenter;
     private Dialog dialog;
     private Intent intent;
@@ -143,10 +144,7 @@ public class DetailsActivity extends BaseActivity {
     private HomeAllPresenter homeAllPresenter;
     private HomeAllAdapter homeAllAdapter = new HomeAllAdapter(this);
     private boolean zai;
-
-    public void handlike(handlike handlike) {
-        this.handlike = handlike;
-    }
+    private TheTaskPresenter theTaskPresenter;
 
     @Override
     protected int getLayoutId() {
@@ -186,6 +184,9 @@ public class DetailsActivity extends BaseActivity {
         bid = intent.getIntExtra("zurl", 1);
         classify = intent.getIntExtra("classify", 0);
 
+        theTaskPresenter = new TheTaskPresenter(new TheTask());
+
+
         ImageLoader imageLoader = ImageLoader.getInstance();//ImageLoader需要实例化
         imageLoader.init(ImageLoaderConfiguration.createDefault(this));
 
@@ -215,7 +216,6 @@ public class DetailsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
             }
         });
 
@@ -233,12 +233,13 @@ public class DetailsActivity extends BaseActivity {
             public void onClick(View v) {
                 if (!zai) {
                     Toast.makeText(DetailsActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
-                    commentTwo.setVisibility(View.GONE);
+                    commentTwo.setVisibility(View.VISIBLE);
                 } else {
                     String trim = mycommentTwo.getText().toString().trim();
                     if (trim.equals("")) {
                         Toast.makeText(DetailsActivity.this, "请输入内容!", Toast.LENGTH_SHORT).show();
                     } else {
+                        theTaskPresenter.reqeust(userid,sessionid,1002);
                         addInfoCommentPresenter.reqeust(userid, sessionid, trim, DetailsActivity.this.zid);
                         mycommentTwo.setText("");
                         commentOne.setVisibility(View.VISIBLE);
@@ -350,12 +351,12 @@ public class DetailsActivity extends BaseActivity {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (!zai) {
+                    theTaskPresenter.reqeust(userid,sessionid,1004);
+                /*if (!zai) {
                     Toast.makeText(DetailsActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
                     share.setChecked(false);
                     share.setEnabled(false);
-                } else {
+                } else {*/
                     dialog = new Dialog(DetailsActivity.this, R.style.DialogTheme);
 
                     View view = View.inflate(DetailsActivity.this, R.layout.twoshare, null);
@@ -387,8 +388,9 @@ public class DetailsActivity extends BaseActivity {
                         }
                     });
                 }
-            }
         });
+
+
 
     }
 
@@ -566,13 +568,6 @@ public class DetailsActivity extends BaseActivity {
         }
     }
 
-    private interface handlike {
-        void onsuccess(int possion);
-
-        void onfail(int possion);
-
-    }
-
     //点赞
     private class HandCall implements DataCall<Result> {
         @Override
@@ -624,6 +619,17 @@ public class DetailsActivity extends BaseActivity {
             Toast.makeText(DetailsActivity.this, data.getMessage(), Toast.LENGTH_SHORT).show();
             detailsPresenter.reqeust(userid, sessionid, zid);
             homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
+
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+    private class TheTask implements DataCall<Result> {
+        @Override
+        public void success(Result data) {
 
         }
 

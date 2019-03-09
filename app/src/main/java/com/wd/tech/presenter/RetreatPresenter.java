@@ -11,14 +11,14 @@ import io.reactivex.Observable;
  * Created by ${LinJiangtao}
  * on 2019/2/21
  */
-public class FindGroupsByUserIdPresenter extends WDPresenter {
-    public FindGroupsByUserIdPresenter(DataCall dataCall) {
+public class RetreatPresenter extends WDPresenter {
+    public RetreatPresenter(DataCall dataCall) {
         super(dataCall);
     }
 
     @Override
     public Observable observable(Object... args) {
         Interfacea iRequest = NetWorkManager.getInstance().create(Interfacea.class);
-        return iRequest.findGroupsByUserId((int)args[0],(String)args[1]);
+        return iRequest.retreat((int)args[0],(String)args[1],(int) args[2]);
     }
 }

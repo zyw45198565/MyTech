@@ -29,12 +29,14 @@
             android:id="@+id/two_img"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:background="@drawable/menus_shape" />
+            android:background="@drawable/menus_shape"
+            />
 
         <ImageView
+            android:layout_marginTop="-1dp"
+            android:layout_marginLeft="3dp"
             android:layout_width="40dp"
             android:layout_height="18dp"
-            android:layout_marginLeft="15dp"
             android:src="@drawable/advertising" />
     </RelativeLayout>
 </LinearLayout>

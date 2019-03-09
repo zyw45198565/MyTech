@@ -217,6 +217,18 @@ public class Frag_03 extends WDFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        sp = WDApp.getShare();//获取userId sessionId
+        userid = sp.getInt("userid", 0);
+        sessionid = sp.getString("sessionid", "");
+        zai = sp.getBoolean("zai", false);
+
+        mCommunityListAdapter.remove();
+        mFindCommunityListPresenter.reqeust(userid, sessionid, false, 5);//重新请求列表
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
