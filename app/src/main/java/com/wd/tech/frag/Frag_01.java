@@ -159,9 +159,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         homeAllAdapter.sharecircle(new HomeAllAdapter.MyShare() {
             @Override
             public void share(final int possion) {
-                if (!zai) {
-                    Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT).show();
-                } else {
+
                     dialog = new Dialog(getActivity(), R.style.DialogTheme);
 
                     View view = View.inflate(getActivity(), R.layout.twoshare, null);
@@ -194,7 +192,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
                     });
                 }
 
-            }
+
         });
     }
 

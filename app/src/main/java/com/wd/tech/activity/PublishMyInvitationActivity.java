@@ -35,7 +35,9 @@ import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.adapter.publish.ImageAdapter2;
 import com.wd.tech.bean.Result;
+import com.wd.tech.frag.Frag_03;
 import com.wd.tech.presenter.ReleasePostPresenter;
+import com.wd.tech.presenter.TheTaskPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.util.StringUtils;
@@ -76,6 +78,7 @@ public class PublishMyInvitationActivity extends WDActivity implements View.OnCl
     private int userid;
     private String sessionid;
     List<File> files = new ArrayList<>();
+    private TheTaskPresenter theTaskPresenter;
     //读写权限
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.CAMERA,
@@ -111,6 +114,9 @@ public class PublishMyInvitationActivity extends WDActivity implements View.OnCl
 
     @Override
     protected void initView() {
+
+        //做任务
+        theTaskPresenter = new TheTaskPresenter(new TheTaskCall());
 
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -249,6 +255,7 @@ public class PublishMyInvitationActivity extends WDActivity implements View.OnCl
         public void success(Result data) {
             if(data.getStatus().equals("0000")){
                 /*finish();*/
+                theTaskPresenter.reqeust(userid,sessionid,1003);
             }
         }
 
@@ -329,6 +336,18 @@ public class PublishMyInvitationActivity extends WDActivity implements View.OnCl
             if (null != bm && !bm.isRecycled()) {
                 bm.recycle();
             }
+        }
+    }
+
+    private class TheTaskCall implements DataCall<Result> {
+        @Override
+        public void success(Result data) {
+
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
         }
     }
 

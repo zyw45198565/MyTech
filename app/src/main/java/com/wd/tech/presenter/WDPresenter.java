@@ -55,6 +55,9 @@ public abstract class WDPresenter {
                             edit.putBoolean("zai",false);
                             edit.commit();
                         }else {
+                            SharedPreferences.Editor edit = WDApp.getShare().edit();
+                            edit.putBoolean("zai",true);
+                            edit.commit();
                             if (dataCall!=null){
                                 dataCall.success(result);
                             }

@@ -33,6 +33,7 @@ import com.wd.tech.presenter.AddCommunityCommentPresenter;
 import com.wd.tech.presenter.AddCommunityGreatPresenter;
 import com.wd.tech.presenter.CancelCommunityGreatPresenter;
 import com.wd.tech.presenter.FindCommunityListPresenter;
+import com.wd.tech.presenter.TheTaskPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.util.UIUtils;
@@ -72,6 +73,7 @@ public class Frag_03 extends WDFragment {
     private PopupWindow mPop;
     private CancelCommunityGreatPresenter cancelCommunityGreatPresenter;
     private boolean zai;
+    private TheTaskPresenter theTaskPresenter;
 
     @Override
     public String getPageName() {
@@ -97,6 +99,9 @@ public class Frag_03 extends WDFragment {
         addCommunityGreatPresenter = new AddCommunityGreatPresenter(new communityGreatCall());//点赞
         addCommunityCommentPresenter = new AddCommunityCommentPresenter(new communityCommentCall());//评论
         cancelCommunityGreatPresenter = new CancelCommunityGreatPresenter(new cancelCommunityGreatCall());//取消点赞
+        //做任务
+        theTaskPresenter = new TheTaskPresenter(new TheTaskCall());
+
 
         mCommunityListAdapter = new CommunityListAdapter(getContext());
 
@@ -292,6 +297,7 @@ public class Frag_03 extends WDFragment {
                 UIUtils.showToastSafe("社区评论：   "+data.getMessage());
                 mCommunityListAdapter.remove();
                 mFindCommunityListPresenter.reqeust(userid, sessionid, false, 5);//重新请求列表
+                theTaskPresenter.reqeust(userid,sessionid,1002);
             }
         }
 
@@ -314,5 +320,17 @@ public class Frag_03 extends WDFragment {
         public void fail(ApiException e) {
             UIUtils.showToastSafe("取消点赞：  " + e.getMessage());
         }//取消点赞
+    }
+
+    private class TheTaskCall implements DataCall<Result> {
+        @Override
+        public void success(Result data) {
+
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
     }
 }

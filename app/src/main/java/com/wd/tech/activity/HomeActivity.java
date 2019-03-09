@@ -182,7 +182,7 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-
+        mdraw.closeDrawer(mLinear);
         SharedPreferences share = WDApp.getShare();
         boolean zai = share.getBoolean("zai", false);
         if(zai){
@@ -342,5 +342,21 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
             UserByUserIdPresenter userByUserIdPresenter = new UserByUserIdPresenter(new UserByIdClass());
             userByUserIdPresenter.reqeust(userid, sessionid);
         }
+    }
+
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        int intExtra = intent.getIntExtra("aaaa", 0);
+        if(intExtra==3){
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            radioGroup.check(radioGroup.getChildAt(2).getId());
+            fragmentTransaction.hide(mfrag_01).hide(mfrag_02);
+            fragmentTransaction.show(mfrag_03);
+            fragmentTransaction.commit();
+        }
+
     }
 }
