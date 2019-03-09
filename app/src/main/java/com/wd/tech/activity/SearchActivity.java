@@ -81,6 +81,8 @@ public class SearchActivity extends BaseActivity {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_SEARCH || i == EditorInfo.IME_ACTION_UNSPECIFIED) {
+                    text = searchText.getText().toString().trim();
+
                     //此处做逻辑处理
                     if (text.equals("")) {
                         Toast.makeText(SearchActivity.this, "请输入关键词！", Toast.LENGTH_SHORT).show();
@@ -119,7 +121,7 @@ public class SearchActivity extends BaseActivity {
                 searchText.setText(s);
                 resou.setVisibility(View.GONE);
                 searchlist.setVisibility(View.VISIBLE);
-                mSearchByTitlePresenter.reqeust(text, 1, 30);
+                mSearchByTitlePresenter.reqeust(s, 1, 30);
 
             }
         });
@@ -135,6 +137,7 @@ public class SearchActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.sou:
+                text = searchText.getText().toString().trim();
                 searchlist.setVisibility(View.GONE);
                 resou.setVisibility(View.VISIBLE);
                 mSearchByTitlePresenter.reqeust(text, 1, 30);
@@ -154,6 +157,8 @@ public class SearchActivity extends BaseActivity {
             if (searchlist.size() == 0) {
                 resou.setVisibility(View.VISIBLE);
                 wu.setVisibility(View.VISIBLE);
+                mSearchByTitleAdapter.reset(searchlist);
+
             } else {
                 wu.setVisibility(View.GONE);
                 mSearchByTitleAdapter.reset(searchlist);
