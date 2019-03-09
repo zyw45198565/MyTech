@@ -37,7 +37,7 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     Mylove mylove;
     MyShare myShare;
     Context context;
-
+    Myadvert myadvert;
     public HomeAllAdapter(Context context) {
         this.context = context;
     }
@@ -48,6 +48,9 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void sharecircle(MyShare myShare) {
         this.myShare = myShare;
+    }
+    public void advert(Myadvert myadvert) {
+        this.myadvert = myadvert;
     }
 
     @Override
@@ -85,7 +88,7 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         switch (itemViewType) {
             case TYPETWO:
                 final ViewHolderA holderA = (ViewHolderA) viewHolder;
-                String[] split = list.get(i).getThumbnail().split("\\?");
+                final String[] split = list.get(i).getThumbnail().split("\\?");
                 holderA.simple.setImageURI(split[0]);
                 holderA.title.setText(homeAll.getTitle());
                 holderA.content.setText(homeAll.getSummary());
@@ -98,7 +101,7 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View v) {
                         Intent intent = new Intent(context, DetailsActivity.class);
                         intent.putExtra("zid", homeAll.getId());
-                        intent.putExtra("classify",2);
+                        intent.putExtra("classify", 2);
 
                         context.startActivity(intent);
                     }
@@ -115,7 +118,7 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 if (homeAll.getWhetherCollection() == 1) {
                     holderA.like.setImageResource(R.drawable.collect_s);
-                }else{
+                } else {
                     holderA.like.setImageResource(R.drawable.collect_w);
 
                 }
@@ -124,16 +127,16 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     @Override
                     public void onClick(View v) {
                         int whetherCollection1 = homeAll.getWhetherCollection();
-                        mylove.win(homeAll.getId(),homeAll.getWhetherCollection(),i);
+                        mylove.win(homeAll.getId(), homeAll.getWhetherCollection(), i);
 
-                        if (whetherCollection1 ==2){
+                        if (whetherCollection1 == 2) {
                             homeAll.setWhetherCollection(1);
-                            homeAll.setCollection(homeAll.getCollection()+1);
-                       }else{
+                            homeAll.setCollection(homeAll.getCollection() + 1);
+                        } else {
                             homeAll.setWhetherCollection(2);
-                            homeAll.setCollection(homeAll.getCollection()-1);
+                            homeAll.setCollection(homeAll.getCollection() - 1);
 //                            mylove.win(homeAll.getId(),homeAll.getWhetherCollection(),i);
-                       }
+                        }
                     }
                 });
 
@@ -152,9 +155,8 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holderB.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context, AdvertiseActivity.class);
-                        intent.putExtra("zurl", homeAll.getInfoAdvertisingVo().getUrl());
-                        context.startActivity(intent);
+                        myadvert.advert(i,homeAll.getInfoAdvertisingVo().getUrl());
+
                     }
                 });
                 break;
@@ -186,7 +188,7 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         SimpleDraweeView simple;
         ImageView buyall;
         TextView title, content, writer, likenum, sharenum;
-        CheckBox  share;
+        CheckBox share;
         ImageView like;
 
         public ViewHolderA(@NonNull View itemView) {
@@ -217,11 +219,14 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public interface Mylove {
-        void win(int id,int whetherCollection, int possion);
+        void win(int id, int whetherCollection, int possion);
     }
 
     public interface MyShare {
         void share(int possion);
+    }
 
+    public interface Myadvert {
+        void advert(int possion,String adurl);
     }
 }

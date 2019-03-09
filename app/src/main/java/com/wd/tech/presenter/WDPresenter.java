@@ -50,6 +50,18 @@ public abstract class WDPresenter {
                     @Override
                     public void accept(Result result) throws Exception {
                         running = false;
+                        if(result.getStatus().equals("9999")){
+                            SharedPreferences.Editor edit = WDApp.getShare().edit();
+                            edit.putBoolean("zai",false);
+                            edit.commit();
+                        }else {
+                            SharedPreferences.Editor edit = WDApp.getShare().edit();
+                            edit.putBoolean("zai",true);
+                            edit.commit();
+                            if (dataCall!=null){
+                                dataCall.success(result);
+                            }
+                        }
                         /*if (result.getStatus().equals("9999")){
                             Dialog dialog = new AlertDialog.Builder(WDActivity.getForegroundActivity()).setMessage("请登录")
                                     .setPositiveButton("确认", new DialogInterface.OnClickListener() {
@@ -62,15 +74,7 @@ public abstract class WDPresenter {
                                     .show();
 
                         }else {*/
-                        if (result.getStatus().equals("9999")){
-                            SharedPreferences share = WDApp.getShare();
-                            SharedPreferences.Editor edit = share.edit();
-                            edit.putBoolean("zai",false);
-                            edit.commit();
-                        }
-                            if (dataCall!=null){
-                                dataCall.success(result);
-                            }
+
                        // }
                     }
                 }, new Consumer<Throwable>() {

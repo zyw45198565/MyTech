@@ -1,6 +1,7 @@
 package com.wd.tech.activity;
 
 import android.content.Intent;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,8 @@ import com.wd.tech.bean.UserTaskBean;
 import com.wd.tech.presenter.UserTaskPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -43,12 +46,17 @@ public class MytaskActivity extends BaseActivity implements View.OnClickListener
         qian = (Button) findViewById(R.id.qian);
         qian.setOnClickListener(this);
         ping = (Button) findViewById(R.id.ping);
+        ping.setOnClickListener(this);
         tie = (Button) findViewById(R.id.tie);
+        tie.setOnClickListener(this);
         fenxiang = (Button) findViewById(R.id.fenxiang);
+        fenxiang.setOnClickListener(this);
         chakan = (Button) findViewById(R.id.chakan);
+        chakan.setOnClickListener(this);
         wanshan = (Button) findViewById(R.id.wanshan);
+        wanshan.setOnClickListener(this);
         bangding = (Button) findViewById(R.id.bangding);
-
+        bangding.setOnClickListener(this);
         userTaskPresenter = new UserTaskPresenter(new UserTaskCall());
 
     }
@@ -70,6 +78,34 @@ public class MytaskActivity extends BaseActivity implements View.OnClickListener
             case R.id.qian:
                 Intent intent7 = new Intent(MytaskActivity.this,SignCalendarActivity.class);
                 startActivity(intent7);
+                finish();
+                break;
+            case R.id.ping:
+                Intent intent8 = new Intent(MytaskActivity.this,HomeActivity.class);
+                intent8.putExtra("aaaa",3);
+                startActivity(intent8);
+                finish();
+                break;
+            case R.id.tie:
+                Intent intent9 = new Intent(MytaskActivity.this,PublishMyInvitationActivity.class);
+                startActivity(intent9);
+                finish();
+                break;
+            case R.id.fenxiang:
+                finish();
+                break;
+            case R.id.chakan:
+                finish();
+                break;
+            case R.id.wanshan:
+                Intent intent10 = new Intent(MytaskActivity.this,MyWanshanActivity.class);
+                startActivity(intent10);
+                finish();
+                break;
+            case R.id.bangding:
+                Intent intent11 = new Intent(MytaskActivity.this,MySettingActivity.class);
+                startActivity(intent11);
+                finish();
                 break;
         }
     }

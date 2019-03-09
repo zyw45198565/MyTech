@@ -51,7 +51,7 @@
             android:name="design_height_in_dp"
             android:value="1280" />
 
-        <activity android:name=".activity.HomeActivity" />
+        <activity android:name=".activity.HomeActivity" android:launchMode="singleTask"/>
         <activity android:name=".activity.MenuActivity" />
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.RegistrActivity" />

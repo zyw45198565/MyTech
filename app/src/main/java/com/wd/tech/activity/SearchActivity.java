@@ -69,28 +69,28 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        wu.setVisibility(View.GONE);
-        searchText.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                searchText.setFocusable(true);
-                searchText.setFocusableInTouchMode(true);
-                return false;
-            }
-        });
+        text = searchText.getText().toString().trim();
+
+        mSearchByTitlePresenter = new ByTitlePresenter(new SearchCall());
+        searchlist.setLayoutManager(new LinearLayoutManager(SearchActivity.this, OrientationHelper.VERTICAL, false));
+        mSearchByTitleAdapter = new SearchByTitleAdapter(this);
+        searchlist.setAdapter(mSearchByTitleAdapter);
+
+        //点击键盘的搜索（enter）
         searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_SEARCH || i == EditorInfo.IME_ACTION_UNSPECIFIED) {
-                    //此处做逻辑处理
                     text = searchText.getText().toString().trim();
+
+                    //此处做逻辑处理
                     if (text.equals("")) {
                         Toast.makeText(SearchActivity.this, "请输入关键词！", Toast.LENGTH_SHORT).show();
                         searchlist.setVisibility(View.GONE);
                         resou.setVisibility(View.VISIBLE);
                     } else {
                         hideKeyboard(searchText);
-                        initData(text);
+                        mSearchByTitlePresenter.reqeust(text, 1, 30);
                         resou.setVisibility(View.GONE);
                         searchlist.setVisibility(View.VISIBLE);
                     }
@@ -119,16 +119,12 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void hotci(String s) {
                 searchText.setText(s);
+                resou.setVisibility(View.GONE);
+                searchlist.setVisibility(View.VISIBLE);
+                mSearchByTitlePresenter.reqeust(s, 1, 30);
+
             }
         });
-    }
-
-    private void initData(String text) {
-        searchlist.setLayoutManager(new LinearLayoutManager(SearchActivity.this, OrientationHelper.VERTICAL, false));
-        mSearchByTitleAdapter = new SearchByTitleAdapter(this);
-        searchlist.setAdapter(mSearchByTitleAdapter);
-        mSearchByTitlePresenter = new ByTitlePresenter(new SearchCall());
-        mSearchByTitlePresenter.reqeust(text, 1, 30);
     }
 
     @Override
@@ -141,7 +137,10 @@ public class SearchActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.sou:
-                /*mSearchByTitlePresenter.reqeust(text, 1, 30);*/
+                text = searchText.getText().toString().trim();
+                searchlist.setVisibility(View.GONE);
+                resou.setVisibility(View.VISIBLE);
+                mSearchByTitlePresenter.reqeust(text, 1, 30);
                 break;
             case R.id.back:
                 finish();
@@ -158,6 +157,8 @@ public class SearchActivity extends BaseActivity {
             if (searchlist.size() == 0) {
                 resou.setVisibility(View.VISIBLE);
                 wu.setVisibility(View.VISIBLE);
+                mSearchByTitleAdapter.reset(searchlist);
+
             } else {
                 wu.setVisibility(View.GONE);
                 mSearchByTitleAdapter.reset(searchlist);
