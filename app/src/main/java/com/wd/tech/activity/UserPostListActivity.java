@@ -137,7 +137,7 @@ public class UserPostListActivity extends WDActivity {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("imageArray", mList);
                 intent.putExtras(bundle);
-                intent.putExtra("position", v.getId());//下标
+                intent.putExtra("position", 0);//下标
                 v.getContext().startActivity(intent);
             }
         });
