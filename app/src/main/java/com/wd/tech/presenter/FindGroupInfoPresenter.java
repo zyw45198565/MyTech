@@ -20,6 +20,6 @@ public class FindGroupInfoPresenter extends WDPresenter{
     @Override
     protected Observable observable(Object... args) {
         Interfacea interfacea = NetWorkManager.getInstance().create(Interfacea.class);
-        return interfacea.findGroupInfo((int)args[0],(String) args[1],(int)args[2]);
+        return interfacea.findGroupInfo((int)args[0],(String) args[1],(long)args[2]);
     }
 }

@@ -185,7 +185,7 @@ public interface Interfacea {
     @GET("group/verify/v1/findGroupInfo")
     Observable<Result<FindGroup>> findGroupInfo(@Header("userId") int userId,
                                                 @Header("sessionId") String sessionId,
-                                                @Query("groupId") int groupId);
+                                                @Query("groupId") long groupId);
 
     /**
      * 发布帖子
