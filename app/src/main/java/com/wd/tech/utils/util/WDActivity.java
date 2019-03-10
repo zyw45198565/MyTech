@@ -15,6 +15,7 @@ import android.view.KeyEvent;
 import android.view.WindowManager;
 
 
+import com.wd.tech.view.WDPage;
 
 import butterknife.ButterKnife;
 import me.jessyan.autosize.internal.CustomAdapt;
@@ -128,7 +129,8 @@ public abstract class WDActivity extends AppCompatActivity implements CustomAdap
         super.onStart();
         mForegroundActivity = this;
         //沉浸式状态栏
-        StatusBarCompat.translucentStatusBar(this);
+        WDPage.fullScreen(this,false);
+        //StatusBarCompat.translucentStatusBar(this);
     }
 
     /**

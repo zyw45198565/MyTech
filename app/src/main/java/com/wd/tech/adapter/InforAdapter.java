@@ -1,6 +1,7 @@
 package com.wd.tech.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -33,10 +34,17 @@ public class InforAdapter extends RecyclerView.Adapter<InforAdapter.Myholder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Myholder myholder, int i) {
+    public void onBindViewHolder(@NonNull Myholder myholder, final int i) {
         myholder.title.setText(list.get(i).getTitle());
         myholder.thumbnail.setImageURI(list.get(i).getThumbnail());
-
+        myholder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context,DetailsActivity.class);
+                intent.putExtra("zid",list.get(i).getId());
+                context.startActivity(intent);
+            }
+        });
 
     }
 

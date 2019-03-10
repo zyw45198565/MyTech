@@ -44,6 +44,7 @@ import com.wd.tech.presenter.AddCollectionPresenter;
 import com.wd.tech.presenter.CancelCollectionPresenter;
 import com.wd.tech.presenter.HomeAllPresenter;
 import com.wd.tech.presenter.MyBannerPresenter;
+import com.wd.tech.presenter.TheTaskPresenter;
 import com.wd.tech.presenter.WxSharePresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
@@ -91,6 +92,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     private IWXAPI wxapi;
     private int homealli;
     private boolean zai;
+    private TheTaskPresenter theTaskPresenter;
 
     @Override
     public String getPageName() {
@@ -129,12 +131,26 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
         //收藏喜欢
         collectlove();
+
+        //广告 做任务
+        theTaskPresenter=new TheTaskPresenter(new TheTask());
+
+        homeAllAdapter.advert(new HomeAllAdapter.Myadvert() {
+            @Override
+            public void advert(int possion, String adurl) {
+                theTaskPresenter.reqeust(userid,sessionid,1005);
+                Intent intent = new Intent(getActivity(), AdvertiseActivity.class);
+                intent.putExtra("zurl", adurl);
+                getActivity().startActivity(intent);
+            }
+        });
     }
 
     private void collectlove() {
         homeAllAdapter.xihuan(new HomeAllAdapter.Mylove() {
             @Override
             public void win(int id, int whetherCollection, int possion) {
+                zai = WDApp.getShare().getBoolean("zai", false);
                 if (!zai) {
                     Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT).show();
                     result.get(possion).setWhetherCollection(1);
@@ -161,10 +177,9 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         homeAllAdapter.sharecircle(new HomeAllAdapter.MyShare() {
             @Override
             public void share(final int possion) {
-                if (!zai) {
-                    Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT).show();
-                } else {
-                    dialog = new Dialog(getActivity(), R.style.DialogTheme);
+                theTaskPresenter.reqeust(userid,sessionid,1004);
+
+                dialog = new Dialog(getActivity(), R.style.DialogTheme);
 
                     View view = View.inflate(getActivity(), R.layout.twoshare, null);
                     dialog.setContentView(view);
@@ -195,8 +210,6 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
                         }
                     });
                 }
-
-            }
         });
     }
 
@@ -335,7 +348,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         homeAllPresenter = new HomeAllPresenter(new HomeCall());
             userid = WDApp.getShare().getInt("userid", 0);
             sessionid = WDApp.getShare().getString("sessionid", "");
-
+        boolean zai = WDApp.getShare().getBoolean("zai", false);
         if(!zai){
             userid=0;
             sessionid="";
@@ -423,5 +436,17 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
 
     private String buildTransaction(final String type) {
         return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
+    }
+
+    private class TheTask implements DataCall<Result> {
+        @Override
+        public void success(Result data) {
+
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
     }
 }

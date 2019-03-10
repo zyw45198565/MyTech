@@ -19,6 +19,7 @@ import android.view.KeyEvent;
 import android.view.WindowManager;
 
 import com.wd.tech.utils.util.StatusBarCompat;
+import com.wd.tech.view.WDPage;
 
 import butterknife.ButterKnife;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
@@ -73,6 +74,7 @@ public abstract class BaseActivity extends SwipeBackActivity  implements CustomA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //查询登录用户，方便每个页面使用
+        WDPage.fullScreen(this,false);
         initSwipeBack();
         initLoad();
         setContentView(getLayoutId());
@@ -170,7 +172,7 @@ public abstract class BaseActivity extends SwipeBackActivity  implements CustomA
         super.onStart();
         mForegroundActivity = this;
         //沉浸式状态栏
-        StatusBarCompat.translucentStatusBar(this);
+        //StatusBarCompat.translucentStatusBar(this);
     }
 
     /**

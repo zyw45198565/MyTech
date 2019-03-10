@@ -27,6 +27,7 @@
             <EditText
                 android:id="@+id/phone"
                 android:singleLine="true"
+                android:inputType="number"
                 android:background="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -171,8 +172,8 @@
 
         <ImageView
             android:id="@+id/weixin"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
             android:src="@drawable/common_icon_weixin_n_"
             android:layout_marginLeft="80dp"
             android:layout_centerVertical="true"/>
