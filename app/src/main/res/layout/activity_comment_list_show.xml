@@ -60,11 +60,14 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#f2f2f2"/>
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:background="#f2f2f2"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/comment_item_xlv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"></com.jcodecraeer.xrecyclerview.XRecyclerView>
+        android:layout_marginRight="20dp"></android.support.v7.widget.RecyclerView>
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CommentListShowActivity extends WDActivity implements XRecyclerView.LoadingListener {
+public class CommentListShowActivity extends WDActivity {
 
     @BindView(R.id.comment_head)
     SimpleDraweeView commentHead;
@@ -37,7 +38,7 @@ public class CommentListShowActivity extends WDActivity implements XRecyclerView
     @BindView(R.id.comment_item_num)
     TextView commentItemNum;
     @BindView(R.id.comment_item_xlv)
-    XRecyclerView commentItemXlv;
+    RecyclerView commentItemXlv;
     private FindCommunityUserCommentListPresenter mFindCommunityUserCommentListPresenter;
     private CommentShowItemAdapter mCommentItemAdapter;
     private SharedPreferences sp;
@@ -69,16 +70,15 @@ public class CommentListShowActivity extends WDActivity implements XRecyclerView
         commentItemNum.setText(num + "条评论");
 
         mCommentItemAdapter = new CommentShowItemAdapter();
-        commentItemXlv.setLoadingListener(this);
+        /*commentItemXlv.setLoadingListener(this);
         commentItemXlv.setLoadingMoreEnabled(true);
-        commentItemXlv.setPullRefreshEnabled(true);
+        commentItemXlv.setPullRefreshEnabled(true);*/
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         commentItemXlv.setLayoutManager(linearLayoutManager);
         commentItemXlv.setAdapter(mCommentItemAdapter);
 
         mFindCommunityUserCommentListPresenter.reqeust(userid,sessionid, parseInt,false,10);
-        //todo 缺少在评论列表里评论
     }
 
     @OnClick(R.id.comment_back)
@@ -101,7 +101,7 @@ public class CommentListShowActivity extends WDActivity implements XRecyclerView
         ButterKnife.bind(this);
     }
 
-    @Override
+    /*@Override
     public void onRefresh() {
         commentItemXlv.refreshComplete();
         mCommentItemAdapter.remove();
@@ -113,7 +113,7 @@ public class CommentListShowActivity extends WDActivity implements XRecyclerView
     public void onLoadMore() {
         commentItemXlv.loadMoreComplete();
         mFindCommunityUserCommentListPresenter.reqeust(userid,sessionid,parseInt,true,10);
-    }
+    }*/
 
     private class userCommentLisrCall implements DataCall<Result<List<UserComment>>> {
         @Override

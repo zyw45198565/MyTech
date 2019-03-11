@@ -233,7 +233,10 @@ public class DetailsActivity extends BaseActivity {
             public void onClick(View v) {
                 if (!zai) {
                     Toast.makeText(DetailsActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
-                    commentTwo.setVisibility(View.VISIBLE);
+                    mycommentTwo.setText("");
+                    commentOne.setVisibility(View.VISIBLE);
+                    commentTwo.setVisibility(View.GONE);
+
                 } else {
                     String trim = mycommentTwo.getText().toString().trim();
                     if (trim.equals("")) {

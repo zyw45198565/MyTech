@@ -181,10 +181,6 @@ public class Frag_03 extends WDFragment {
         mCommunityListAdapter.setClickTextStart(new CommunityListAdapter.ClickTextStart() {
             @Override
             public void clickShow(int id, int num, String headPic, String nickName) {
-                if(!zai){
-                    UIUtils.showToastSafe("请先登录哦~");
-                    return;
-                }
                 Intent intent = new Intent(getContext(), CommentListShowActivity.class);
                 intent.putExtra("id",id);
                 intent.putExtra("num",num);
