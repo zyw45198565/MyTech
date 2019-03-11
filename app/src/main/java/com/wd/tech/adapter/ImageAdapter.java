@@ -26,7 +26,7 @@ class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MyHolder myHolder, int i) {
+    public void onBindViewHolder(@NonNull final MyHolder myHolder, final int i) {
         myHolder.image.setImageURI(mList.get(i));//设置图片
         myHolder.image.setOnClickListener(new View.OnClickListener() {//点击图片放大
             @Override
@@ -35,7 +35,7 @@ class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyHolder> {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("imageArray", mList);
                 intent.putExtras(bundle);
-                intent.putExtra("position", v.getId());//下标
+                intent.putExtra("position", i);//下标
                 v.getContext().startActivity(intent);
             }
         });

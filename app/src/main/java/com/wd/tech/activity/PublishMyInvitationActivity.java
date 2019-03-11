@@ -20,6 +20,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -106,6 +107,10 @@ public class PublishMyInvitationActivity extends WDActivity implements View.OnCl
                 break;
             case R.id.publish_myinvitation_publish://点击发表
                 String trim = mPublishMyinvitationEdit.getText().toString().trim();
+                if(TextUtils.isEmpty(trim)&&files.size()==0){
+                    UIUtils.showToastSafe("请输入发布内容");
+                    return;
+                }
                 mLoadDialog.show();
                 releasePostPresenter.reqeust(userid,sessionid,trim,files);
                 break;

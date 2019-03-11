@@ -34,6 +34,7 @@ import com.bigkoo.pickerview.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.hyphenate.chat.EMClient;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.bean.Result;
@@ -154,8 +155,10 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
                                 SharedPreferences.Editor edit = share.edit();
                                 edit.putBoolean("zai",false);
                                 edit.commit();
+                                EMClient.getInstance().logout(true);
                                 Intent intent = new Intent(MySettingActivity.this,LoginActivity.class);
                                 startActivity(intent);
+
                                 finish();
                             }
                         })
@@ -206,41 +209,10 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
                 });
                 break;
             case R.id.lldate:
-                TimePickerView pvTime = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
-                    @Override
-                    public void onTimeSelect(Date date, View v) {
-                        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 
-                        date1.setText(sf.format(date)+"");
-                    }
-                })
-                        .setType(new boolean[]{true, true, true, false, false, false})// 默认全部显示.setCancelText("取消")
-                        .setSubmitText("确定").build();
-                pvTime.show();
                 break;
             case R.id.you:
-                final EditText editemail = new EditText(this);
-                editemail.setText(emaile123);
-                AlertDialog builder3 = new AlertDialog.Builder(this)
-                        .setTitle("修改邮箱")
-                        .setView(editemail)//设置输入框
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String trim = editemail.getText().toString().trim();
-                                boolean email1 = isEmail(trim + "");
-                                if (email1) {
-                                    emaile.setText(trim);
-                                    emaile123 = trim;
-                                    ModifyEmailPresenter modifyEmailPresenter = new ModifyEmailPresenter(new ModifyEmaileCall());
-                                    modifyEmailPresenter.reqeust(userid,sessionid,trim);
-                                } else {
-                                    UIUtils.showToastSafe("请输入正确的邮箱");
-                                    return;
-                                }
-                            }
-                        }).setNegativeButton("取消", null).create();
-                builder3.show();
+
                 break;
             case R.id.xiupwd:
             startActivity(new Intent(MySettingActivity.this,UserPwdActivity.class));
@@ -294,10 +266,20 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
             sex.setText(result.getSex()==1?"男":"女");
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
             Date date2 = new Date(result.getBirthday());
-            date1.setText(sf.format(date2)+"");
+            if(sf.format(date2).equals("1970-01-01")){
+                date1.setText("");
+            }else {
+                date1.setText(sf.format(date2)+"");
+            }
+
             phone.setText(result.getPhone());
             emaile123 = result.getEmail()+"";
-            emaile.setText(result.getEmail()+"");
+            if(result.getEmail()==null){
+                emaile.setText("");
+            }else {
+                emaile.setText(result.getEmail()+"");
+            }
+
             jifen.setText(result.getIntegral()+"");
             vip.setText(result.getWhetherVip()==1?"是":"否");
             faceid.setText(result.getWhetherFaceId()==1?"已绑定":"点击绑定");

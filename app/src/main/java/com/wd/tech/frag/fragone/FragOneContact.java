@@ -33,11 +33,17 @@ import com.wd.tech.activity.CreateFriendActivity;
 import com.wd.tech.activity.FindGroupsByUserIdActivity;
 import com.wd.tech.activity.GroupChatActivity;
 import com.wd.tech.activity.NewFriendsActivity;
+import com.wd.tech.bean.Conversation;
 import com.wd.tech.bean.FriendInfoList;
 import com.wd.tech.bean.InitFriendlist;
 import com.wd.tech.bean.Result;
+import com.wd.tech.greendao.ConversationDao;
+import com.wd.tech.greendao.DaoMaster;
+import com.wd.tech.greendao.DaoSession;
+import com.wd.tech.greendao.DaoUtils;
 import com.wd.tech.presenter.AllFriendsListPresenter;
 import com.wd.tech.presenter.DeleteFriendRelationPresenter;
+import com.wd.tech.presenter.FindConversationListPresenter;
 import com.wd.tech.presenter.TransferFriendGroupPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
@@ -81,6 +87,9 @@ public class FragOneContact extends WDFragment {
     private DeleteFriendRelationPresenter deleteFriendRelationPresenter;
     private TransferFriendGroupPresenter transferFriendGroupPresenter;
     private FriendInfoList friendInfoList;
+    private SharedPreferences.Editor edit;
+    private FindConversationListPresenter findConversationListPresenter;
+
 
     @Override
     public String getPageName() {
@@ -94,6 +103,8 @@ public class FragOneContact extends WDFragment {
 
     @Override
     protected void initView() {
+
+        findConversationListPresenter = new FindConversationListPresenter(new FindConversationList());
 
         allFriendsListPresenter = new AllFriendsListPresenter(new InitListData());
         deleteFriendRelationPresenter = new DeleteFriendRelationPresenter(new DeleteFriend());
@@ -208,6 +219,7 @@ public class FragOneContact extends WDFragment {
         allFriendsListPresenter.unBind();
         deleteFriendRelationPresenter.unBind();
         transferFriendGroupPresenter.unBind();
+        findConversationListPresenter.unBind();
     }
 
     @OnClick({R.id.frag_contact_friend, R.id.frag_contact_group, R.id.frag_contact_find})
@@ -280,6 +292,7 @@ public class FragOneContact extends WDFragment {
                 convertView = View.inflate(parent.getContext(), R.layout.expandablelistview_one_item, null);
                 hodler = new GroupHodler();
                 hodler.groupname = convertView.findViewById(R.id.tv_group);
+                hodler.tvnum = convertView.findViewById(R.id.tv_num);
                 convertView.setTag(hodler);
             } else {
                 hodler = (GroupHodler) convertView.getTag();
@@ -287,7 +300,7 @@ public class FragOneContact extends WDFragment {
             InitFriendlist initFriendlist = groups.get(groupPosition);
             groupName = initFriendlist.getGroupName();
             hodler.groupname.setText(groupName);
-
+            hodler.tvnum.setText(groups.get(groupPosition).getFriendInfoList().size()+"\\"+groups.get(groupPosition).getFriendInfoList().size());
             return convertView;
         }
 
@@ -321,7 +334,7 @@ public class FragOneContact extends WDFragment {
 
         //父框件
         class GroupHodler {
-            TextView groupname;
+            TextView groupname,tvnum;
         }
 
         //子框件 (一个复选框 ,, 文字 ,, 价格 ,, 图片 ,, 还有自定义一个类)
@@ -345,6 +358,7 @@ public class FragOneContact extends WDFragment {
                         userHxIds.append(groups.get(i).getFriendInfoList().get(j).getUserName()+",");
                     }
                 }
+                findConversationListPresenter.reqeust(userid,session1d,userHxIds.toString());
                 fragOneContactSmart.finishRefresh();
             }
         }
@@ -372,6 +386,25 @@ public class FragOneContact extends WDFragment {
         }
 
     }
+    class FindConversationList implements DataCall<Result<List<Conversation>>>{
+
+        @Override
+        public void success(Result<List<Conversation>> data) {
+            if (data.getStatus().equals("0000")){
+                List<Conversation> conversationList = data.getResult();
+                for(Conversation conversation:conversationList){
+                    conversation.setUserName(conversation.getUserName().toLowerCase());
+                }
+                DaoUtils.getInstance().getConversationDao().insertOrReplaceInTx(conversationList);
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();

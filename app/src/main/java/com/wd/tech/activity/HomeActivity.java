@@ -309,7 +309,12 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
             }else {
                 vip.setVisibility(View.GONE);
             }
-            qian.setText(""+result.getSignature());
+            if(result.getSignature()==null){
+                qian.setText("");
+            }else {
+                qian.setText(""+result.getSignature());
+            }
+
             name.setText(result.getNickName()+"");
             Glide.with(HomeActivity.this).load(result.getHeadPic())
                     .apply(RequestOptions.bitmapTransform(new CircleCrop()))

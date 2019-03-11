@@ -10,6 +10,7 @@
         android:id="@+id/publish_picter"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginTop="6dp"
         android:layout_gravity="center"
         android:adjustViewBounds="true"/>
 </LinearLayout>
