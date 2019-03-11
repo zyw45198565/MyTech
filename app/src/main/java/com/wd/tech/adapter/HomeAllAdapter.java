@@ -16,11 +16,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
+import com.wd.tech.WDApp;
 import com.wd.tech.activity.AdvertiseActivity;
 import com.wd.tech.activity.DetailsActivity;
 import com.wd.tech.bean.HomeAll;
@@ -31,9 +34,7 @@ import java.util.List;
 public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int TYPRONE = 1;
     private final int TYPETWO = 2;
-    private final int TYPETHREE = 3;
     List<HomeAll> list = new ArrayList<>();
-    private int whetherAdvertising;
     Mylove mylove;
     MyShare myShare;
     Context context;
@@ -82,7 +83,6 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
-        whetherAdvertising = list.get(i).getWhetherAdvertising();
         final HomeAll homeAll = list.get(i);
         int itemViewType = getItemViewType(i);
         switch (itemViewType) {
@@ -123,9 +123,15 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 }
 
-                holderA.like.setOnClickListener(new View.OnClickListener() {
+                holderA.likeall.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        boolean zai = WDApp.getShare().getBoolean("zai", false);
+                       /* if (!zai){
+                            Toast.makeText(context, "请登录！", Toast.LENGTH_SHORT).show();
+
+                            return;
+                        }*/
                         int whetherCollection1 = homeAll.getWhetherCollection();
                         mylove.win(homeAll.getId(), homeAll.getWhetherCollection(), i);
 
@@ -140,7 +146,7 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 });
 
-                holderA.share.setOnClickListener(new View.OnClickListener() {
+                holderA.shareall.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         myShare.share(i);
@@ -179,10 +185,6 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         list.clear();
     }
 
-    public void notifyDataSetChanged(int homealli) {
-        notifyItemChanged(homealli);
-//        notifyDataSetChanged(homealli);
-    }
 
     private class ViewHolderA extends RecyclerView.ViewHolder {
         SimpleDraweeView simple;
@@ -190,6 +192,7 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView title, content, writer, likenum, sharenum;
         CheckBox share;
         ImageView like;
+        RelativeLayout likeall,shareall;
 
         public ViewHolderA(@NonNull View itemView) {
             super(itemView);
@@ -202,6 +205,8 @@ public class HomeAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             buyall = itemView.findViewById(R.id.buy_all);
             likenum = itemView.findViewById(R.id.likenum);
             sharenum = itemView.findViewById(R.id.sharenum);
+            likeall = itemView.findViewById(R.id.likeall);
+            shareall = itemView.findViewById(R.id.shareall);
 
         }
     }
