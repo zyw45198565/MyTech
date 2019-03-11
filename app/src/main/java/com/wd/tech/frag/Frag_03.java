@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -34,11 +36,14 @@ import com.wd.tech.presenter.AddCommunityGreatPresenter;
 import com.wd.tech.presenter.CancelCommunityGreatPresenter;
 import com.wd.tech.presenter.FindCommunityListPresenter;
 import com.wd.tech.presenter.TheTaskPresenter;
+import com.wd.tech.utils.CacheManager;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.util.UIUtils;
 import com.wd.tech.utils.util.WDFragment;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -74,6 +79,9 @@ public class Frag_03 extends WDFragment {
     private CancelCommunityGreatPresenter cancelCommunityGreatPresenter;
     private boolean zai;
     private TheTaskPresenter theTaskPresenter;
+    private CacheManager cacheManager;
+    private CacheManager cacheManager1;
+    List<FindCommunityList> findCommunityLists = new ArrayList<>();
 
     @Override
     public String getPageName() {
@@ -94,7 +102,7 @@ public class Frag_03 extends WDFragment {
         sessionid = sp.getString("sessionid", "");
         zai = sp.getBoolean("zai", false);
         myrefreshLayout();
-
+        cacheManager1 = new CacheManager();
         mFindCommunityListPresenter = new FindCommunityListPresenter(new communityListCall());//社区列表
         addCommunityGreatPresenter = new AddCommunityGreatPresenter(new communityGreatCall());//点赞
         addCommunityCommentPresenter = new AddCommunityCommentPresenter(new communityCommentCall());//评论
@@ -240,6 +248,7 @@ public class Frag_03 extends WDFragment {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 refreshlayout.finishRefresh();
+                findCommunityLists.clear();
                 mCommunityListAdapter.remove();
                 mCommunityListAdapter.notifyDataSetChanged();
                 mFindCommunityListPresenter.reqeust(userid, sessionid, false, 5);
@@ -273,12 +282,29 @@ public class Frag_03 extends WDFragment {
                     mCommunityListAdapter.addList(findCommunityList);//添加数据到适配器中
                     mCommunityListAdapter.notifyDataSetChanged();
                 }
+                Gson gson = new Gson();
+                String s = gson.toJson(result);
+                cacheManager1.saveDataToFile(getContext(),s,"frag_03");
             }
+
         }
 
         @Override
         public void fail(ApiException e) {
-            UIUtils.showToastSafe("社区列表展示：  " + e.getMessage());
+            ///UIUtils.showToastSafe("社区列表展示：  " + e.getMessage());
+            if(findCommunityLists.size()==0){
+                String frag_03 = cacheManager1.loadDataFromFile(getContext(), "frag_03");
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<FindCommunityList>>() {}.getType();
+                List<FindCommunityList> o = gson.fromJson(frag_03, type);
+                findCommunityLists.addAll(o);
+                for (int i = 0; i < o.size(); i++) {
+                    FindCommunityList findCommunityList = o.get(i);
+                    mCommunityListAdapter.addList(findCommunityList);//添加数据到适配器中
+                    mCommunityListAdapter.notifyDataSetChanged();
+                }
+            }
+
         }
     }
 
@@ -287,8 +313,8 @@ public class Frag_03 extends WDFragment {
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")) {
-                mCommunityListAdapter.remove();
-                mFindCommunityListPresenter.reqeust(userid, sessionid, false, 5);
+              /*  mCommunityListAdapter.remove();
+                mFindCommunityListPresenter.reqeust(userid, sessionid, false, 5);*/
             }
         }
 
@@ -319,8 +345,8 @@ public class Frag_03 extends WDFragment {
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")) {
-                mCommunityListAdapter.remove();
-                mFindCommunityListPresenter.reqeust(userid, sessionid, false, 5);
+              /*  mCommunityListAdapter.remove();
+                mFindCommunityListPresenter.reqeust(userid, sessionid, false, 5);*/
             }
         }
 
@@ -341,4 +367,5 @@ public class Frag_03 extends WDFragment {
 
         }
     }
+
 }

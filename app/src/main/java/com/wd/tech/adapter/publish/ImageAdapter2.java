@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
+import com.wd.tech.adapter.MyPostAdapter;
 import com.wd.tech.utils.util.UIUtils;
 import com.wd.tech.utils.util.WDActivity;
 
@@ -25,33 +27,28 @@ import java.util.List;
  */
 public class ImageAdapter2 extends RecyclerView.Adapter<ImageAdapter2.MyHodler> {
 
-//    private List<Object> mList = new ArrayList<>();
-//    private int sign;//0:普通点击，1自定义
-
-   /* public void addAll(List<Object> list) {
-        mList.addAll(list);
-    }
-
-    public void setSign(int sign){
-        this.sign = sign;
-    }*/
     private List<Object> mList;
     Open open;
-    public ImageAdapter2(List<Object> mList,Open open) {
+    Context context;
+    private LayoutInflater inflater;
+    public ImageAdapter2(List<Object> mList,Open open,Context context) {
         this.mList = mList;
         this.open = open;
+        this.context=context;
+        inflater= LayoutInflater.from(context);
     }
 
     @NonNull
     @Override
     public MyHodler onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = View.inflate(viewGroup.getContext(), R.layout.publish_picter_layout, null);
-        return new MyHodler(view);
+      //  View view = View.inflate(context, R.layout.publish_picter_layout, null);
+        View view = inflater.inflate(R.layout.publish_picter_layout,viewGroup,false);
+        MyHodler holder=new MyHodler(view);
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHodler myHodler, final int position) {
-        if(myHodler instanceof  MyHodler){
+    public void onBindViewHolder(final MyHodler myHodler, final int position) {
             if (mList.get(position) instanceof String) {
                 String imageUrl = (String) mList.get(position);
                 if (imageUrl.contains("http:")) {//加载http
@@ -65,7 +62,6 @@ public class ImageAdapter2 extends RecyclerView.Adapter<ImageAdapter2.MyHodler> 
                 Uri uri = Uri.parse("res:///" + id);//res://com.dingtao.rrmmp/
                 myHodler.image.setImageURI(uri);
             }
-        }
 
         myHodler.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,10 +75,6 @@ public class ImageAdapter2 extends RecyclerView.Adapter<ImageAdapter2.MyHodler> 
         });
     }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
 
     @Override
     public int getItemCount() {
