@@ -657,28 +657,7 @@ public class DetailsActivity extends BaseActivity {
 
         }
 
-        homeAllPresenter = new HomeAllPresenter(new HomeCall());
-
-        homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
     }
-
-    private class HomeCall implements DataCall<Result<List<HomeAll>>> {
-        @Override
-        public void success(Result<List<HomeAll>> data) {
-            List<HomeAll> result = data.getResult();
-            if (result.size() > 0) {
-                homeAllAdapter.clearAll();
-                homeAllAdapter.addAll(result);
-                homeAllAdapter.notifyDataSetChanged();
-            }
-        }
-
-        @Override
-        public void fail(ApiException e) {
-
-        }
-    }
-
 
     //分享链接
     public void WeChatShare(int classify) {
