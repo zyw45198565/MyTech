@@ -30,6 +30,7 @@ public class MyUserActivity extends BaseActivity {
     private TextView user_details_sex;
     private TextView user_details_phone;
     private TextView user_details_email;
+    private ImageView user_details_whetherVip;
 
     @Override
     protected int getLayoutId() {
@@ -53,7 +54,7 @@ public class MyUserActivity extends BaseActivity {
         user_details_signature = (TextView) findViewById(R.id.user_details_signature);
         user_details_sex = (TextView) findViewById(R.id.user_details_sex);
         user_details_phone = (TextView) findViewById(R.id.user_details_phone);
-
+        user_details_whetherVip = (ImageView) findViewById(R.id.user_details_whetherVip);
         user_details_email = (TextView) findViewById(R.id.user_details_email);
         TextView wanshan = (TextView) findViewById(R.id.wanshan);
         wanshan.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +101,12 @@ public class MyUserActivity extends BaseActivity {
                 user_details_email.setText("暂无邮箱");
             }else {
                 user_details_email.setText(result.getEmail());
+            }
+            int whetherVip = result.getWhetherVip();
+            if(whetherVip==1){
+                user_details_whetherVip.setVisibility(View.VISIBLE);
+            }else {
+                user_details_whetherVip.setVisibility(View.GONE);
             }
 
 

@@ -220,7 +220,11 @@ public class MyWanshanActivity extends BaseActivity {
             sex.setText(result.getSex()==1?"男":"女");
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
             Date date2 = new Date(result.getBirthday());
-            date1.setText(sf.format(date2)+"");
+            if(sf.format(date2).equals("1970-01-01")){
+                date1.setText("");
+            }else {
+                date1.setText(sf.format(date2)+"");
+            }
             emaile.setText(result.getEmail());
             qian111=result.getSignature();
             emaile111 = result.getEmail();
