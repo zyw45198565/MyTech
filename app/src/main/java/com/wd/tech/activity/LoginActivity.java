@@ -22,8 +22,10 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
+import com.wd.tech.bean.Conversation;
 import com.wd.tech.bean.LoginBean;
 import com.wd.tech.bean.Result;
+import com.wd.tech.greendao.DaoUtils;
 import com.wd.tech.hractivity.DetecterActivity;
 import com.wd.tech.presenter.LoginPresenter;
 import com.wd.tech.presenter.UserByUserIdPresenter;
@@ -165,11 +167,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             edit.putString("pass",trim1);
             edit.putInt("userid",data.getResult().getUserId());
             edit.putString("sessionid",data.getResult().getSessionId());
-            edit.putString("userName",data.getResult().getUserName());
-            edit.putString("headPic",data.getResult().getHeadPic());
-            edit.putString("nickName",data.getResult().getNickName());
             edit.putBoolean("zai",true);
             edit.commit();
+
+            Conversation conversation = new Conversation();
+            conversation.setUserName(data.getResult().getUserName().toLowerCase());
+            conversation.setHeadPic(data.getResult().getHeadPic());
+            conversation.setNickName(data.getResult().getNickName());
+            conversation.setUserId(data.getResult().getUserId());
+            DaoUtils.getInstance().getConversationDao().insertOrReplaceInTx(conversation);
+
             EMClient.getInstance().login(data.getResult().getUserName(),data.getResult().getPwd(),new EMCallBack() {//回调
                 @Override
                 public void onSuccess() {

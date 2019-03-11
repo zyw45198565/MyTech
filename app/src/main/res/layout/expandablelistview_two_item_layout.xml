@@ -1,0 +1,62 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#FFF"
+    android:gravity="center">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <CheckBox
+            android:id="@+id/fuxuankuang"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content" />
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/iv_child"
+            android:layout_width="24dp"
+            app:roundAsCircle="true"
+            android:layout_gravity="center"
+            android:layout_height="24dp"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/ic_launcher" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_child"
+                android:layout_width="match_parent"
+                android:textSize="12sp"
+                android:layout_margin="2dp"
+                android:layout_height="wrap_content"
+                android:text="item text" />
+            <TextView
+                android:id="@+id/tv_qian"
+                android:layout_width="match_parent"
+                android:textSize="12sp"
+                android:layout_margin="2dp"
+                android:textColor="#9c9b9b"
+                android:layout_height="wrap_content"
+                android:text="item text" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F2F2F2"
+        />
+    <View
+        android:layout_width="10dp"
+        android:layout_height="1dp"
+        android:id="@+id/item_pop_show"
+        />
+
+
+
+</LinearLayout>

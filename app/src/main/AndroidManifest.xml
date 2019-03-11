@@ -127,6 +127,8 @@
         <activity android:name=".activity.FindGroupDetailsActivity"/>
         <activity android:name=".activity.WantAddGroupActivity"/>
         <activity android:name=".activity.GroupIntroActivity"/>
+        <activity android:name=".activity.InviteFriendsActivity"/>
+        <activity android:name=".activity.GroupMemberShowActivity"/>
     </application>
 
 </manifest>

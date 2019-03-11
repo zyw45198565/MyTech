@@ -2,7 +2,11 @@ package com.wd.tech;
 
 import android.app.ActivityManager;
 import android.app.Application;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,20 +14,31 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.StrictMode;
+import android.support.annotation.RequiresApi;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.facebook.cache.disk.DiskCacheConfig;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMOptions;
+import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
+import com.wd.tech.activity.ChatActivity;
+import com.wd.tech.bean.Conversation;
+import com.wd.tech.greendao.ConversationDao;
+import com.wd.tech.greendao.DaoUtils;
 import com.wd.tech.hractivity.FaceDB;
 
 import java.io.File;
@@ -67,6 +82,7 @@ public class WDApp extends MultiDexApplication {
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences em_sp_at_message;
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     public void onCreate() {
         super.onCreate();
@@ -110,7 +126,22 @@ public class WDApp extends MultiDexApplication {
 
         EaseUI.getInstance().init(this,null);
         EMClient.getInstance().setDebugMode(true);
+        EaseUI.getInstance().setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
+            @Override
+            public EaseUser getUser(String username) {
+                username = username.toLowerCase();
+                EaseUser easeUser = new EaseUser(username);
+                List<Conversation> aa = DaoUtils.getInstance().getConversationDao().loadAll();
+                Conversation conversation = DaoUtils.getInstance().getConversationDao().queryBuilder().where(ConversationDao.Properties.UserName.eq(username)).build().unique();
+                if (conversation!=null) {
+                    easeUser.setNickname(conversation.getNickName());
+                    easeUser.setAvatar(conversation.getHeadPic());
+                }
+                return easeUser;
+            }
+        });
 //        MultiDex.install(this);
+        getMessage();
     }
 
 
@@ -200,5 +231,66 @@ public class WDApp extends MultiDexApplication {
             e.printStackTrace();
         }
         return null;
+    }
+    private void getMessage(){
+
+        EMClient.getInstance().chatManager().addMessageListener(new EMMessageListener() {
+            @Override
+            public void onMessageReceived(List<EMMessage> list) {
+                if (list != null){
+                    for (int i = 0; i < list.size(); i++) {
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(context).setDefaults(Notification.DEFAULT_ALL);
+                        Intent intent = new Intent(context, ChatActivity.class);//将要跳转的界面
+                        intent.putExtra(EaseConstant.EXTRA_USER_ID,list.get(i).getUserName());
+                        intent.putExtra("userNames",list.get(i).getUserName());
+                        intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
+                        //Intent intent = new Intent();//只显示通知，无页面跳转
+                        builder.setAutoCancel(true);//点击后消失
+                        builder.setSmallIcon(R.mipmap.icon111);//设置通知栏消息标题的头像
+                        builder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
+                        builder.setTicker("状态栏显示的文字");
+
+                        Conversation conversation = DaoUtils.getInstance().getConversationDao().queryBuilder().where(ConversationDao.Properties.UserName.eq(list.get(i).getUserName())).build().unique();
+                        if (conversation!=null){
+                            builder.setContentTitle(conversation.getNickName());
+                        }
+                        String message = list.get(i).getBody().toString().substring(5, list.get(i).getBody().toString().length() - 1);
+
+                        builder.setContentText(message);
+                        //利用PendingIntent来包装我们的intent对象,使其延迟跳转
+                        PendingIntent intentPend = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                        builder.setContentIntent(intentPend);
+                        NotificationManager manager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+                        manager.notify(0, builder.build());
+                    }
+                }
+            }
+
+            @Override
+            public void onCmdMessageReceived(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageRead(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageDelivered(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageRecalled(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageChanged(EMMessage emMessage, Object o) {
+
+            }
+        });
+
     }
 }
