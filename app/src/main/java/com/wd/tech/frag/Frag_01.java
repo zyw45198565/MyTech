@@ -120,8 +120,6 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         // 将应用的appId注册到微信
         wxapi.registerApp("wx4c96b6b8da494224");
 
-        zai = WDApp.getShare().getBoolean("zai", false);
-
         //刷新
         myrefreshLayout();
 
@@ -228,6 +226,9 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
+                myBannerPresenter.reqeust();
+
+                oneBanner.start();
                 homeAllAdapter.clearAll();
                 page = 1;
                 homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
@@ -339,22 +340,23 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
         super.onPause();
         oneBanner.pause();//暂停轮播
     }
-
     @Override
     public void onResume() {
         super.onResume();
         oneBanner.start();//开始轮播
+
+        zai = WDApp.getShare().getBoolean("zai", false);
         homeAllAdapter.clearAll();
         homeAllPresenter = new HomeAllPresenter(new HomeCall());
+        if (zai) {
+
             userid = WDApp.getShare().getInt("userid", 0);
             sessionid = WDApp.getShare().getString("sessionid", "");
-        boolean zai = WDApp.getShare().getBoolean("zai", false);
-        if(!zai){
-            userid=0;
-            sessionid="";
+        }else {
+            userid = 0;
+            sessionid = "";
         }
         homeAllPresenter.reqeust(userid, sessionid, plateId, page, count);
-
 
 
     }
@@ -379,9 +381,8 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     private class MyCollect implements DataCall<Result> {
         @Override
         public void success(Result data) {
-            Toast.makeText(getActivity(), data.getMessage(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), data.getMessage(), Toast.LENGTH_SHORT).show();
             homeAllAdapter.notifyItemChanged(homealli);
-//            homeAllAdapter.notifyDataSetChanged(homealli);
 
         }
 
@@ -395,8 +396,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     private class MyCancelCollect implements DataCall<Result> {
         @Override
         public void success(Result data) {
-            Toast.makeText(getActivity(), data.getMessage(), Toast.LENGTH_SHORT).show();
-//            homeAllAdapter.notifyDataSetChanged(homealli);
+//            Toast.makeText(getActivity(), data.getMessage(), Toast.LENGTH_SHORT).show();
             homeAllAdapter.notifyItemChanged(homealli);
 
             Log.i("shahahaha",homealli+"-------------------------------");
