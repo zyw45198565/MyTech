@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -87,7 +89,7 @@ public class AddFriendActivity extends WDActivity {
     protected void initView() {
         findUserByPhonePresenter = new FindUserByPhonePresenter(new FindUserByPhone());
         findGroupInfoPresenter = new FindGroupInfoPresenter(new FindGroupInfo());
-        findSearchEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+       /* findSearchEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -114,8 +116,34 @@ public class AddFriendActivity extends WDActivity {
                 }
                 return false;
             }
-        });
+        });*/
+        findSearchEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String content = findSearchEdit.getText().toString();
+
+                if (TextUtils.isEmpty(content)) {
+                    UIUtils.showToastSafe("不能为空");
+                } else {
+                    if (start == 1) {
+                        findUserByPhonePresenter.reqeust(userId, sessionId, content);
+
+                    } else {
+                        findGroupInfoPresenter.reqeust(userId, sessionId, Long.parseLong(content));
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     @Override
@@ -141,11 +169,13 @@ public class AddFriendActivity extends WDActivity {
                 start = 1;
                 findROk.setVisibility(View.VISIBLE);
                 findQOk.setVisibility(View.GONE);
+                findSearchEdit.setText("");
                 break;
             case R.id.find_q:
                 start = 2;
                 findQOk.setVisibility(View.VISIBLE);
                 findROk.setVisibility(View.GONE);
+                findSearchEdit.setText("");
                 break;
             case R.id.find_search:
                 /*String content = findSearchEdit.getText().toString();
@@ -209,6 +239,7 @@ public class AddFriendActivity extends WDActivity {
             @Override
             public void success(Result<FindUser> data) {
                 if (data.getStatus().equals("0000")) {
+
                     //Log.i("abc", "success: " + new Gson().toJson(data.getResult()));
                     findUser = data.getResult();
                     findQRelative.setVisibility(View.GONE);

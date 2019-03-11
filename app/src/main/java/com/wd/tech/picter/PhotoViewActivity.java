@@ -33,7 +33,7 @@ public class PhotoViewActivity extends WDActivity {
     @Override
     protected void initView() {
         Intent intent = getIntent();
-        currentPosition = intent.getIntExtra("imageArray", 0);//下标
+        currentPosition = intent.getIntExtra("position", 0);//下标
         ArrayList<String> imageArrays = (ArrayList<String>) intent.getSerializableExtra("imageArray");//图片集合
         for (int i = 0; i < imageArrays.size(); i++) {
             String s = imageArrays.get(i);

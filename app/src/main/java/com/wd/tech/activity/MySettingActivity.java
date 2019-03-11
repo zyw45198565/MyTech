@@ -34,6 +34,7 @@ import com.bigkoo.pickerview.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.hyphenate.chat.EMClient;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.bean.Result;
@@ -154,8 +155,10 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
                                 SharedPreferences.Editor edit = share.edit();
                                 edit.putBoolean("zai",false);
                                 edit.commit();
+                                EMClient.getInstance().logout(true);
                                 Intent intent = new Intent(MySettingActivity.this,LoginActivity.class);
                                 startActivity(intent);
+
                                 finish();
                             }
                         })

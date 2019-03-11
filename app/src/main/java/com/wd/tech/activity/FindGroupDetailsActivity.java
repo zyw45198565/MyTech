@@ -102,7 +102,9 @@ public class FindGroupDetailsActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.find_group_details_group:
-
+                Intent intent_m = new Intent(FindGroupDetailsActivity.this,GroupMemberShowActivity.class);
+                intent_m.putExtra("groupId",findGroup.getGroupId());
+                startActivity(intent_m);
                 break;
             case R.id.find_group_details_yes:
                 if (flag == 1) {

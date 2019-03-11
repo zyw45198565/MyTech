@@ -58,8 +58,6 @@ public class UserPostListActivity extends WDActivity {
     RecyclerView mUserPostXlv;
     @BindView(R.id.refreshLayout_x)
     SmartRefreshLayout refreshLayoutX;
-    @BindView(R.id.layout)
-    LinearLayout layout;
     @BindView(R.id.add_friend)
     TextView addFriend;
     @BindView(R.id.add_attention)
@@ -139,7 +137,7 @@ public class UserPostListActivity extends WDActivity {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("imageArray", mList);
                 intent.putExtras(bundle);
-                intent.putExtra("position", v.getId());//下标
+                intent.putExtra("position", 0);//下标
                 v.getContext().startActivity(intent);
             }
         });
@@ -290,6 +288,7 @@ public class UserPostListActivity extends WDActivity {
         public void success(Result data) {
             if(data.getStatus().equals("0000")){
                 addAttention.setText("取消关注");
+                flag2=1;
                 UIUtils.showToastSafe("关注用户  ：  " + data.getMessage());
             }
         }
@@ -304,6 +303,8 @@ public class UserPostListActivity extends WDActivity {
         @Override
         public void success(Result data) {
             if(data.getStatus().equals("0000")){
+                addAttention.setText("+关注");
+                flag2=2;
                 UIUtils.showToastSafe("取消关注  ：  " + data.getMessage());
             }
         }
@@ -323,7 +324,6 @@ public class UserPostListActivity extends WDActivity {
                 intent = new Intent(UserPostListActivity.this, FindUserDetailsActivity.class);
                 intent.putExtra("findUser",result);
                 startActivity(intent);
-                finish();
             }
         }
 

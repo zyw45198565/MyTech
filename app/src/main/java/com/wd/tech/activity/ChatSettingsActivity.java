@@ -49,12 +49,14 @@ public class ChatSettingsActivity extends BaseActivity {
     private PopupWindow window;
     private PopupWindow clearWindow;
     private View inflate;
-    private Conversation conversation;
     private DeleteFriendRelationPresenter deleteFriendRelationPresenter;
     private int userid;
     private String session1d;
     private View parent;
     private DeleteChatRecordPresenter deleteChatRecordPresenter;
+    private int friendId;
+    private String headPic;
+    private String nickName;
 
     @Override
     protected int getLayoutId() {
@@ -66,10 +68,12 @@ public class ChatSettingsActivity extends BaseActivity {
         parent = View.inflate(this,R.layout.activity_chat_settings,null);
         deleteChatRecordPresenter = new DeleteChatRecordPresenter(new DeleteChatRecord());
         Intent intent = getIntent();
-        conversation = (Conversation) intent.getSerializableExtra("conversation");
-        chatSettingsIcon.setImageURI(conversation.getHeadPic());
-        chatSettingsName.setText(conversation.getNickName());
-        chatSettingsNickname.setText(conversation.getNickName());
+        friendId = intent.getIntExtra("userId", 0);
+        headPic = intent.getStringExtra("headPic");
+        nickName = intent.getStringExtra("nickName");
+        chatSettingsIcon.setImageURI(headPic);
+        chatSettingsName.setText(nickName);
+        chatSettingsNickname.setText(nickName);
         deleteFriendRelationPresenter = new DeleteFriendRelationPresenter(new DeleteFriendRelation());
         SharedPreferences share = WDApp.getShare();
         userid = share.getInt("userid", 0);
@@ -103,10 +107,11 @@ public class ChatSettingsActivity extends BaseActivity {
                 break;
             case R.id.chat_settings_group:
                 Intent intent = new Intent(ChatSettingsActivity.this,CheckGroupActivity.class);
-                intent.putExtra("friendId",conversation.getUserId());
+                intent.putExtra("friendId",friendId);
                 startActivity(intent);
                 break;
             case R.id.chat_settings_chatting_records:
+
                 break;
             case R.id.chat_settings_clear_records:
                 clearWindow.showAtLocation(parent, Gravity.BOTTOM,0,0);
@@ -141,7 +146,7 @@ public class ChatSettingsActivity extends BaseActivity {
         popuClearChatOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteChatRecordPresenter.reqeust(userid,session1d,conversation.getUserId());
+                deleteChatRecordPresenter.reqeust(userid,session1d,friendId);
 
             }
         });
@@ -158,11 +163,11 @@ public class ChatSettingsActivity extends BaseActivity {
         TextView popuDeleteMessage= inflate.findViewById(R.id.popu_delete_message);
         LinearLayout popuDeleteOk= inflate.findViewById(R.id.popu_delete_ok);
         LinearLayout popuDeleteNo= inflate.findViewById(R.id.popu_delete_no);
-        popuDeleteMessage.setText("将联系人 "+conversation.getNickName()+" 删除，同时删除与该联系人的聊天记录" );
+        popuDeleteMessage.setText("将联系人 "+nickName+" 删除，同时删除与该联系人的聊天记录" );
         popuDeleteOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteFriendRelationPresenter.reqeust(userid,session1d,conversation.getUserId());
+                deleteFriendRelationPresenter.reqeust(userid,session1d,friendId);
             }
         });
         popuDeleteNo.setOnClickListener(new View.OnClickListener() {

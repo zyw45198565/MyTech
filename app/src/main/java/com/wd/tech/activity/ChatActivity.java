@@ -14,9 +14,14 @@ import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.bean.Conversation;
 import com.wd.tech.bean.Result;
+import com.wd.tech.greendao.ConversationDao;
+import com.wd.tech.greendao.DaoUtils;
 import com.wd.tech.presenter.FindConversationListPresenter;
+import com.wd.tech.utils.AndroidBug5497Workaround;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
+
+import org.greenrobot.greendao.query.WhereCondition;
 
 import java.util.List;
 
@@ -30,9 +35,6 @@ public class ChatActivity extends BaseActivity {
 
     @BindView(R.id.chat_name)
     TextView chatName;
-    private String myHxId;
-    private String headPic;
-    private String nickName;
     private int userid;
     private String session1d;
     private FindConversationListPresenter findConversationListPresenter;
@@ -46,16 +48,15 @@ public class ChatActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        AndroidBug5497Workaround.assistActivity(this);
         SharedPreferences share = WDApp.getShare();
-        myHxId = share.getString("userName", "");
-        headPic = share.getString("headPic", "");
-        nickName = share.getString("nickName", "");
+
         userid = share.getInt("userid", 0);
         session1d = share.getString("sessionid", "");
         Intent intent = getIntent();
         userNames = intent.getStringExtra("userNames");
 
-        //Log.d("123", "initView: "+userid+"/"+session1d);
+        //Log.d("123", "initView: "+userid+"/"+substring);
         findConversationListPresenter = new FindConversationListPresenter(new FindConversationList());
         findConversationListPresenter.reqeust(userid,session1d,userNames);
         //friendInfoList = (FriendInfoList) intent.getSerializableExtra("friendInfoList");
@@ -72,13 +73,6 @@ public class ChatActivity extends BaseActivity {
         findConversationListPresenter.unBind();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
     @OnClick({R.id.chat_back, R.id.chat_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -87,33 +81,14 @@ public class ChatActivity extends BaseActivity {
                 break;
             case R.id.chat_setting:
                 Intent intent = new Intent(ChatActivity.this, ChatSettingsActivity.class);
-                intent.putExtra("conversation",conversation);
+                intent.putExtra("userId",conversation.getUserId());
+                intent.putExtra("nickName",conversation.getNickName());
+                intent.putExtra("headPic",conversation.getHeadPic());
                 startActivity(intent);
                 break;
         }
     }
-    private void setEaseUser() {
-        EaseUI easeUI = EaseUI.getInstance();
-        easeUI.setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
-            @Override
-            public EaseUser getUser(String username) {
-                return getUserInfo(username);
-            }
-        });
-    }
 
-    private EaseUser getUserInfo(String username) {
-        EaseUser easeUser = new EaseUser(username);
-        if (username.equals(myHxId.toLowerCase())){
-            easeUser.setNickname(nickName);
-            easeUser.setAvatar(headPic);
-        }else {
-            //根据username查询数据库，设置数据
-            easeUser.setNickname(conversation.getNickName());
-            easeUser.setAvatar(conversation.getHeadPic());
-        }
-        return easeUser;
-    }//即可正常显示头像昵称
     class FindConversationList implements DataCall<Result<List<Conversation>>>{
 
         @Override
@@ -121,7 +96,6 @@ public class ChatActivity extends BaseActivity {
             if (data.getStatus().equals("0000")){
                         conversation = data.getResult().get(0);
                  chatName.setText(conversation.getNickName());
-                setEaseUser();
             }
         }
 
