@@ -62,6 +62,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         myHolder.signature.setText(findCommunityList.getSignature());
         if(findCommunityList.getContent().equals("")){
             myHolder.title.setVisibility(View.GONE);
