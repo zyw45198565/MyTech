@@ -5,6 +5,7 @@ import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -55,7 +56,7 @@ public class WDApp extends MultiDexApplication {
     private final String TAG = this.getClass().toString();
    public FaceDB mFaceDB;
     Uri mImage;
-
+    String currentUserName;
 
     public void setCaptureImage(Uri uri) {
         mImage = uri;
@@ -129,7 +130,9 @@ public class WDApp extends MultiDexApplication {
         EaseUI.getInstance().setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
             @Override
             public EaseUser getUser(String username) {
+                currentUserName=username;
                 username = username.toLowerCase();
+
                 EaseUser easeUser = new EaseUser(username);
                 List<Conversation> aa = DaoUtils.getInstance().getConversationDao().loadAll();
                 Conversation conversation = DaoUtils.getInstance().getConversationDao().queryBuilder().where(ConversationDao.Properties.UserName.eq(username)).build().unique();
@@ -142,8 +145,27 @@ public class WDApp extends MultiDexApplication {
         });
 //        MultiDex.install(this);
         getMessage();
+
+
+
+
+
     }
 
+    public static boolean isAppRunningForeground(Context context){
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Service.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfoList = activityManager.getRunningAppProcesses();
+        if (runningAppProcessInfoList==null){
+            return false;
+        }
+        for (ActivityManager.RunningAppProcessInfo processInfo : runningAppProcessInfoList) {
+            if (processInfo.processName.equals(context.getPackageName())
+                    && processInfo.importance==ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND){
+                return true;
+            }
+        }
+        return false;
+    }
 
     private ImagePipelineConfig getConfig() {
         File file = new File(Environment.getExternalStorageDirectory()+File.separator+"image");
@@ -237,8 +259,14 @@ public class WDApp extends MultiDexApplication {
         EMClient.getInstance().chatManager().addMessageListener(new EMMessageListener() {
             @Override
             public void onMessageReceived(List<EMMessage> list) {
+               // boolean foreground = isAppRunningForeground(context);
+
                 if (list != null){
                     for (int i = 0; i < list.size(); i++) {
+
+                        /*if (foreground && currentUserName.equals(list.get(i).getUserName())){
+                            return;
+                        }*/
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(context).setDefaults(Notification.DEFAULT_ALL);
                         Intent intent = new Intent(context, ChatActivity.class);//将要跳转的界面
                         intent.putExtra(EaseConstant.EXTRA_USER_ID,list.get(i).getUserName());

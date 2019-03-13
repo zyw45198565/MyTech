@@ -100,7 +100,8 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-        <activity android:name=".activity.ChatActivity"/>
+        <activity android:name=".activity.ChatActivity"
+            android:launchMode="singleTop"/>
         <activity android:name=".activity.WantGroupChatActivity"/>
         <activity android:name=".activity.ChatSettingsActivity"/>
         <activity android:name=".activity.SignCalendarActivity" />

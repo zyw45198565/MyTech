@@ -23,6 +23,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -31,6 +32,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
@@ -87,8 +89,6 @@ public class PublishMyInvitationActivity extends WDActivity implements View.OnCl
             ,Manifest.permission.READ_EXTERNAL_STORAGE
             ,Manifest.permission.READ_PHONE_STATE};
 
-
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_publish_my_invitation;
@@ -111,6 +111,7 @@ public class PublishMyInvitationActivity extends WDActivity implements View.OnCl
                     UIUtils.showToastSafe("请输入发布内容");
                     return;
                 }
+                hideKeyboard();
                 mLoadDialog.show();
                 releasePostPresenter.reqeust(userid,sessionid,trim,files);
                 break;
@@ -119,10 +120,7 @@ public class PublishMyInvitationActivity extends WDActivity implements View.OnCl
 
     @Override
     protected void initView() {
-
-        //做任务
-        theTaskPresenter = new TheTaskPresenter(new TheTaskCall());
-
+        theTaskPresenter = new TheTaskPresenter(new TheTaskCall());//做任务
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -139,8 +137,6 @@ public class PublishMyInvitationActivity extends WDActivity implements View.OnCl
             }
         }
 
-
-
         mParent = View.inflate(PublishMyInvitationActivity.this, R.layout.activity_publish_my_invitation, null);
         objects.add(R.drawable.addpicture);
 
@@ -154,7 +150,7 @@ public class PublishMyInvitationActivity extends WDActivity implements View.OnCl
             public void onDakaiXiangCe() {
                 onViewClicked();
             }
-        });
+        },this);
         mPublishMyinvitationPicter.setAdapter(mImageAdapter2);
         releasePostPresenter = new ReleasePostPresenter(new myReleasePostCall());//发布帖子
     }
@@ -182,6 +178,28 @@ public class PublishMyInvitationActivity extends WDActivity implements View.OnCl
             }
         });
         mPop.showAtLocation(mParent, Gravity.BOTTOM,0,0);//父类底部显示
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {//点击空白处软键盘消失
+
+        if(event.getAction() == MotionEvent.ACTION_DOWN &&
+                getCurrentFocus()!=null &&
+                getCurrentFocus().getWindowToken()!=null ){
+
+            InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            mInputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+        return super.onTouchEvent(event);
+    }
+
+    private void hideKeyboard() {//点击外部弹框消失
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isActive() && this.getCurrentFocus() != null) {
+            if (this.getCurrentFocus().getWindowToken() != null) {
+                imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
     }
 
     @Override//相册回调
