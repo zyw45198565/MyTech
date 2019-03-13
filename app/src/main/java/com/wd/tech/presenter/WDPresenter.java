@@ -54,13 +54,9 @@ public abstract class WDPresenter {
                             SharedPreferences.Editor edit = WDApp.getShare().edit();
                             edit.putBoolean("zai",false);
                             edit.commit();
-                        }else {
-                            SharedPreferences.Editor edit = WDApp.getShare().edit();
-                            edit.putBoolean("zai",true);
-                            edit.commit();
-                            if (dataCall!=null){
-                                dataCall.success(result);
-                            }
+                        }
+                        if (dataCall!=null){
+                            dataCall.success(result);
                         }
                         /*if (result.getStatus().equals("9999")){
                             Dialog dialog = new AlertDialog.Builder(WDActivity.getForegroundActivity()).setMessage("请登录")

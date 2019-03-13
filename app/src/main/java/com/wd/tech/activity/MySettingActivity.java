@@ -154,6 +154,8 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
                                 SharedPreferences share = WDApp.getShare();
                                 SharedPreferences.Editor edit = share.edit();
                                 edit.putBoolean("zai",false);
+                                edit.putInt("userid",0);
+                                edit.putString("sessionid","");
                                 edit.commit();
                                 EMClient.getInstance().logout(true);
                                 Intent intent = new Intent(MySettingActivity.this,LoginActivity.class);
