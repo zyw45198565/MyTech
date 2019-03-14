@@ -109,6 +109,7 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
                 boolean zai = WDApp.getShare().getBoolean("zai", false);
                 if (!zai){
                     findCommunityList.setWhetherGreat(1);//设置点赞状态为不选中
+                    UIUtils.getSnackbar(myHolder.itemView);
                     return;
                 }
                 if(whetherGreat==2){
