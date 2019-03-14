@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,6 +22,8 @@ import android.widget.Toast;
 
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -34,6 +37,7 @@ import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.activity.AdvertiseActivity;
 import com.wd.tech.activity.DetailsActivity;
+import com.wd.tech.activity.LoginActivity;
 import com.wd.tech.activity.MenuActivity;
 import com.wd.tech.activity.SearchActivity;
 import com.wd.tech.adapter.HomeAllAdapter;
@@ -46,14 +50,17 @@ import com.wd.tech.presenter.HomeAllPresenter;
 import com.wd.tech.presenter.MyBannerPresenter;
 import com.wd.tech.presenter.TheTaskPresenter;
 import com.wd.tech.presenter.WxSharePresenter;
+import com.wd.tech.utils.CacheManager;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
+import com.wd.tech.utils.util.UIUtils;
 import com.wd.tech.utils.util.WDFragment;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -150,7 +157,7 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
             public void win(int id, int whetherCollection, int possion) {
                 zai = WDApp.getShare().getBoolean("zai", false);
                 if (!zai) {
-                    Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT).show();
+                    UIUtils.getSnackbar(oneHomeall);
                     result.get(possion).setWhetherCollection(1);
                 } else {
                     homealli = possion;
@@ -362,6 +369,9 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
     }
 
     private class HomeCall implements DataCall<Result<List<HomeAll>>> {
+        CacheManager cacheManager=new CacheManager();
+        Gson gson = new Gson();
+
         @Override
         public void success(Result<List<HomeAll>> data) {
             result = data.getResult();
@@ -369,11 +379,17 @@ public class Frag_01 extends WDFragment implements View.OnClickListener {
                 homeAllAdapter.addAll(result);
                 homeAllAdapter.notifyDataSetChanged();
             }
+            String s = gson.toJson(result);
+            cacheManager.saveDataToFile(getContext(),s,"first");
         }
 
         @Override
         public void fail(ApiException e) {
-
+            String first = cacheManager.loadDataFromFile(getContext(), "first");
+            Type type = new TypeToken<List<HomeAll>>() {}.getType();
+            List<HomeAll> o = gson.fromJson(first, type);
+            homeAllAdapter.addAll(o);
+            homeAllAdapter.notifyDataSetChanged();
         }
     }
 

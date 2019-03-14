@@ -95,7 +95,7 @@ public class Frag_03 extends WDFragment {
 
     @Override
     protected void initView() {
-        parent = View.inflate(getContext(), R.layout.frag_03, null);
+        parent = View.inflate(getContext(),R.layout.frag_03,null);
 
         sp = WDApp.getShare();//获取userId sessionId
         userid = sp.getInt("userid", 0);
@@ -120,14 +120,14 @@ public class Frag_03 extends WDFragment {
         mCommunityListAdapter.setClickOkListener(new CommunityListAdapter.ClickOkListener() {//点赞/取消点赞
             @Override
             public void clickOk(int id, int greatStyle) {
-                if (!zai) {
-                    UIUtils.showToastSafe("请先登录哦~");
+                if(!zai){
+                    UIUtils.getSnackbar(refreshLayout);
                     return;
                 }
-                if (greatStyle == 2) {
+                if(greatStyle==2){
                     addCommunityGreatPresenter.reqeust(userid, sessionid, id);
-                } else {
-                    cancelCommunityGreatPresenter.reqeust(userid, sessionid, id);
+                }else{
+                    cancelCommunityGreatPresenter.reqeust(userid,sessionid,id);
                 }
             }
         });
@@ -135,27 +135,27 @@ public class Frag_03 extends WDFragment {
         mCommunityListAdapter.setClickHeadLinstener(new CommunityListAdapter.ClickHeadLinstener() {
             @Override
             public void clickHead(int userId, String head, String nick, String text) {
-                if (!zai) {
-                    UIUtils.showToastSafe("请先登录哦~");
+                if(!zai){
+                    UIUtils.getSnackbar(refreshLayout);
                     return;
                 }
                 Intent intent = new Intent(getContext(), UserPostListActivity.class);
-                intent.putExtra("userId", userId);
-                intent.putExtra("head", head);
-                intent.putExtra("nick", nick);
-                intent.putExtra("text", text);
+                intent.putExtra("userId",userId);
+                intent.putExtra("head",head);
+                intent.putExtra("nick",nick);
+                intent.putExtra("text",text);
                 startActivity(intent);
             }
         });
         mCommunityListAdapter.setMyTalkBack(new CommunityListAdapter.TalkBack() {//评论自定义回调接口
             @Override
             public void talkBacks(int id) {
-                if (!zai) {
-                    UIUtils.showToastSafe("请先登录哦~");
+                if(!zai){
+                    UIUtils.getSnackbar(refreshLayout);
                     return;
                 }
                 ids = id;
-                View contentView = View.inflate(getContext(), R.layout.popupwindow_edit, null);
+                View contentView = View.inflate(getContext(),R.layout.popupwindow_edit,null);
                 mPop = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
                 mPop.setFocusable(true);
@@ -172,17 +172,17 @@ public class Frag_03 extends WDFragment {
                     @Override
                     public void onClick(View v) {
                         String s = frag03WriteCommentEdit.getText().toString();
-                        if (TextUtils.isEmpty(s)) {
+                        if(TextUtils.isEmpty(s)){
                             UIUtils.showToastSafe("评论不能为空");
                             return;
                         }
-                        addCommunityCommentPresenter.reqeust(userid, sessionid, ids, s);
+                        addCommunityCommentPresenter.reqeust(userid,sessionid,ids,s);
                         frag03WriteCommentEdit.setText("");
                         mPop.dismiss();
                     }
                 });
 
-                mPop.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
+                mPop.showAtLocation(parent, Gravity.BOTTOM,0,0);
             }
         });
 
@@ -190,10 +190,10 @@ public class Frag_03 extends WDFragment {
             @Override
             public void clickShow(int id, int num, String headPic, String nickName) {
                 Intent intent = new Intent(getContext(), CommentListShowActivity.class);
-                intent.putExtra("id", id);
-                intent.putExtra("num", num);
-                intent.putExtra("headPic", headPic);
-                intent.putExtra("nickName", nickName);
+                intent.putExtra("id",id);
+                intent.putExtra("num",num);
+                intent.putExtra("headPic",headPic);
+                intent.putExtra("nickName",nickName);
                 startActivity(intent);
             }
         });
@@ -204,8 +204,8 @@ public class Frag_03 extends WDFragment {
     public void setFrag03Click(View view) {
         switch (view.getId()) {
             case R.id.frag03_write_fresco://点击跳转到发布贴子页面
-                if (!zai) {
-                    UIUtils.showToastSafe("请先登录哦~");
+                if(!zai){
+                    UIUtils.getSnackbar(refreshLayout);
                     return;
                 }
                 startActivity(new Intent(getContext(), PublishMyInvitationActivity.class));
@@ -290,7 +290,7 @@ public class Frag_03 extends WDFragment {
                 }
                 Gson gson = new Gson();
                 String s = gson.toJson(result);
-                cacheManager1.saveDataToFile(getContext(), s, "frag_03");
+                cacheManager1.saveDataToFile(getContext(),s,"frag_03");
             }
 
         }
@@ -298,11 +298,10 @@ public class Frag_03 extends WDFragment {
         @Override
         public void fail(ApiException e) {
             ///UIUtils.showToastSafe("社区列表展示：  " + e.getMessage());
-            if (findCommunityLists.size() == 0) {
+            if(findCommunityLists.size()==0){
                 String frag_03 = cacheManager1.loadDataFromFile(getContext(), "frag_03");
                 Gson gson = new Gson();
-                Type type = new TypeToken<List<FindCommunityList>>() {
-                }.getType();
+                Type type = new TypeToken<List<FindCommunityList>>() {}.getType();
                 List<FindCommunityList> o = gson.fromJson(frag_03, type);
                 findCommunityLists.addAll(o);
                 for (int i = 0; i < o.size(); i++) {
@@ -332,20 +331,19 @@ public class Frag_03 extends WDFragment {
     }
 
     private class communityCommentCall implements DataCall<Result> {//评论
-
         @Override
         public void success(Result data) {
-            if (data.getStatus().equals("0000")) {
-                UIUtils.showToastSafe("社区评论：   " + data.getMessage());
+            if(data.getStatus().equals("0000")){
+                UIUtils.showToastSafe("社区评论：   "+data.getMessage());
                 mCommunityListAdapter.remove();
                 mFindCommunityListPresenter.reqeust(userid, sessionid, false, 5);//重新请求列表
-                theTaskPresenter.reqeust(userid, sessionid, 1002);
+                theTaskPresenter.reqeust(userid,sessionid,1002);
             }
         }
 
         @Override
         public void fail(ApiException e) {
-            UIUtils.showToastSafe("社区评论：   " + e.getMessage());
+            UIUtils.showToastSafe("社区评论：   "+e.getMessage());
         }
     }
 
