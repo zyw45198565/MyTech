@@ -86,7 +86,7 @@ public class AddFriendActivity extends WDActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         findUserByPhonePresenter = new FindUserByPhonePresenter(new FindUserByPhone());
         findGroupInfoPresenter = new FindGroupInfoPresenter(new FindGroupInfo());
        /* findSearchEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {

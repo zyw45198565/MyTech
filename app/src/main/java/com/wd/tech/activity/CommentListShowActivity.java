@@ -52,7 +52,7 @@ public class CommentListShowActivity extends WDActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         sp = WDApp.getShare();//获取userId sessionId
         userid = sp.getInt("userid", 0);
         sessionid = sp.getString("sessionid", "");

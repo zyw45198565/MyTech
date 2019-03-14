@@ -72,7 +72,7 @@ public class GroupMemberActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         Intent intent = getIntent();
         groupId = intent.getIntExtra("groupId", 0);
         SharedPreferences share = WDApp.getShare();

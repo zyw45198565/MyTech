@@ -38,7 +38,7 @@ public class MyUserActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
 
         ImageView  userdetailsback = (ImageView) findViewById(R.id.user_details_back);
         userdetailsback.setOnClickListener(new View.OnClickListener() {

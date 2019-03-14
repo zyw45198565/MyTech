@@ -68,7 +68,7 @@ public class SearchActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         text = searchText.getText().toString().trim();
 
         mSearchByTitlePresenter = new ByTitlePresenter(new SearchCall());

@@ -55,7 +55,7 @@ public class CheckGroupActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         findUserJoinedGroupPresenter = new FindFriendGroupListPresenter(new FindFriendGroupList());
         addFriendGroupPresenter = new AddFriendGroupPresenter(new NewGroup());
         transferFriendGroupPresenter = new TransferFriendGroupPresenter(new NewGroup());

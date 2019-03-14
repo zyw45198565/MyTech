@@ -34,7 +34,7 @@ public class AdvertiseActivity extends WDActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

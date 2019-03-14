@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
+import com.wd.tech.WDApp;
 import com.wd.tech.bean.CommunityItem;
 import com.wd.tech.bean.FindCommunityList;
 import com.wd.tech.utils.util.DateUtils1;
@@ -105,6 +106,11 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
         myHolder.communitylistRightLinear.setOnClickListener(new View.OnClickListener() {//点赞
             @Override
             public void onClick(View v) {
+                boolean zai = WDApp.getShare().getBoolean("zai", false);
+                if (!zai){
+                    findCommunityList.setWhetherGreat(1);//设置点赞状态为不选中
+                    return;
+                }
                 if(whetherGreat==2){
                     findCommunityList.setWhetherGreat(1);//设置点赞状态为选中
                 }else{

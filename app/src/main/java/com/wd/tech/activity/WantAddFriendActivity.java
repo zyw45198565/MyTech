@@ -48,7 +48,7 @@ public class WantAddFriendActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         Intent intent = getIntent();
         findUser = (FindUser) intent.getSerializableExtra("findUser");
         wantAddFriendIcon.setImageURI(Uri.parse(findUser.getHeadPic()));

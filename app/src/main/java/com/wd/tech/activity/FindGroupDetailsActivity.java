@@ -59,7 +59,7 @@ public class FindGroupDetailsActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         Intent intent = getIntent();
         findGroup = (FindGroup) intent.getSerializableExtra("findGroup");
 

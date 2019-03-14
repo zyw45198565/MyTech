@@ -47,7 +47,7 @@ public class CreateFriendActivity extends WDActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         createGroupPresenter = new CreateGroupPresenter(new CreateGroup());
         SharedPreferences share = WDApp.getShare();
         userid = share.getInt("userid", 0);
