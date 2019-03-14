@@ -121,7 +121,7 @@ public class Frag_03 extends WDFragment {
             @Override
             public void clickOk(int id, int greatStyle) {
                 if(!zai){
-                    UIUtils.showToastSafe("请先登录哦~");
+                    UIUtils.getSnackbar(refreshLayout);
                     return;
                 }
                 if(greatStyle==2){
@@ -136,7 +136,7 @@ public class Frag_03 extends WDFragment {
             @Override
             public void clickHead(int userId, String head, String nick, String text) {
                 if(!zai){
-                    UIUtils.showToastSafe("请先登录哦~");
+                    UIUtils.getSnackbar(refreshLayout);
                     return;
                 }
                 Intent intent = new Intent(getContext(), UserPostListActivity.class);
@@ -151,7 +151,7 @@ public class Frag_03 extends WDFragment {
             @Override
             public void talkBacks(int id) {
                 if(!zai){
-                    UIUtils.showToastSafe("请先登录哦~");
+                    UIUtils.getSnackbar(refreshLayout);
                     return;
                 }
                 ids = id;
@@ -205,7 +205,7 @@ public class Frag_03 extends WDFragment {
         switch (view.getId()) {
             case R.id.frag03_write_fresco://点击跳转到发布贴子页面
                 if(!zai){
-                    UIUtils.showToastSafe("请先登录哦~");
+                    UIUtils.getSnackbar(refreshLayout);
                     return;
                 }
                 startActivity(new Intent(getContext(), PublishMyInvitationActivity.class));
