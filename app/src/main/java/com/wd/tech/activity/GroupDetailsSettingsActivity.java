@@ -68,7 +68,7 @@ public class GroupDetailsSettingsActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         parent = View.inflate(this,R.layout.activity_group_details_settings,null);
         disbandGroupPresenter = new DisbandGroupPresenter(new DisbandGroup());
         retreatPresenter = new RetreatPresenter(new DisbandGroup());

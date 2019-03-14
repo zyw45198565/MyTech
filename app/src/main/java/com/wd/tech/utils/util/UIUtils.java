@@ -12,12 +12,14 @@ import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.wd.tech.WDApp;
+import com.wd.tech.activity.LoginActivity;
 
 
 public class UIUtils {
@@ -49,6 +51,16 @@ public class UIUtils {
 	/** 获取主线程的handler */
 	public static Handler getHandler() {
 		return WDApp.getMainThreadHandler();
+	}
+
+	public static void getSnackbar(View view){
+		Snackbar.make(view,"未登录", Snackbar.LENGTH_SHORT)
+				.setAction("去登录", new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						WDApp.getContext().startActivity(new Intent(getContext(),LoginActivity.class));
+					}
+				}).show();
 	}
 
 	/**

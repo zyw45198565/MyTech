@@ -39,7 +39,7 @@ public class MytaskActivity extends BaseActivity implements View.OnClickListener
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         userid = WDApp.getShare().getInt("userid", 1);
         sessionid = WDApp.getShare().getString("sessionid", "");
 

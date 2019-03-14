@@ -62,7 +62,7 @@ public class InviteFriendsActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         allFriendsListPresenter = new AllFriendsListPresenter(new InitFr());
         presenter = new BatchInviteAddGroupPresenter(new AA());
         Intent intent = getIntent();

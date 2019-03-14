@@ -49,7 +49,7 @@ public class FindGroupsByUserIdActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         findGroupsByUserIdPresenter = new FindUserJoinedGroupPresenter(new FindGroupByUserId());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

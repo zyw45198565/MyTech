@@ -69,7 +69,7 @@ public class FindUserDetailsActivity extends WDActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         Intent intent = getIntent();
         findUser = (FindUser) intent.getSerializableExtra("findUser");
         if (findUser.getWhetherVip()!=1){

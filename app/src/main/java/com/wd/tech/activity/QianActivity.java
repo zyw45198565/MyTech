@@ -30,7 +30,7 @@ public class QianActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
 
         Intent intent = getIntent();
         ming = intent.getStringExtra("ming");

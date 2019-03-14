@@ -56,7 +56,7 @@ public abstract class WDActivity extends AppCompatActivity implements CustomAdap
         initLoad();
         setContentView(getLayoutId());
         ButterKnife.bind(this);//绑定布局
-        initView();
+        initView(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
@@ -69,7 +69,7 @@ public abstract class WDActivity extends AppCompatActivity implements CustomAdap
     /**
      * 初始化视图
      */
-    protected abstract void initView();
+    protected abstract void initView(Bundle savedInstanceState);
 
     /**
      * 清除数据

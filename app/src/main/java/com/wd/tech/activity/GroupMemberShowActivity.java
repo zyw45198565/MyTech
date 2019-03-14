@@ -40,7 +40,7 @@ public class GroupMemberShowActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         findGroupMemberListPresenter = new FindGroupMemberListPresenter(new FindGroupMember());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);

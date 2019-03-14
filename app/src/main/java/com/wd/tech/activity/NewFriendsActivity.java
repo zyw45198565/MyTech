@@ -1,6 +1,7 @@
 package com.wd.tech.activity;
 
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -38,7 +39,7 @@ public class NewFriendsActivity extends BaseActivity implements XRecyclerView.Lo
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         reviewFriendApplyPresenter = new ReviewFriendApplyPresenter(new ReviewFriendApply());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         xrecyclerviewFriend.setLayoutManager(linearLayoutManager);

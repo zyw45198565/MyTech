@@ -44,7 +44,7 @@ public class LoveActivity extends BaseActivity implements DataCall<Result<List<M
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
 
         ImageView back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {

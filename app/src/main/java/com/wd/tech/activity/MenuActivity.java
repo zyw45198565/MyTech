@@ -31,7 +31,7 @@ public class MenuActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         MenusrPresenter menusrPresenter=new MenusrPresenter(new MenusCall());
         menusrPresenter.reqeust();
 

@@ -79,7 +79,7 @@ public abstract class BaseActivity extends SwipeBackActivity  implements CustomA
         initLoad();
         setContentView(getLayoutId());
         ButterKnife.bind(this);//绑定布局
-        initView();
+        initView(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -112,7 +112,7 @@ public abstract class BaseActivity extends SwipeBackActivity  implements CustomA
     /**
      * 初始化视图
      */
-    protected abstract void initView();
+    protected abstract void initView(Bundle savedInstanceState);
 
     /**
      * 清除数据

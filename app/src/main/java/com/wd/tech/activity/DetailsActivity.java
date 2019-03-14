@@ -164,7 +164,7 @@ public class DetailsActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         // 通过WXAPIFactory工厂，获取IWXAPI的实例  APP_ID为微信的AppID
         wxapi = WXAPIFactory.createWXAPI(DetailsActivity.this, "wx4c96b6b8da494224", true);
 

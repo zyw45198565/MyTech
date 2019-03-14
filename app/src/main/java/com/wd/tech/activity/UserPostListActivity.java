@@ -112,7 +112,7 @@ public class UserPostListActivity extends WDActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);//创建布局管理器
         mUserPostXlv.setLayoutManager(linearLayoutManager);
 

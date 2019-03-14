@@ -41,7 +41,6 @@ public class ImageAdapter2 extends RecyclerView.Adapter<ImageAdapter2.MyHodler> 
     @NonNull
     @Override
     public MyHodler onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-      //  View view = View.inflate(context, R.layout.publish_picter_layout, null);
         View view = inflater.inflate(R.layout.publish_picter_layout,viewGroup,false);
         MyHodler holder=new MyHodler(view);
         return holder;
@@ -68,9 +67,19 @@ public class ImageAdapter2 extends RecyclerView.Adapter<ImageAdapter2.MyHodler> 
             public void onClick(View v) {
                 if(position==0){
                     open.onDakaiXiangCe();
-                }else {
-                    UIUtils.showToastSafe(""+position);
                 }
+            }
+        });
+
+        if(position==0){
+            myHodler.del.setVisibility(View.GONE);
+        }
+        myHodler.del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mList.remove(position);
+                notifyItemRemoved(position);
+                notifyItemChanged(position);
             }
         });
     }
@@ -97,10 +106,12 @@ public class ImageAdapter2 extends RecyclerView.Adapter<ImageAdapter2.MyHodler> 
 
     class MyHodler extends RecyclerView.ViewHolder {
         SimpleDraweeView image;
+        private final SimpleDraweeView del;
 
         public MyHodler(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.publish_picter);
+            del = itemView.findViewById(R.id.publish_picter_del);
         }
     }
     public interface Open{

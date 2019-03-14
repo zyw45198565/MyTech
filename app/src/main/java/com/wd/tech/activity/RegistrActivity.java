@@ -1,5 +1,6 @@
 package com.wd.tech.activity;
 
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -39,7 +40,7 @@ public class RegistrActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
 
         name = (EditText) findViewById(R.id.name);
         phone = (EditText) findViewById(R.id.phone);
