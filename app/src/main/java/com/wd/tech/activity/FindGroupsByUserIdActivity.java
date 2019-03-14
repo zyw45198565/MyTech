@@ -14,13 +14,16 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
 import com.wd.tech.WDApp;
 import com.wd.tech.adapter.FindGroupsByUserIdAdapter;
+import com.wd.tech.bean.Conversation;
 import com.wd.tech.bean.GroupByUser;
 import com.wd.tech.bean.Result;
+import com.wd.tech.greendao.DaoUtils;
 import com.wd.tech.presenter.FindUserJoinedGroupPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.util.SpacingItemDecoration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -100,6 +103,21 @@ public class FindGroupsByUserIdActivity extends BaseActivity {
             if (data.getStatus().equals("0000")){
                 findGroupsByUserIdAdapter.setList(data.getResult());
                 findGroupsByUserIdAdapter.notifyDataSetChanged();
+/*
+                List<Conversation> conversationList = new ArrayList<>();
+                for (int i = 0; i < data.getResult().size(); i++) {
+                    Conversation conversation = new Conversation();
+                    conversation.setUserName(data.getResult().get(i).getHxGroupId().toLowerCase());
+                    conversation.setNickName(data.getResult().get(i).getGroupName());
+                    conversation.setHeadPic(data.getResult().get(i).getGroupImage());
+                    conversationList.add(conversation);
+                }
+
+                for(Conversation conversation:conversationList){
+                    conversation.setUserName(conversation.getUserName().toLowerCase());
+                }
+                DaoUtils.getInstance().getConversationDao().insertOrReplaceInTx(conversationList);*/
+
                 findGroupsSmart.finishRefresh();
             }
         }
