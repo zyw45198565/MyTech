@@ -32,6 +32,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_margin="10dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:background="@drawable/linear_contact_search_shape"
                     android:gravity="center_vertical"
                     android:layout_height="32dp">
