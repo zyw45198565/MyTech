@@ -95,7 +95,7 @@ public class UserPostAdatper extends RecyclerView.Adapter<UserPostAdatper.MyHold
 
         }
 
-        myHolder.userPostLike.setOnClickListener(new View.OnClickListener() {//点赞
+        myHolder.userPostLayoutRight.setOnClickListener(new View.OnClickListener() {//点赞
             @Override
             public void onClick(View v) {
 
