@@ -129,7 +129,7 @@ public abstract class WDActivity extends AppCompatActivity implements CustomAdap
         super.onStart();
         mForegroundActivity = this;
         //沉浸式状态栏
-        WDPage.fullScreen(this,false);
+        WDPage.fullScreen(this,true);
         //StatusBarCompat.translucentStatusBar(this);
     }
 

@@ -101,7 +101,7 @@
             </intent-filter>
         </receiver>
         <activity android:name=".activity.ChatActivity"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTask"/>
         <activity android:name=".activity.WantGroupChatActivity"/>
         <activity android:name=".activity.ChatSettingsActivity"/>
         <activity android:name=".activity.SignCalendarActivity" />

@@ -74,7 +74,7 @@ public abstract class BaseActivity extends SwipeBackActivity  implements CustomA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //查询登录用户，方便每个页面使用
-        WDPage.fullScreen(this,false);
+        WDPage.fullScreen(this,true);
         initSwipeBack();
         initLoad();
         setContentView(getLayoutId());

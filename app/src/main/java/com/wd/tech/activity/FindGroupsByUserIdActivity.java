@@ -16,8 +16,10 @@ import com.wd.tech.WDApp;
 import com.wd.tech.adapter.FindGroupsByUserIdAdapter;
 import com.wd.tech.bean.Conversation;
 import com.wd.tech.bean.GroupByUser;
+import com.wd.tech.bean.GroupMember;
 import com.wd.tech.bean.Result;
 import com.wd.tech.greendao.DaoUtils;
+import com.wd.tech.presenter.FindGroupMemberListPresenter;
 import com.wd.tech.presenter.FindUserJoinedGroupPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
@@ -41,6 +43,7 @@ public class FindGroupsByUserIdActivity extends BaseActivity {
     private String session1d;
     private FindUserJoinedGroupPresenter findGroupsByUserIdPresenter;
     private FindGroupsByUserIdAdapter findGroupsByUserIdAdapter;
+    //private FindGroupMemberListPresenter findGroupMemberListPresenter;
 
     @Override
     protected int getLayoutId() {
@@ -51,6 +54,7 @@ public class FindGroupsByUserIdActivity extends BaseActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
         findGroupsByUserIdPresenter = new FindUserJoinedGroupPresenter(new FindGroupByUserId());
+      //  findGroupMemberListPresenter = new FindGroupMemberListPresenter(new FindGroupMember());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         findGroupsRecycle.addItemDecoration(new SpacingItemDecoration(20));
@@ -82,6 +86,7 @@ public class FindGroupsByUserIdActivity extends BaseActivity {
     @Override
     protected void destoryData() {
         findGroupsByUserIdPresenter.unBind();
+       // findGroupMemberListPresenter.unBind();
     }
 
     @Override
@@ -103,6 +108,9 @@ public class FindGroupsByUserIdActivity extends BaseActivity {
             if (data.getStatus().equals("0000")){
                 findGroupsByUserIdAdapter.setList(data.getResult());
                 findGroupsByUserIdAdapter.notifyDataSetChanged();
+                /*for (int i = 0; i < data.getResult().size(); i++) {
+                    findGroupMemberListPresenter.reqeust(userid, session1d, data.getResult().get(i).getGroupId());
+                }*/
 /*
                 List<Conversation> conversationList = new ArrayList<>();
                 for (int i = 0; i < data.getResult().size(); i++) {
@@ -127,6 +135,19 @@ public class FindGroupsByUserIdActivity extends BaseActivity {
 
         }
     }
+   /* class FindGroupMember implements DataCall<Result<List<GroupMember>>>{
+
+        @Override
+        public void success(Result<List<GroupMember>> data) {
+
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }*/
+
     @Override
     public void onResume() {
         super.onResume();

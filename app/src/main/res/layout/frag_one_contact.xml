@@ -62,14 +62,13 @@
                 android:layout_height="50dp">
                 <LinearLayout
                     android:layout_width="30dp"
-                    android:background="@drawable/image_find_group_shape"
                     android:gravity="center"
                     android:layout_marginLeft="10dp"
                     android:layout_height="30dp">
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/common_icon_group_n_xhdpi"/>
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/newfriendone"/>
                 </LinearLayout>
                 <TextView
                     android:layout_width="wrap_content"
@@ -88,14 +87,14 @@
                 android:layout_height="50dp">
                 <LinearLayout
                     android:layout_width="30dp"
-                    android:background="@drawable/image_find_group_shape"
+
                     android:gravity="center"
                     android:layout_marginLeft="10dp"
                     android:layout_height="30dp">
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/common_icon_group_n_xhdpi"/>
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/newqunliaotwo"/>
                 </LinearLayout>
                 <TextView
                     android:layout_width="wrap_content"
