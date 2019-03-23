@@ -140,17 +140,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         if( ((WDApp)getApplicationContext()).mFaceDB.mRegister.isEmpty() ) {
                             Toast.makeText(this, "没有注册人脸，请先注册！", Toast.LENGTH_SHORT).show();
                         } else {
-                            new AlertDialog.Builder(this)
-                                    .setTitle("请选择相机")
-                                    .setIcon(android.R.drawable.ic_dialog_info)
-                                    .setItems(new String[]{"后置相机", "前置相机"}, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            startDetector(which);
+                                            startDetector(1);
                                             finish();
-                                        }
-                                    })
-                                    .show();
                         }
                         break;
                 }

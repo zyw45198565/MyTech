@@ -56,6 +56,7 @@ import com.wd.tech.presenter.FaceLoginPresenter;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.util.RsaCoder;
+import com.wd.tech.view.WDPage;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -243,6 +244,8 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+
+		WDPage.fullScreen(this,false);
 
 		mCameraID = getIntent().getIntExtra("Camera", 0) == 0 ? Camera.CameraInfo.CAMERA_FACING_BACK : Camera.CameraInfo.CAMERA_FACING_FRONT;
 		mCameraRotate = getIntent().getIntExtra("Camera", 0) == 0 ? 90 : 270;
