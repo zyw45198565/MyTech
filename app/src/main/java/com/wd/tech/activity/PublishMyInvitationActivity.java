@@ -119,7 +119,7 @@ public class PublishMyInvitationActivity extends WDActivity implements View.OnCl
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         theTaskPresenter = new TheTaskPresenter(new TheTaskCall());//做任务
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {

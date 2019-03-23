@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -60,7 +61,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
 
         //通过WXAPIFactory工厂获取IWXApI的示例
         api = WXAPIFactory.createWXAPI(this,"wx4c96b6b8da494224",true);

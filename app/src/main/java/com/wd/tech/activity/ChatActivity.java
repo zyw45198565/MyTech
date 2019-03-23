@@ -47,7 +47,7 @@ public class ChatActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         AndroidBug5497Workaround.assistActivity(this);
         SharedPreferences share = WDApp.getShare();
 

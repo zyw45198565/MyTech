@@ -73,16 +73,111 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /*if (savedInstanceState!=null){
+            supportFragmentManager = getSupportFragmentManager();
+            mfrag_01 = (Frag_01) supportFragmentManager.findFragmentByTag("frag1");
+            mfrag_02 = (Frag_02) supportFragmentManager.findFragmentByTag("frag2");
+            mfrag_03 = (Frag_03) supportFragmentManager.findFragmentByTag("frag3");
+        }*/
+        super.onCreate(savedInstanceState);
+
+        EventBus.getDefault().register(this);
+        /*if(supportFragmentManager==null){
+            supportFragmentManager = getSupportFragmentManager();
+        }
+        fragmentTransaction = supportFragmentManager.beginTransaction();
+        if(mfrag_01==null){
+            mfrag_01=new Frag_01();
+            mfrag_02=new Frag_02();
+            mfrag_03=new Frag_03();
+            fragmentTransaction.add(R.id.fl,mfrag_01,"frag1").add(R.id.fl,mfrag_02,"frag2").add(R.id.fl,mfrag_03,"frag3").show(mfrag_01).hide(mfrag_02).hide(mfrag_03).commit();
+        }else {
+            fragmentTransaction.show(mfrag_01).hide(mfrag_02).hide(mfrag_03).commit();
+        }
+        mCurrentFragmentId = R.id.rb1;
+
+        radioGroup  = findViewById(R.id.rg);
+        radioGroup.check(radioGroup.getChildAt(0).getId());
+        findViewById(R.id.rb1).setOnClickListener(this);
+        findViewById(R.id.rb2).setOnClickListener(this);
+        findViewById(R.id.rb3).setOnClickListener(this);
+
+        mlinearhome = findViewById(R.id.mlinearhome);
+        mLinear = findViewById(R.id.mLinear);
+        mdraw = findViewById(R.id.mdraw);
+
+        mdraw.setScrimColor(Color.TRANSPARENT);//去除阴影
+        mLinear.measure(0, 0);
+        final float width = mLinear.getMeasuredWidth() * 0.2f;//获取布局宽度，并获得左移大小
+        mLinear.setTranslationX(-width);                 //底布局左移
+        //点击侧滑
+        mdraw.setDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View view, float v) {
+                mLinear.setTranslationX(-width + width * v);               //底布局跟着移动
+                mlinearhome.setTranslationX(view.getMeasuredWidth() * v);   //主界面布局移动，移动长度等于抽屉的移动长度
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View view) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View view) {
+            }
+
+            @Override
+            public void onDrawerStateChanged(int i) {
+
+            }
+        });
+
+        SimpleDraweeView log = findViewById(R.id.log);
+
+        LinearLayout login = findViewById(R.id.login);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent(LoginActivity.class);
+            }
+        });
+
+        rl1 = findViewById(R.id.rl1);
+        ll1 = findViewById(R.id.ll1);
+        head = findViewById(R.id.head);
+        head.setOnClickListener(this);
+        name = findViewById(R.id.name);
+        qian = findViewById(R.id.qian);
+        vip = findViewById(R.id.vip);
+        setting = findViewById(R.id.setting);
+        setting.setOnClickListener(this);
+        love = findViewById(R.id.love);
+        love.setOnClickListener(this);
+        shoucang = findViewById(R.id.shoucang);
+        shoucang.setOnClickListener(this);
+        myinyegral = findViewById(R.id.myinyegral);
+        myinyegral.setOnClickListener(this);
+        myTask = findViewById(R.id.myTask);
+        myTask.setOnClickListener(this);
+        tie = findViewById(R.id.tie);
+        tie.setOnClickListener(this);
+        tongzhi = findViewById(R.id.tongzhi);
+        tongzhi.setOnClickListener(this);
+        qian1 = findViewById(R.id.qiandao);
+        qian1.setOnClickListener(this);*/
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
         if (savedInstanceState!=null){
             supportFragmentManager = getSupportFragmentManager();
             mfrag_01 = (Frag_01) supportFragmentManager.findFragmentByTag("frag1");
             mfrag_02 = (Frag_02) supportFragmentManager.findFragmentByTag("frag2");
             mfrag_03 = (Frag_03) supportFragmentManager.findFragmentByTag("frag3");
         }
-        super.onCreate(savedInstanceState);
 
-
-        EventBus.getDefault().register(this);
         if(supportFragmentManager==null){
             supportFragmentManager = getSupportFragmentManager();
         }
@@ -171,12 +266,6 @@ public class HomeActivity extends WDActivity implements View.OnClickListener {
         tongzhi.setOnClickListener(this);
         qian1 = findViewById(R.id.qiandao);
         qian1.setOnClickListener(this);
-    }
-
-    @Override
-    protected void initView() {
-
-
     }
 
     @Override

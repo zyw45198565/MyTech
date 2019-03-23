@@ -95,7 +95,7 @@ public class MySettingActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
 
         back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(this);

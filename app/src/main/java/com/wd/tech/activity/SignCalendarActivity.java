@@ -48,7 +48,7 @@ public class SignCalendarActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         findUserSignRecordingPresenter = new FinUserSignRecordingPresenter(new FinduserRecordResult());
 
         userid = WDApp.getShare().getInt("userid", 1);

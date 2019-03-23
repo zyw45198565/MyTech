@@ -18,6 +18,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.EaseUI;
@@ -45,11 +47,14 @@ import com.wd.tech.presenter.AllFriendsListPresenter;
 import com.wd.tech.presenter.DeleteFriendRelationPresenter;
 import com.wd.tech.presenter.FindConversationListPresenter;
 import com.wd.tech.presenter.TransferFriendGroupPresenter;
+import com.wd.tech.utils.CacheManager;
 import com.wd.tech.utils.DataCall;
 import com.wd.tech.utils.exception.ApiException;
 import com.wd.tech.utils.util.UIUtils;
 import com.wd.tech.utils.util.WDFragment;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -75,7 +80,7 @@ public class FragOneContact extends WDFragment {
     LinearLayout fragContactFriend;
     @BindView(R.id.frag_contact_group)
     LinearLayout fragContactGroup;
-    private List<InitFriendlist> groups;
+    private List<InitFriendlist> groups=new ArrayList<>();
     Unbinder unbinder;
     private AllFriendsListPresenter allFriendsListPresenter;
     private int userid;
@@ -89,6 +94,7 @@ public class FragOneContact extends WDFragment {
     private FriendInfoList friendInfoList;
     private SharedPreferences.Editor edit;
     private FindConversationListPresenter findConversationListPresenter;
+    private CacheManager cacheManager;
 
 
     @Override
@@ -105,7 +111,7 @@ public class FragOneContact extends WDFragment {
     protected void initView() {
 
         findConversationListPresenter = new FindConversationListPresenter(new FindConversationList());
-
+        cacheManager = new CacheManager();
         allFriendsListPresenter = new AllFriendsListPresenter(new InitListData());
         deleteFriendRelationPresenter = new DeleteFriendRelationPresenter(new DeleteFriend());
         transferFriendGroupPresenter = new TransferFriendGroupPresenter(new DeleteFriend());
@@ -351,6 +357,8 @@ public class FragOneContact extends WDFragment {
         public void success(Result<List<InitFriendlist>> result) {
             if (result.getStatus().equals("0000")) {
                 groups = result.getResult();
+                String s = new Gson().toJson(groups);
+                cacheManager.saveDataToFile(getContext(),s,"groups");
                 fragContactList.setAdapter(new MyExpandableListView());
                 StringBuffer userHxIds=new StringBuffer();
                 for (int i = 0; i < groups.size(); i++) {
@@ -365,6 +373,15 @@ public class FragOneContact extends WDFragment {
 
         @Override
         public void fail(ApiException e) {
+            String groupsList = cacheManager.loadDataFromFile(getContext(), "groups");
+            if (!TextUtils.isEmpty(groupsList)){
+                Type type = new TypeToken<List<InitFriendlist>>() {}.getType();
+                List<InitFriendlist> initFriendLists = new Gson().fromJson(groupsList, type);
+               // groups.clear();
+                groups.addAll(initFriendLists);
+                fragContactList.setAdapter(new MyExpandableListView());
+                fragOneContactSmart.finishRefresh();
+            }
 
         }
 

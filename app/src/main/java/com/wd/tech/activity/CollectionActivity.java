@@ -51,9 +51,7 @@ public class CollectionActivity extends BaseActivity implements DataCall<Result<
     }
 
     @Override
-    protected void initView() {
-
-
+    protected void initView(Bundle savedInstanceState) {
         ImageView back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override

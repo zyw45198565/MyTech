@@ -43,7 +43,7 @@ public class WantGroupChatActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         AndroidBug5497Workaround.assistActivity(this);
         findUserJoinedGroupPresenter = new FindUserJoinedGroupPresenter(new FindGroupsByUserId());
         Intent intent = getIntent();

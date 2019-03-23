@@ -40,7 +40,7 @@ public class GroupChatActivity extends BaseActivity implements XRecyclerView.Loa
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         reviewGroupApplyPresenter = new ReviewGroupApplyPresenter(new ReviewGroupApply());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         groupChatXrecyclerview.setLayoutManager(linearLayoutManager);

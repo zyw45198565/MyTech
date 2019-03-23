@@ -76,7 +76,7 @@ public class PlateActivity extends WDActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         if (WDApp.getShare().getBoolean("zai",false)) {
             userid = WDApp.getShare().getInt("userid", 0);
             sessionid = WDApp.getShare().getString("sessionid", "");
